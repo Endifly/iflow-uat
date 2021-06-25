@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.iflowtech.iosd1">
+    package="com.iflowtech.iflow.uat">
    <application
-        android:label="iflow_d1"
+        android:label="iflow_uat"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MindWandering"
