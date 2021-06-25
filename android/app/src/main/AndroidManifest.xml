@@ -4,7 +4,7 @@
         android:label="iflow_uat"
         android:icon="@mipmap/ic_launcher">
         <activity
-            android:name=".MindWandering"
+            android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
