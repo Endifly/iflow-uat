@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ios_d1/components/DecorationConcave.dart';
+import '/components/DecorationConcave.dart';
 
 typedef void OnPressCallback();
 

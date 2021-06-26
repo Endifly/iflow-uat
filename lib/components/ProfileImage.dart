@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ios_d1/contexts/kColors.dart';
+import '/contexts/kColors.dart';
 
 class ProfileImage extends StatelessWidget {
   final String imagePath;

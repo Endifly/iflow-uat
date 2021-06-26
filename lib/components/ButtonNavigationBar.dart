@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:ios_d1/contexts/kColors.dart';
+import '/contexts/kColors.dart';
 
 class NavButton extends StatelessWidget {
   final Widget icon;

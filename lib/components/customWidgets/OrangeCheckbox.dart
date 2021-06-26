@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ios_d1/components/DecorationConcave.dart';
-import 'package:ios_d1/components/customWidgets/GraphButton.dart';
-import 'package:ios_d1/contexts/kColors.dart';
+import '/components/DecorationConcave.dart';
+import '/components/customWidgets/GraphButton.dart';
+import '/contexts/kColors.dart';
 
 typedef void onPressCallback();
 typedef void onChangeCallback(bool val);

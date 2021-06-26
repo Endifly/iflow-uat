@@ -1,113 +1,151 @@
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
+// import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import '/Provider/ProfileProvider.dart';
+import '/contexts/Constant.dart';
+// import 'package:iflow/views/AboutUsPage/AboutUsPage.dart';
+// import 'package:iflow/views/Connecting/demo1.dart';
+// import 'package:iflow/views/History/HistoryPage.dart';
+import '/views/IntroducePage/IntroducePage.dart';
+// import '/views/ProfilePage/SummaryPage/ConsciousGraph.dart';
+
+// import '/views/ProfilePage/SummaryPage/ConsciousSummaryPage.dart';
+// import '/views/ActionPage/ConsciousPage/ConsciousPage.dart';
+// import '/views/ActionPage/RelaxPage/RelaxPage.dart';
+import '/views/AuthPage/LoginPage.dart';
+import '/views/AuthPage/MobileNoPage.dart';
+import '/views/AuthPage/PolicyPage.dart';
+import '/views/AuthPage/SelectPage.dart';
+import '/views/AuthPage/SignUpPage.dart';
+import '/views/HomePage/HomePage.dart';
+import '/views/IntroPage/IntroPage.dart';
+// import '/views/ProfilePage/SummaryPage/RelaxSummaryPage.dart';
+// import '/views/SettingPage/AppSettingPage/AppSettingPage.dart';
+// import '/views/SettingPage/AppSettingPage/ThresholdSettingPage/ThresholdSettingPage.dart';
+// import '/views/SettingPage/AppSettingPage/VibrationSetting/VibrationSettingPage.dart';
+// import '/views/SettingPage/AppSettingPage/VoiceSetting/VoiceSetting.dart';
+// import '/views/SettingPage/HelpPage/HelpPage.dart';
+// import '/views/SettingPage/InvitePage/InvitePage.dart';
+// import '/views/SettingPage/PersonalPage/PersonalPage.dart';
+// import '/views/SettingPage/PrivacyPage/Privacy.dart';
+// import '/views/SettingPage/SendCommentPage/SendCommentPage.dart';
+// import '/views/SettingPage/SettingPage.dart';
+// import '/views/StartPage/RelaxIntroduce/RelaxIntroduce.dart';
+// import '/views/StartPage/WanderingIntroduce/WanderingIntroduce.dart';
+import 'package:provider/provider.dart';
+// import 'views/SettingPage/AppSettingPage/ThresholdSettingPage/ThresholdCustom.dart';
+// import '/views/StartPage/StartConscious.dart';
+// import 'package:iflow/views/StartPage/StartPage.dart';
+// import 'package:iflow/views/ProfilePage/ProfilePage.dart';
+// import 'components/connection.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
 
 void main() {
-  runApp(MyApp());
+  SharedPreferences.setMockInitialValues({});
+  runApp(MyConstants(
+    key: UniqueKey(),
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
+    // TODO: implement build
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+            create: (_) => ProfileProvider(threshold: 50.0, accessToken: ""))
+      ],
+      child: MaterialApp(
+        theme: ThemeData(
+          highlightColor: Color(0xffffc600),
+          fontFamily: 'Prompt',
         ),
+        home: FutureBuilder(
+          // future: FlutterBluetoothSerial.instance.requestEnable(),
+          // future: Firebase.initializeApp(),
+          builder: (context, future) {
+            if (future.connectionState == ConnectionState.waiting) {
+              return Scaffold(
+                body: Container(
+                  height: double.infinity,
+                  child: Center(
+                    child: Icon(
+                      Icons.bluetooth_disabled,
+                      size: 200.0,
+                      color: Colors.blue,
+                    ),
+                  ),
+                ),
+              );
+            } else if (future.connectionState == ConnectionState.done) {
+              // return MyHomePage(title: 'Flutter Demo Home Page');
+              return IntroPage();
+            } else {
+              return IntroPage();
+            }
+          },
+          // child: MyHomePage(title: 'Flutter Demo Home Page'),
+        ),
+        title: "iAware",
+        routes: {
+          '/introduce': (context) => IntroducePage(),
+
+          '/select-auth': (context) => SelectPage(),
+          // '/select-auth' : (context)=>ConsciousPage(),
+          '/login': (context) => LoginPage(),
+          '/signup': (context) => SignUpPage(),
+          '/home': (context) => HomePage(),
+          // '/aboutus': (context) => AboutUsPage(),
+
+          // '/start': (context) => StartPage(),
+          // '/relax/introduce': (context) => RelaxIntroduce(),
+          // '/start-conscious': (context) => StartConsciousPage(),
+          // '/relax': (context) => RelaxPage(),
+          // '/conscious': (context) => ConsciousPage(),
+          // '/wandering/introduce': (context) => WanderingIntroduce(),
+          // '/profile': (context) => ProfilePage(),
+          // '/relax-summary': (context) => RelaxSummaryPage(),
+          // '/conscious-summary': (context) => ConsciousSummaryPage(),
+          // '/conscious-summary-graph': (context) => ConsciousGraphPage(),
+
+          '/policy': (context) => PolicyPage(),
+          '/mobile-no': (context) => MobileNoPage(),
+          // '/history': (context) => HistoryPage(),
+          // '/demo1': (context) => Demo1(),
+
+          // '/setting': (context) => SettingPage(),
+          // '/setting/personal': (context) => PersonalInfomationPage(),
+          // '/setting/invite': (context) => InvitePage(),
+          // '/setting/privacy': (context) => PrivacyPage(),
+          // '/setting/app': (context) => AppSettingPage(),
+          // '/setting/app/voice': (context) => VoiceSettingPage(),
+          // '/setting/app/vibrate': (context) => VibrationSettingPage(),
+          // '/setting/app/threshold': (context) => ThresholdSettingPage(),
+          // '/setting/app/threshold/custom': (context) => ThresholdCustomPage(),
+          // '/setting/help': (context) => HelpPage(),
+          // '/setting/comment': (context) => SendCommentPage(),
+        },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+}
+
+class Home extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text('Connection'),
+          ),
+        ));
   }
 }
