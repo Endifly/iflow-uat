@@ -66,7 +66,7 @@ class _IntroducePageState extends State<IntroducePage> {
     else return CarouselSlider(
       carouselController: buttonCarouselController,
       options: CarouselOptions(
-          height: MediaQuery.of(context).size.height*0.8,
+          height: MediaQuery.of(context).size.height*0.75,
           initialPage: 0,
           enableInfiniteScroll: false,
           viewportFraction: 1.0,
@@ -93,15 +93,20 @@ class _IntroducePageState extends State<IntroducePage> {
         child: ListView(
           children: [
             // slider(),
-            Carousel(),
-            // SizedBox(height: 16,),
-            DotIndicator(count: 3,index: pageNumber,),
-            SizedBox(height: 24,),
-            Center(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width*0.3,
-                child: WhiteButton(title: "ถัดไป",onPress: nextSlide,),
-              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Carousel(),
+                // SizedBox(height: 16,),
+                DotIndicator(count: 3,index: pageNumber,),
+                SizedBox(height: 24,),
+                Center(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width*0.3,
+                    child: WhiteButton(title: "ถัดไป",onPress: nextSlide,),
+                  ),
+                )
+              ],
             )
           ],
         ),

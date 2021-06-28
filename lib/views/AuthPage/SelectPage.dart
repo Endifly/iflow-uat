@@ -265,18 +265,20 @@ class _SelectPageState extends State<SelectPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        height: 2,
-                        width: MediaQuery.of(context).size.width*0.2,
-                        color: Colors.amber,
-                        margin: EdgeInsets.all(16),
+                      Expanded(
+                          child: Container(
+                            height: 2,
+                            color: Colors.amber,
+                            margin: EdgeInsets.all(16),
+                          ),
                       ),
                       Text("หรือ"),
-                      Container(
-                        height: 2,
-                        width: MediaQuery.of(context).size.width*0.2,
-                        color: Colors.amber,
-                        margin: EdgeInsets.all(16),
+                      Expanded(
+                        child: Container(
+                          height: 2,
+                          color: Colors.amber,
+                          margin: EdgeInsets.all(16),
+                        ),
                       ),
                     ],
                   ),
