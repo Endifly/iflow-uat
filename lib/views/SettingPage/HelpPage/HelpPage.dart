@@ -28,7 +28,7 @@ class _HelpPageState extends State<HelpPage> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return SettingLayout(
-      child: ListView(
+      child: Column(
         children: [
           SizedBox(height: 32,),
           Row(

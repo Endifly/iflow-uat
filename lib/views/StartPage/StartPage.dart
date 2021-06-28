@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ios_d1/views/Template/NavLayout.dart';
 
 import '/components/ButtonNavigationBar.dart';
 import '/components/customWidgets/HeadsetConnector.dart';
@@ -71,7 +72,7 @@ class _StatePageState extends State<StartPage> {
       ));
     }
 
-    return Scaffold(
+    return NavLayout(
         // resizeToAvoidBottomInset: false,
         // drawer: Drawer(
         //   child: SelectBondedDevicePage(
@@ -88,89 +89,62 @@ class _StatePageState extends State<StartPage> {
         //     },
         //   ),
         // ),
-        body: SafeArea(
-              child: Container(
-                decoration: BoxDecoration(
-                  // color: Colors.red,
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Colors.white, Color.fromRGBO(233, 234, 238, 1)]
-                    )
-                ),
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // ElevatedButton(onPressed: ()=>{Scaffold.of(context).openDrawer()}, child: Text("open drawer")),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                      child: Row(
-                        children: [
-                          InkWell(
-                            child: Image.asset("assets/icons/iflow_full.png"),
-                            onTap: ()=>Navigator.pushNamed(context, '/relax/introduce'),
-                          ),
-                          Spacer(flex: 1,),
-                          VolumeButton(),
-                        ],
-                      ),
+        boxDecoration: BoxDecoration(
+          // color: Colors.red,
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.white, Color.fromRGBO(233, 234, 238, 1)]
+            )
+        ),
+        useSafeArea: false,
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // ElevatedButton(onPressed: ()=>{Scaffold.of(context).openDrawer()}, child: Text("open drawer")),
+            Padding(
+              padding: EdgeInsets.fromLTRB(16, 64, 16, 0),
+              child: Row(
+                children: [
+                  InkWell(
+                    child: Image.asset("assets/icons/iflow_full.png"),
+                    onTap: ()=>Navigator.pushNamed(context, '/relax/introduce'),
+                  ),
+                  Spacer(flex: 1,),
+                  VolumeButton(),
+                ],
+              ),
+            ),
+            Container(
+              // height: MediaQuery.of(context).size.height * 0.8,
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  HeadsetConnector(onConnected: onConnected,),
+                  Container(
+                    height: 128,
+                    child: ListWheelScrollView(
+                      itemExtent: 64,
+                      diameterRatio: 1.5,
+                      children: time_selection(),
+                      onSelectedItemChanged: onTimeChange,
                     ),
-                    Container(
-                      // height: MediaQuery.of(context).size.height * 0.8,
-                      child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          HeadsetConnector(onConnected: onConnected,),
-                          Container(
-                            height: 128,
-                            child: ListWheelScrollView(
-                                itemExtent: 64,
-                                diameterRatio: 1.5,
-                                children: time_selection(),
-                                onSelectedItemChanged: onTimeChange,
-                            ),
-                          ),
-                          Container(
-                            height: 32,
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(2),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(40.0),
-                                gradient: LinearGradient(
-                                    begin: Alignment.centerLeft,
-                                    end: Alignment.centerRight,
-                                    colors: [
-                                      Color.fromRGBO(249, 211, 78, 1),
-                                      Color.fromRGBO(255, 242, 136, 1),
-                                      Color.fromRGBO(238, 194, 58, 1)
-                                    ]),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Color.fromRGBO(0, 0, 0, 0.3),
-                                      offset: Offset(6, 2),
-                                      blurRadius: 6.0,
-                                      spreadRadius: 1.0),
-                                  BoxShadow(
-                                      color: Color.fromRGBO(255, 255, 255, 0.9),
-                                      offset: Offset(-4, -4),
-                                      blurRadius: 6.0,
-                                      spreadRadius: 4.0)
-                                ]),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width*0.5,
-                              child: headsetService == null ? WhiteButton(title: 'เริ่ม',):OrangeButton(title: 'เริ่ม',onPress: toRelax,),
-                            )
-                          ),
-                        ],
-                      ),
-                    ),
-                    Spacer(flex: 1,),
-                    ButtonNavigationBar(),
-                  ],
-                ),
-              )
-          ),
+                  ),
+                  Container(
+                    height: 32,
+                  ),
+                  Container(
+
+                      child: Container(
+                        width: MediaQuery.of(context).size.width*0.5,
+                        child: headsetService == null ? WhiteButton(title: 'เริ่ม',):OrangeButton(title: 'เริ่ม',onPress: toRelax,),
+                      )
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       );
   }
 }

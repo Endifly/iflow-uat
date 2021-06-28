@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:ios_d1/views/Template/NavLayout.dart';
 
 import '/components/ButtonNavigationBar.dart';
 import '/components/customWidgets/HeadsetConnector.dart';
@@ -75,67 +76,55 @@ class _StartConsciousPageState extends State<StartConsciousPage> {
     }
 
     // TODO: implement build
-    return MaterialApp(
-      theme: ThemeData(fontFamily: 'Prompt'),
-      home: Scaffold(
-        // resizeToAvoidBottomInset: false,
-        drawer: Drawer(
-          child: Text("drawer")
-        ),
-        body: SafeArea(
-            child: Container(
-              decoration: BoxDecoration(
-                // color: Colors.red,
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Colors.white, Color.fromRGBO(233, 234, 238, 1)]
-                  )
-              ),
-              child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.8,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                          child: Row(
-                            children: [
-                              InkWell(
-                                child: Image.asset("assets/icons/pearl_full.png"),
-                                onTap: ()=>{
-                                  Navigator.pushNamed(context, "/demo1")
-                                },
-                              ),
-                              Spacer(flex: 1,),
-                              VolumeButton(),
-                            ],
-                          ),
-                        ),
-                        HeadsetConnector(onConnected: onConnected,),
-                        Container(
-                          height: 128,
-                          child: ListWheelScrollView(itemExtent: 42, children: time_selection(),onSelectedItemChanged: onTimeChange,),
-                        ),
-                        Container(
-                          height: 32,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width*0.5,
-                          child: headsetService == null ? WhiteButton(title: 'เริ่ม',):OrangeButton(title: 'เริ่ม',onPress: toWandering,),
-                        )
-                      ],
-                    ),
+    return NavLayout(
+      useSafeArea: false,
+      child: Column(
+        // mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            // height: MediaQuery.of(context).size.height * 0.8,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(16, 64, 16, 0),
+                  child: Row(
+                    children: [
+                      InkWell(
+                        child: Image.asset("assets/icons/pearl_full.png"),
+                        onTap: ()=>{
+                          Navigator.pushNamed(context, "/demo1")
+                        },
+                      ),
+                      Spacer(flex: 1,),
+                      VolumeButton(),
+                    ],
                   ),
-                  // Container(height: 64,),
-                  Spacer(flex: 1,),
-                  ButtonNavigationBar(),
-                ],
-              ),
-            )),
+                ),
+                HeadsetConnector(onConnected: onConnected,),
+                Container(
+                  height: 128,
+                  child: ListWheelScrollView(
+                    itemExtent: 64,
+                    diameterRatio: 1.5,
+                    children: time_selection(),
+                    onSelectedItemChanged: onTimeChange,
+                  ),
+                ),
+                Container(
+                  height: 32,
+                ),
+                Container(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width*0.5,
+                    child: headsetService == null ? WhiteButton(title: 'เริ่ม',):OrangeButton(title: 'เริ่ม',onPress: toWandering,),
+                  ),
+                )
+              ],
+            ),
+          ),
+          // Container(height: 64,),
+        ],
       ),
     );
   }
