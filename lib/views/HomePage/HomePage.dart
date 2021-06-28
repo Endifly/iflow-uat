@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ios_d1/views/Template/NavLayout.dart';
 import '/components/ButtonNavigationBar.dart';
 import '/components/DecorationConcave.dart';
 import '/contexts/kColors.dart';
@@ -35,47 +36,35 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-        // resizeToAvoidBottomInset: false,
-        body: SafeArea(
-            child: Container(
-          decoration: BoxDecoration(
-              // color: Colors.red,
-              // image: DecorationImage(
-              //   image: AssetImage("assets/images/bg1.png"),
-              //   fit: BoxFit.cover,
-              // )
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
+    return NavLayout(
+        boxDecoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
                 Colors.white,
                 Color.fromRGBO(233, 234, 238, 1),
               ]),
-          ),
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.8,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Hero(),
-                    SizedBox(height: 32,),
-                    RelaxButton(),
-                    SizedBox(height: 32,),
-                    WanderingButton(),
-                  ],
-                ),
-              ),
-              Spacer(flex: 1,),
-              ButtonNavigationBar(),
-            ],
-          ),
-        )
         ),
-    );
+        child:Column(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height*0.9,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Hero(),
+                  SizedBox(height: 32,),
+                  RelaxButton(),
+                  SizedBox(height: 32,),
+                  WanderingButton(),
+                ],
+              ),
+            ),
+          ],
+        ),
+        useSafeArea: false);
   }
 }
 

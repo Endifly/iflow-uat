@@ -3,6 +3,23 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 // import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:ios_d1/views/ProfilePage/ProfilePage.dart';
+import 'package:ios_d1/views/ProfilePage/SummaryPage/ConsciousGraph.dart';
+import 'package:ios_d1/views/ProfilePage/SummaryPage/ConsciousSummaryPage.dart';
+import 'package:ios_d1/views/ProfilePage/SummaryPage/RelaxSummaryPage.dart';
+import 'package:ios_d1/views/SettingPage/AppSettingPage/AppSettingPage.dart';
+import 'package:ios_d1/views/SettingPage/AppSettingPage/ThresholdSettingPage/ThresholdCustom.dart';
+import 'package:ios_d1/views/SettingPage/AppSettingPage/ThresholdSettingPage/ThresholdSettingPage.dart';
+import 'package:ios_d1/views/SettingPage/AppSettingPage/VibrationSetting/VibrationSettingPage.dart';
+import 'package:ios_d1/views/SettingPage/AppSettingPage/VoiceSetting/VoiceSetting.dart';
+import 'package:ios_d1/views/SettingPage/HelpPage/HelpPage.dart';
+import 'package:ios_d1/views/SettingPage/InvitePage/InvitePage.dart';
+import 'package:ios_d1/views/SettingPage/PersonalPage/PersonalPage.dart';
+import 'package:ios_d1/views/SettingPage/PrivacyPage/Privacy.dart';
+import 'package:ios_d1/views/SettingPage/SendCommentPage/SendCommentPage.dart';
+import 'package:ios_d1/views/SettingPage/SettingPage.dart';
+import 'package:ios_d1/views/StartPage/StartConscious.dart';
+import 'package:ios_d1/views/StartPage/StartPage.dart';
 import '/Provider/ProfileProvider.dart';
 import '/contexts/Constant.dart';
 // import 'package:iflow/views/AboutUsPage/AboutUsPage.dart';
@@ -12,8 +29,8 @@ import '/views/IntroducePage/IntroducePage.dart';
 // import '/views/ProfilePage/SummaryPage/ConsciousGraph.dart';
 
 // import '/views/ProfilePage/SummaryPage/ConsciousSummaryPage.dart';
-// import '/views/ActionPage/ConsciousPage/ConsciousPage.dart';
-// import '/views/ActionPage/RelaxPage/RelaxPage.dart';
+import '/views/ActionPage/ConsciousPage/ConsciousPage.dart';
+import '/views/ActionPage/RelaxPage/RelaxPage.dart';
 import '/views/AuthPage/LoginPage.dart';
 import '/views/AuthPage/MobileNoPage.dart';
 import '/views/AuthPage/PolicyPage.dart';
@@ -32,8 +49,8 @@ import '/views/IntroPage/IntroPage.dart';
 // import '/views/SettingPage/PrivacyPage/Privacy.dart';
 // import '/views/SettingPage/SendCommentPage/SendCommentPage.dart';
 // import '/views/SettingPage/SettingPage.dart';
-// import '/views/StartPage/RelaxIntroduce/RelaxIntroduce.dart';
-// import '/views/StartPage/WanderingIntroduce/WanderingIntroduce.dart';
+import '/views/StartPage/RelaxIntroduce/RelaxIntroduce.dart';
+import '/views/StartPage/WanderingIntroduce/WanderingIntroduce.dart';
 import 'package:provider/provider.dart';
 // import 'views/SettingPage/AppSettingPage/ThresholdSettingPage/ThresholdCustom.dart';
 // import '/views/StartPage/StartConscious.dart';
@@ -96,7 +113,7 @@ class MyApp extends StatelessWidget {
         ),
         title: "iAware",
         routes: {
-          '/introduce': (context) => IntroducePage(),
+          '/introduce': (context) => SettingPage(),
 
           '/select-auth': (context) => SelectPage(),
           // '/select-auth' : (context)=>ConsciousPage(),
@@ -105,33 +122,33 @@ class MyApp extends StatelessWidget {
           '/home': (context) => HomePage(),
           // '/aboutus': (context) => AboutUsPage(),
 
-          // '/start': (context) => StartPage(),
-          // '/relax/introduce': (context) => RelaxIntroduce(),
-          // '/start-conscious': (context) => StartConsciousPage(),
-          // '/relax': (context) => RelaxPage(),
-          // '/conscious': (context) => ConsciousPage(),
-          // '/wandering/introduce': (context) => WanderingIntroduce(),
-          // '/profile': (context) => ProfilePage(),
-          // '/relax-summary': (context) => RelaxSummaryPage(),
-          // '/conscious-summary': (context) => ConsciousSummaryPage(),
-          // '/conscious-summary-graph': (context) => ConsciousGraphPage(),
+          '/start': (context) => StartPage(),
+          '/relax/introduce': (context) => RelaxIntroduce(),
+          '/start-conscious': (context) => StartConsciousPage(),
+          '/relax': (context) => RelaxPage(),
+          '/conscious': (context) => ConsciousPage(),
+          '/wandering/introduce': (context) => WanderingIntroduce(),
+          '/profile': (context) => ProfilePage(),
+          '/relax-summary': (context) => RelaxSummaryPage(),
+          '/conscious-summary': (context) => ConsciousSummaryPage(),
+          '/conscious-summary-graph': (context) => ConsciousGraphPage(),
 
           '/policy': (context) => PolicyPage(),
           '/mobile-no': (context) => MobileNoPage(),
           // '/history': (context) => HistoryPage(),
           // '/demo1': (context) => Demo1(),
 
-          // '/setting': (context) => SettingPage(),
-          // '/setting/personal': (context) => PersonalInfomationPage(),
-          // '/setting/invite': (context) => InvitePage(),
-          // '/setting/privacy': (context) => PrivacyPage(),
-          // '/setting/app': (context) => AppSettingPage(),
-          // '/setting/app/voice': (context) => VoiceSettingPage(),
-          // '/setting/app/vibrate': (context) => VibrationSettingPage(),
-          // '/setting/app/threshold': (context) => ThresholdSettingPage(),
-          // '/setting/app/threshold/custom': (context) => ThresholdCustomPage(),
-          // '/setting/help': (context) => HelpPage(),
-          // '/setting/comment': (context) => SendCommentPage(),
+          '/setting': (context) => SettingPage(),
+          '/setting/personal': (context) => PersonalInfomationPage(),
+          '/setting/invite': (context) => InvitePage(),
+          '/setting/privacy': (context) => PrivacyPage(),
+          '/setting/app': (context) => AppSettingPage(),
+          '/setting/app/voice': (context) => VoiceSettingPage(),
+          '/setting/app/vibrate': (context) => VibrationSettingPage(),
+          '/setting/app/threshold': (context) => ThresholdSettingPage(),
+          '/setting/app/threshold/custom': (context) => ThresholdCustomPage(),
+          '/setting/help': (context) => HelpPage(),
+          '/setting/comment': (context) => SendCommentPage(),
         },
       ),
     );

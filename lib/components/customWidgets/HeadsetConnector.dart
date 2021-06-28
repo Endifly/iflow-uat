@@ -97,7 +97,9 @@ class HeadsetService {
 
 
   Future<List<int>> readEEG(Guid uuid) async {
+    print("eegChar : ${getEegChar(uuid)}");
     var values = readCharacteristic(getEegChar(uuid)!);
+    print("read :${values}");
     return values;
   }
 
@@ -309,18 +311,30 @@ class _HeadsetConnectorState extends State<HeadsetConnector> {
     List<BluetoothCharacteristic> cmdChars = [];
     List<BluetoothService> _services = await device.discoverServices();
     //here await _services.forEach
-    _services.forEach((service) async {
-      if (service.uuid == SERVICE_EEG) {
-        servicesTmp.add(service);
-        var chars = await getCharacteristic(service);
-        eegChars = chars;
-      }
-      if (service.uuid == SERVICE_CMD) {
-        servicesTmp.add(service);
-        var chars = await getCharacteristic(service);
-        cmdChars = chars;
-      }
-    });
+    // await _services.forEach((service) async {
+    //   if (service.uuid == SERVICE_EEG) {
+    //     servicesTmp.add(service);
+    //     var chars = await getCharacteristic(service);
+    //     eegChars = chars;
+    //   }
+    //   if (service.uuid == SERVICE_CMD) {
+    //     servicesTmp.add(service);
+    //     var chars = await getCharacteristic(service);
+    //     cmdChars = chars;
+    //   }
+    // });
+    for (BluetoothService bt in _services) {
+        if (bt.uuid == SERVICE_EEG) {
+          servicesTmp.add(bt);
+          var chars = await getCharacteristic(bt);
+          eegChars = chars;
+        }
+        if (bt.uuid == SERVICE_CMD) {
+          servicesTmp.add(bt);
+          var chars = await getCharacteristic(bt);
+          cmdChars = chars;
+        }
+    }
     HeadsetService _headsetService = HeadsetService(eeg: eegChars,cmd: cmdChars,device: selectedDevice!);
     print("found ${servicesTmp.length} services");
     print("headsetSerivce : ${_headsetService}");
