@@ -276,12 +276,11 @@ class _HeadsetConnectorState extends State<HeadsetConnector> {
       // headsetService!.useCalibration();
       // Future.delayed(Duration(seconds: 2),checkCalibration);
       if (firstTuning) {
+        firstTuning = false;
         Future.delayed(Duration(seconds: 10),()=>{setCallibrationState(1)});
         Future.delayed(Duration(seconds: 12),()=>{setCallibrationState(2)});
         Future.delayed(Duration(seconds: 15),()=>{setCallibrationState(3)});
         Future.delayed(Duration(seconds: 18),()=>{setCallibrationState(4)});
-      } else {
-        firstTuning = false;
       }
 
     }

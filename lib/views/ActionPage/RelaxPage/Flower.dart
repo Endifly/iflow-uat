@@ -50,10 +50,10 @@ class _FlowerState extends State<Flower> with TickerProviderStateMixin {
     flowert_3_scale_animation = Tween(begin: 1.0,end:1.2).animate(flowert_3_scale_controller!);
 
     flowert_4_scale_controller = AnimationController(vsync: this, duration: Duration(seconds: 4*widget.slowFactor!),);
-    flowert_4_scale_animation = Tween(begin: 1.2,end:1.5).animate(flowert_4_scale_controller!);
+    flowert_4_scale_animation = Tween(begin: 1.2,end:1.3).animate(flowert_4_scale_controller!);
 
     flowert_leaf_scale_controller = AnimationController(vsync: this, duration: Duration(seconds: 3*widget.slowFactor!),);
-    flowert_leaf_scale_animation = Tween(begin: 0.7,end:1.2).animate(flowert_leaf_scale_controller!);
+    flowert_leaf_scale_animation = Tween(begin: 0.7,end:1.0).animate(flowert_leaf_scale_controller!);
   }
 
   void handleChangeState() {

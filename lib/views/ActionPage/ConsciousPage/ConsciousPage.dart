@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ios_d1/views/ProfilePage/SummaryPage/ConsciousSummaryPage.dart';
 import '/components/customWidgets/HeadsetConnector.dart';
 import '/components/customWidgets/OrangeButton.dart';
 import '/contexts/kColors.dart';
@@ -56,19 +57,19 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
     if (average > 50) {
       print("####### case good yellow ");
       setState(() {
-        color1 = kColors.green[500]!.withOpacity(0.5);
+        color1 = kColors.gold[500]!.withOpacity(0.5);
       });
     }
     else if ( average <= 50 && average > 30 ) {
       print("case medium");
       setState(() {
-        color1: kColors.green[300]!.withOpacity(0.5);
+        color1: kColors.yellow[300]!.withOpacity(0.5);
       });
     }
     else if (average <= 30) {
       print("case bad");
       setState(() {
-        color1 = kColors.yellow[500]!.withOpacity(0.5);
+        color1 = kColors.green[500]!.withOpacity(0.5);
       });
     }
   }
@@ -462,7 +463,10 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
                     child: Center(
                       child: _animationController != null ? isComplete ?
                       InkWell(
-                        // onTap: ()=>{Navigator.pushNamed(context, "/conscious-summary",arguments: WanderingSumamryPageArguments(relaxIndexs: relaxs))},
+                        onTap: ()=>{
+                          widget.headsetService?.device.disconnect(),
+                          Navigator.pushNamed(context, "/conscious-summary",arguments: WanderingSumamryPageArguments(relaxIndexs: relaxs))
+                        },
                         child: Text("ถัดไป", style: TextStyle(fontSize: 20,color: Colors.black38),),
                       ):
                       IconButton(

@@ -39,6 +39,7 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
   //mediatation attention
   int currentMediatationValue = 0;
   int currentAttentionValue = 0;
+  double threshold = 60.0;
 
   final assetsAudioPlayer = AssetsAudioPlayer();
 
@@ -83,6 +84,12 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
     rotationController!.forward();
   }
 
+  void onPlaySound(double average) {
+    if (average > threshold) {
+      assetsAudioPlayer.play();
+    }
+  }
+
   double makeAverage(List<int> nums){
     return nums.reduce((int a, int b) => a + b) / nums.length;
   }
@@ -114,6 +121,7 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
     updateRingColor(average);
     // updateRingColor(makeAverage(last3relaxes));
     updateFlowerSpeed(average);
+    onPlaySound(average);
     // updateFlowerSpeed(makeAverage(last3relaxes));
   }
 
@@ -369,11 +377,13 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
       if (_animationController == null) return Container();
       if (isComplete) return
         InkWell(
-          onTap: ()=>{ Navigator.push(
-          context,
-          new MaterialPageRoute(
-          builder: (context) => new RelaxSummaryPage(relaxIndexs: relaxes,)),
-          ),
+          onTap: ()=>{
+            widget.headsetService?.device.disconnect(),
+            Navigator.push(
+            context,
+            new MaterialPageRoute(
+            builder: (context) => new RelaxSummaryPage(relaxIndexs: relaxes,)),
+            ),
           },
           child: Text("ถัดไป", style: TextStyle(fontSize: 20,color: Colors.black38),),
         );
