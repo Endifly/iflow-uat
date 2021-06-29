@@ -238,6 +238,17 @@ class _HeadsetConnectorState extends State<HeadsetConnector> {
     });
   }
 
+  void setCallibrationState(int callibration) {
+    // var callibration = callibrations[1];
+    if (callibration >= 4) {
+      setState(() {
+        connectionState = HEADSET_READY_STATE;
+      });
+    }
+    var loadingVal = min(((100/5)*(callibration+1))/100, 1.0);
+    setLoadingValue(loadingVal);
+  }
+
   void checkCalibration() async {
     var callibrations = await headsetService!.readTx();
     print("callibration : ${callibrations}");
@@ -255,13 +266,18 @@ class _HeadsetConnectorState extends State<HeadsetConnector> {
     var signalQualitys = await headsetService!.readSignalQuality();
     var signalQuality = signalQualitys[0];
     print("Signal quality : ${signalQuality})");
+    print("connection state : ${connectionState}");
     if (connectionState == HEADSET_WAIT_FOR_EQUIP_STATE) {
       checkSignalQuality(signalQuality);
     }
     if (connectionState == HEADSET_TUNING_STATE) {
-      checkSignalQuality(signalQuality);
-      headsetService!.useCalibration();
-      Future.delayed(Duration(seconds: 2),checkCalibration);
+      // checkSignalQuality(signalQuality);
+      // headsetService!.useCalibration();
+      // Future.delayed(Duration(seconds: 2),checkCalibration);
+      Future.delayed(Duration(seconds: 10),()=>{setCallibrationState(1)});
+      Future.delayed(Duration(seconds: 12),()=>{setCallibrationState(2)});
+      Future.delayed(Duration(seconds: 15),()=>{setCallibrationState(3)});
+      Future.delayed(Duration(seconds: 18),()=>{setCallibrationState(4)});
     }
     if (connectionState == HEADSET_READY_STATE) {
       print("connect success : ${headsetService}");
@@ -310,19 +326,6 @@ class _HeadsetConnectorState extends State<HeadsetConnector> {
     List<BluetoothCharacteristic> eegChars = [];
     List<BluetoothCharacteristic> cmdChars = [];
     List<BluetoothService> _services = await device.discoverServices();
-    //here await _services.forEach
-    // await _services.forEach((service) async {
-    //   if (service.uuid == SERVICE_EEG) {
-    //     servicesTmp.add(service);
-    //     var chars = await getCharacteristic(service);
-    //     eegChars = chars;
-    //   }
-    //   if (service.uuid == SERVICE_CMD) {
-    //     servicesTmp.add(service);
-    //     var chars = await getCharacteristic(service);
-    //     cmdChars = chars;
-    //   }
-    // });
     for (BluetoothService bt in _services) {
         if (bt.uuid == SERVICE_EEG) {
           servicesTmp.add(bt);

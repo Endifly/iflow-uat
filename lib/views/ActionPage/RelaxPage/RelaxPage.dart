@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ios_d1/views/ProfilePage/SummaryPage/RelaxSummaryPage.dart';
 
 import '/components/customWidgets/HeadsetConnector.dart';
 import '/views/ActionPage/ColorSet.dart';
@@ -61,7 +62,7 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
   var MAX_WIDTH = null;
   double _width = 20;
   Timer? updater;
-  int slowFactor = 5;
+  int slowFactor = 2;
 
   void addRotate(double newDistance) {
     setState(() {
@@ -102,14 +103,15 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
 
     relaxes.add(average.round());
 
-    var last3relaxes = relaxes.sublist(relaxes.length-2,relaxes.length);
+    // var last3relaxes = relaxes.sublist(relaxes.length-2,relaxes.length);
 
-    print("relax average : ${last3relaxes}");
-    addRotate(makeAverage(last3relaxes)/100-0.75);
-    // updateRingColor(average);
-    updateRingColor(makeAverage(last3relaxes));
-    // updateFlowerSpeed(average);
-    updateFlowerSpeed(makeAverage(last3relaxes));
+    print("relax average : ${average}");
+    // addRotate(makeAverage(last3relaxes)/100-0.75);
+    addRotate(average/100-0.75);
+    updateRingColor(average);
+    // updateRingColor(makeAverage(last3relaxes));
+    updateFlowerSpeed(average);
+    // updateFlowerSpeed(makeAverage(last3relaxes));
   }
 
   void startUpdater() {
@@ -139,7 +141,7 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
 
   void handleNextFlower() {
     var average = (currentMediatationValue+currentAttentionValue)/2;
-    if (average > 50) return;
+    if (average < 20) return;
     flower_state = flower_state+1;
     if (flower_state == 8) {
       setState(() {
@@ -150,13 +152,16 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
 
 
   void updateFlowerSpeed(double average) {
-    if (average < 30) {
+    if (average >= 70) {
       setState(() {
         slowFactor = 2;
+        print("slow factor : 2");
       });
     } else {
       setState(() {
-        slowFactor = ( ((3/70)*(average-30))+2 ).round();
+        // slowFactor = ( 5-((3/70)*(average-30)) ).round();
+        slowFactor = ( 5 - ((3/70)*(average)) ).round();
+        print("slow factor : ${( 5 - ((3/70)*(average)) ).round()}");
       });
     }
   }
@@ -164,7 +169,7 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
   void updateRingColor(double average) {
     if (average > 50) {
       setState(() {
-        flowerBackgroundState = 2;
+        flowerBackgroundState = 0;
       });
     }
     else if (average > 40) {
@@ -174,7 +179,7 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
     }
     else {
       setState(() {
-        flowerBackgroundState = 0;
+        flowerBackgroundState = 2;
       });
     }
   }
@@ -360,12 +365,12 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
       if (_animationController == null) return Container();
       if (isComplete) return
         InkWell(
-          // onTap: ()=>{ Navigator.push(
-          // context,
-          // new MaterialPageRoute(
-          // builder: (context) => new RelaxSummaryPage(relaxIndexs: relaxes,)),
-          // ),
-          // },
+          onTap: ()=>{ Navigator.push(
+          context,
+          new MaterialPageRoute(
+          builder: (context) => new RelaxSummaryPage(relaxIndexs: relaxes,)),
+          ),
+          },
           child: Text("ถัดไป", style: TextStyle(fontSize: 20,color: Colors.black38),),
         );
       return

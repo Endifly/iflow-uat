@@ -14,9 +14,9 @@ List<List<Color>> relaxColorSets = [
     mWhite,
     Colors.yellow,
     kColors.gold[500]!,
-    kColors.yellow[300]!,
+    kColors.orange[300]!,
     kColors.gold[300]!,
-    Colors.yellow,
+    kColors.orange[200]!,
     mWhite,
   ],
   [
