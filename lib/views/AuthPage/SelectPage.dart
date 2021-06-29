@@ -163,7 +163,7 @@ class _SelectPageState extends State<SelectPage> {
       print(res);
       switch(body['result']['__typename']) {
         case "loginOutput" : {
-          await _setUser(username: res['username'],role: res['role'],user_id: res['user_id']);
+          await _setUser(username: 'fb-user',role: res['role'],user_id: res['user_id']);
           toHome();
           break;
         }

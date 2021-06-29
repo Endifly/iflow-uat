@@ -113,7 +113,7 @@ class MyApp extends StatelessWidget {
         ),
         title: "iAware",
         routes: {
-          '/introduce': (context) => SettingPage(),
+          '/introduce': (context) => IntroducePage(),
 
           '/select-auth': (context) => SelectPage(),
           // '/select-auth' : (context)=>ConsciousPage(),
