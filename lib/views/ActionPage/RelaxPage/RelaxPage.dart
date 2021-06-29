@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ios_d1/views/ProfilePage/SummaryPage/RelaxSummaryPage.dart';
@@ -38,6 +39,8 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
   //mediatation attention
   int currentMediatationValue = 0;
   int currentAttentionValue = 0;
+
+  final assetsAudioPlayer = AssetsAudioPlayer();
 
   List<int> mediatations = [];
   List<int> attentions = [];
@@ -259,6 +262,7 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    assetsAudioPlayer.open(Audio("assets/sounds/gong.mp3"));
     rotationController = AnimationController(duration: const Duration(seconds: 30), vsync: this);
     rotationController?.repeat(reverse: true);
 

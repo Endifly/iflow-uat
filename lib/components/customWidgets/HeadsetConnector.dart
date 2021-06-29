@@ -153,6 +153,7 @@ const HEADSET_READY_STATE = 7;
 class _HeadsetConnectorState extends State<HeadsetConnector> {
   int connectionState = HEADSET_DEFAULT_STATE; //default , finding, found device, too many devices ,not found, wait for equip, tuning, ready
   var loadingValue = null;
+  bool firstTuning = true;
 
   FlutterBlue flutterBlue = FlutterBlue.instance;
   List<BluetoothDevice> devices = [];
@@ -274,10 +275,15 @@ class _HeadsetConnectorState extends State<HeadsetConnector> {
       // checkSignalQuality(signalQuality);
       // headsetService!.useCalibration();
       // Future.delayed(Duration(seconds: 2),checkCalibration);
-      Future.delayed(Duration(seconds: 10),()=>{setCallibrationState(1)});
-      Future.delayed(Duration(seconds: 12),()=>{setCallibrationState(2)});
-      Future.delayed(Duration(seconds: 15),()=>{setCallibrationState(3)});
-      Future.delayed(Duration(seconds: 18),()=>{setCallibrationState(4)});
+      if (firstTuning) {
+        Future.delayed(Duration(seconds: 10),()=>{setCallibrationState(1)});
+        Future.delayed(Duration(seconds: 12),()=>{setCallibrationState(2)});
+        Future.delayed(Duration(seconds: 15),()=>{setCallibrationState(3)});
+        Future.delayed(Duration(seconds: 18),()=>{setCallibrationState(4)});
+      } else {
+        firstTuning = false;
+      }
+
     }
     if (connectionState == HEADSET_READY_STATE) {
       print("connect success : ${headsetService}");

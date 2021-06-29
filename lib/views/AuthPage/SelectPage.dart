@@ -6,11 +6,12 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ios_d1/contexts/kColors.dart';
-
+import 'package:assets_audio_player/assets_audio_player.dart';
 import '/Provider/ProfileProvider.dart';
 import '/components/customWidgets/OrangeButton.dart';
 import '/components/customWidgets/WhiteButton.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+// import 'package:assets_audio_player/assets_audio_player.dart';
 import '/contexts/Constant.dart';
 import '/main.dart';
 import 'package:provider/provider.dart';
@@ -47,6 +48,9 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNo
 
 class _SelectPageState extends State<SelectPage> {
   final _formKey = GlobalKey<FormState>();
+  // var assetsAudioPlayer = AssetsAudioPlayer();
+  // final assetsAudioPlayer = Ass
+
   String _message = 'Log in/out by pressing the buttons below.';
   static final FacebookLogin facebookSignIn = new FacebookLogin();
   // String message;
@@ -78,6 +82,7 @@ class _SelectPageState extends State<SelectPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    // assetsAudioPlayer.open(Audio("assets/sounds/gong.mp3"));
     // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     //   print("message ${message}");
     //   RemoteNotification notification = message.notification;
@@ -398,7 +403,8 @@ class _SelectPageState extends State<SelectPage> {
                       //   semanticLabel: 'Text to announce in accessibility modes',
                       // ),
                       InkWell(
-                        onTap: ()=>sendNotification(title: "line",body:"coming soon"),
+                        // onTap: ()=>sendNotification(title: "line",body:"coming soon"),
+                        // onTap: ()=>{assetsAudioPlayer.play()},
                         child: ClipOval(
                           child: Image.asset(
                             "assets/icons/line.png",
