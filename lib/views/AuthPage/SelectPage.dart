@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:ios_d1/contexts/kColors.dart';
 
 import '/Provider/ProfileProvider.dart';
 import '/components/customWidgets/OrangeButton.dart';
@@ -48,6 +50,7 @@ class _SelectPageState extends State<SelectPage> {
   String _message = 'Log in/out by pressing the buttons below.';
   static final FacebookLogin facebookSignIn = new FacebookLogin();
   // String message;
+  bool loading = false;
   String channelId = "1000";
   String channelName = "FLUTTER_NOTIFICATION_CHANNEL";
   String channelDescription = "FLUTTER_NOTIFICATION_CHANNEL_DETAIL";
@@ -146,6 +149,11 @@ class _SelectPageState extends State<SelectPage> {
     );
   }
 
+  SpinKitFadingCircle spinkit = SpinKitFadingCircle(
+    color: kColors.gold[500]!,
+    size: 50.0,
+  );
+
   void toHome() {
     Navigator.pushNamed(context, '/home');
   }
@@ -154,6 +162,86 @@ class _SelectPageState extends State<SelectPage> {
   Widget build(BuildContext context) {
     // TODO: implement build
     ProfileProvider profileProvider = Provider.of<ProfileProvider>(context);
+
+    Future<http.Response> testerID() {
+      return http.post(
+        // Uri.https('dbku23tsqd.execute-api.ap-southeast-1.amazonaws.com', 'default/iflow-d1'),
+        Uri.http(MyConstants.of(context)!.REST_URI, 'auth/iflow'),
+        headers: <String, String>{
+          // 'Content-Type': 'application/json; charset=UTF-8',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(<String, String>{
+          // 'path' : '/auth/iflow',
+          'username': 'aqover',
+          'password': 'abcDEF098',
+        }),
+      );
+    }
+
+    // void onTesterLogin() async{
+    //   // print("username : ${username}, password : ${password}, URI : ${MyConstants.of(context)!.REST_URI}");
+    //   setState(() {
+    //     loading = true;
+    //   });
+    //   var response = await testerID();
+    //   setState(() {
+    //     loading = false;
+    //   });
+    //   var token = response.body;
+    //   if (token == "") {
+    //     print("fail");
+    //   }
+    //   else {
+    //     print("ye");
+    //     print("accessToken : ${token}");
+    //     // onLoginSuccess(token);
+    //     toHome();
+    //   }
+    // }
+
+    // void _setUser({required String username,user_id, role}) async {
+    //   print("setting ...");
+    //   SharedPreferences prefs = await SharedPreferences.getInstance();
+    //   await prefs.setString('username', username);
+    //   await prefs.setString('user_id', user_id);
+    //   await prefs.setString('role', role);
+    //   print("SharedPreferences ${username}");
+    // }
+
+    Future<void> onLoginSuccess(String token,String username) async {
+      print("setting ...");
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('username', username);
+      await prefs.setString('accessToken', token);
+      await prefs.setDouble('threshold', 60.0);
+      print("SharedPreferences ${username}");
+      setState(() {
+        // accessToken = token;
+        loading = false;
+      });
+    }
+
+    void onTesterLogin() async {
+      // print("username : ${username}, password : ${password}, URI : ${MyConstants.of(context)!.REST_URI}");
+      setState(() {
+        loading = true;
+      });
+      var response = await testerID();
+      setState(() {
+        loading = false;
+      });
+      var token = response.body;
+      if (token == "") {
+        print("fail");
+      }
+      else {
+        print("ye");
+        print("accessToken : ${token}");
+        onLoginSuccess(token,'aqover');
+        toHome();
+      }
+    }
 
     void onSubmit() async{
       print("submit");
@@ -245,7 +333,7 @@ class _SelectPageState extends State<SelectPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      OrangeButton(title:"เข้าระบบ",onPress: onClickLogin,)
+                      OrangeButton(title:"เข้าระบบ",onPress: onClickLogin,),
                     ],
                   ),
                   Container(
@@ -259,6 +347,14 @@ class _SelectPageState extends State<SelectPage> {
                         style: TextStyle(color: Colors.black45),
                       ),
                     ],
+                  ),
+                  Container(height: 16,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // WhiteButton(title:"TESTER ID",onPress: onTesterLogin,),
+                      loading ? Container(child: spinkit,margin: EdgeInsets.fromLTRB(0, 0, 0, 16),) : WhiteButton(title:"TESTER ID",onPress: onTesterLogin,),
+                    ]
                   ),
                   Container(height: 32),
 

@@ -20,12 +20,27 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb872834799928614</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>FacebookAdvertiserIDCollectionEnabled</key>
 	<string>TRUE</string>
+	<key>FacebookAppID</key>
+	<string>872834799928614</string>
 	<key>FacebookAutoLogAppEventsEnabled</key>
 	<string>TRUE</string>
+	<key>FacebookClientToken</key>
+	<string>iflow_uat</string>
+	<key>FacebookDisplayName</key>
+	<string>iflow_uat</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSBluetoothAlwaysUsageDescription</key>
@@ -51,20 +66,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-    <key>CFBundleURLTypes</key>
-    <array>
-      <dict>
-      <key>CFBundleURLSchemes</key>
-      <array>
-        <string>fb872834799928614</string>
-      </array>
-      </dict>
-    </array>
-    <key>FacebookAppID</key>
-    <string>872834799928614</string>
-    <key>FacebookClientToken</key>
-    <string>iflow_uat</string>
-    <key>FacebookDisplayName</key>
-    <string>iflow_uat</string>
 </dict>
 </plist>
