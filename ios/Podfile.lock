@@ -22,8 +22,14 @@ PODS:
     - FBSDKCoreKit (~> 5.5)
     - FBSDKLoginKit (~> 5.5)
     - Flutter
+  - flutter_line_sdk (2.0.0):
+    - Flutter
+    - LineSDKSwift (~> 5.3)
   - flutter_local_notifications (0.0.1):
     - Flutter
+  - LineSDKSwift (5.7.0):
+    - LineSDKSwift/Core (= 5.7.0)
+  - LineSDKSwift/Core (5.7.0)
   - Protobuf (3.11.4)
   - shared_preferences (0.0.1):
     - Flutter
@@ -33,6 +39,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_blue (from `.symlinks/plugins/flutter_blue/ios`)
   - flutter_facebook_login (from `.symlinks/plugins/flutter_facebook_login/ios`)
+  - flutter_line_sdk (from `.symlinks/plugins/flutter_line_sdk/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
 
@@ -40,6 +47,7 @@ SPEC REPOS:
   trunk:
     - FBSDKCoreKit
     - FBSDKLoginKit
+    - LineSDKSwift
     - Protobuf
 
 EXTERNAL SOURCES:
@@ -51,6 +59,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_blue/ios"
   flutter_facebook_login:
     :path: ".symlinks/plugins/flutter_facebook_login/ios"
+  flutter_line_sdk:
+    :path: ".symlinks/plugins/flutter_line_sdk/ios"
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   shared_preferences:
@@ -63,10 +73,12 @@ SPEC CHECKSUMS:
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_blue: eeb381dc4727a0954dede73515f683865494b370
   flutter_facebook_login: cfb5659f686b1c575ef205c6b6fd20db9679d3c4
+  flutter_line_sdk: e906ffa756c0ab01a3fd9c3dbe1c26e0092de3ff
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
+  LineSDKSwift: f9c232f89185b887b5725aa278325f3a23e33bbc
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
 
-PODFILE CHECKSUM: 3eac515852e62935c0613f146d825a390bfe3aa2
+PODFILE CHECKSUM: 677c563378033a038e7506fa5283740d2e9b3aa1
 
 COCOAPODS: 1.10.1

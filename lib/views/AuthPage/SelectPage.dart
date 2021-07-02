@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:ios_d1/components/customWidgets/LineLogin.dart';
 import 'package:ios_d1/contexts/kColors.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import '/Provider/ProfileProvider.dart';
@@ -402,16 +403,7 @@ class _SelectPageState extends State<SelectPage> {
                       //   size: 42.0,
                       //   semanticLabel: 'Text to announce in accessibility modes',
                       // ),
-                      InkWell(
-                        // onTap: ()=>sendNotification(title: "line",body:"coming soon"),
-                        // onTap: ()=>{assetsAudioPlayer.play()},
-                        child: ClipOval(
-                          child: Image.asset(
-                            "assets/icons/line.png",
-                            height: 48,
-                          ),
-                        ),
-                      )
+                      LineLogin(),
                     ],
                   ),
                   Container(

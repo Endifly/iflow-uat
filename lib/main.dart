@@ -1,5 +1,6 @@
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 import 'dart:async';
 // import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -62,8 +63,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 FlutterLocalNotificationsPlugin();
 
+const String LINE_CHANNEL_ID = "1655689195";
+
 void main() {
   SharedPreferences.setMockInitialValues({});
+  WidgetsFlutterBinding.ensureInitialized();
+  LineSDK.instance.setup("${LINE_CHANNEL_ID}").then((_) {
+    print("LineSDK Prepared");
+    });
   runApp(MyConstants(
     key: UniqueKey(),
     child: MyApp(),

@@ -36,6 +36,7 @@ dependencies:
   flutter_local_notifications: ^6.0.0
   flutter_spinkit: "^4.1.2"
   provider: ^5.0.0
+  flutter_line_sdk: ^2.0.0
 #  just_audio: ^0.8.0
 #  firebase_analytics: ^8.1.2
   assets_audio_player: ^1.7.0
