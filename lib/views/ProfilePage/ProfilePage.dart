@@ -19,11 +19,14 @@ class ProfilePage extends StatefulWidget{
 
 class _ProfilePageState extends State<ProfilePage> {
   String? username = "";
+  String? avatarURL = "";
 
   void _setup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       username = prefs.getString('username');
+      avatarURL = prefs.getString('avatarURL');
+
     });
   }
 
@@ -32,6 +35,15 @@ class _ProfilePageState extends State<ProfilePage> {
     // TODO: implement initState
     _setup();
     super.initState();
+  }
+
+  DecorationImage getAvatar() {
+    print(avatarURL);
+    if (avatarURL != "") return DecorationImage(image: NetworkImage(avatarURL!));
+    // return Image.asset("assets/images/person_2.png");
+    return DecorationImage(
+      image : AssetImage("assets/images/person_2.png"),
+    );
   }
 
   @override
@@ -43,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
             child: Column(
               children: [
-                ProfileImage(imagePath: "assets/images/person_2.png",),
+                ProfileImage(Avatar: getAvatar(),),
                 SizedBox(height: 16,),
                 CTypo(text: "ชื่อ ${username}",variant: "body1",color: "secondary",),
                 SizedBox(height: 32,),
@@ -66,8 +78,8 @@ class _ProfilePageState extends State<ProfilePage> {
 }
 
 class ProfileImage extends StatelessWidget {
-  final String? imagePath;
-  ProfileImage({this.imagePath});
+  final DecorationImage? Avatar;
+  ProfileImage({this.Avatar});
 
   @override
   Widget build(BuildContext context) {
@@ -119,9 +131,7 @@ class ProfileImage extends StatelessWidget {
                   height: MediaQuery.of(context).size.width * 0.7,
                   margin: EdgeInsets.all(0.0),
                   decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image : AssetImage(imagePath!),
-                    ),
+                    image: Avatar,
                     color : Colors.white,
                     shape: BoxShape.circle,
                   ),
