@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ios_d1/components/customClass/SessionData.dart';
+import 'package:ios_d1/components/customClass/UserSessions.dart';
+import 'package:ios_d1/contexts/kPrefs.dart';
 import '/components/customWidgets/Typography.dart' as Typo;
 import '/components/customWidgets/WhiteButton.dart';
 import '/components/icons/MinusIcon.dart';
@@ -18,6 +23,7 @@ class RelaxSumamryPageArguments {
 
 class RelaxSummaryPage extends StatefulWidget {
   final List<int>? relaxIndexs;
+  // SessionData? sessionData;
 
   RelaxSummaryPage({this.relaxIndexs});
   @override
@@ -30,6 +36,7 @@ class RelaxSummaryPage extends StatefulWidget {
 class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
   String? username = "";
   double? threshold = 60.0;
+  SessionData? sessionData;
 
   List<Color> gradientColors = [
     const Color(0xff23b6e6),
@@ -54,18 +61,63 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
     return nums.reduce((int a, int b) => a + b) / nums.length;
   }
 
+  void saveData(UserSessions _userSessions) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userID = prefs.getString(kPrefs.userID)!;
+    await prefs.setString(userID, jsonEncode(_userSessions));
+  }
 
   void _setup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userSessionsStore =  prefs.getString(kPrefs.userSessions);
+
+    print("sesion store : ${userSessionsStore}");
+
+    SessionData newSessionData = SessionData(
+        type: 'relax',
+        rawSession: widget.relaxIndexs!,
+        threshold: prefs.getDouble(kPrefs.threshold)!.toInt(),
+    );
+
+    UserSessions? userSessions;
+    var json;
+    if (userSessionsStore != null) {
+      json = jsonDecode(userSessionsStore);
+      userSessions = UserSessions.fromJson(json);
+      print("loaded user session : ${userSessions.userID} ${userSessions.sessions}");
+    }
+
+
     setState(() {
       username = prefs.getString('username');
     });
+
+    sessionData = SessionData(
+      type: 'relax',
+      rawSession: widget.relaxIndexs!,
+      threshold: prefs.getDouble(kPrefs.threshold)!.toInt(),
+    );
+
+    if (userSessions != null) {
+      userSessions.addSession('relax', widget.relaxIndexs, prefs.getDouble(kPrefs.threshold)?.toInt());
+      print("add to old user sesion ${userSessions.sessions}");
+      saveData(userSessions);
+    } else {
+      UserSessions newUserSession = UserSessions(
+          userID: prefs.getString(kPrefs.userID)!,
+          sessions: [newSessionData],
+      );
+      print("add to new user sesion ${newUserSession.sessions}");
+      saveData(newUserSession);
+    }
+
   }
 
   @override
   void initState() {
     // TODO: implement initState
     _setup();
+
     super.initState();
   }
 
