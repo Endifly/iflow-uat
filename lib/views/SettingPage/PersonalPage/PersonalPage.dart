@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ios_d1/contexts/kPrefs.dart';
 import 'package:ios_d1/views/Template/NavLayout.dart';
 import '/components/ProfileImage.dart';
 import '/components/customWidgets/OrangeButton.dart';
@@ -23,11 +24,13 @@ class PersonalInfomationPage extends StatefulWidget {
 class _PersonalInfomationPageState extends State<PersonalInfomationPage> {
 
   String? username = "";
+  String? avatarURL = "";
 
   void _setupSharePreference() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      username = prefs.getString('username');
+      username = prefs.getString(kPrefs.username);
+      avatarURL = prefs.getString(kPrefs.avatarURL);
     });
   }
 
@@ -63,7 +66,7 @@ class _PersonalInfomationPageState extends State<PersonalInfomationPage> {
             ),
             SizedBox(height: 16,),
             Divider(color: kColors.blue[500],),
-            ProfileImage(imagePath: "assets/images/person_2.png",),
+            ProfileImage(imagePath: avatarURL!,),
             CTypo(text:"ข้อมูลส่วนตัว",variant: "body2",),
             SizedBox(height: 32,),
             OrangeTextfield(title: "${username}",),

@@ -2,7 +2,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ios_d1/Provider/ProfileProvider.dart';
 import 'package:ios_d1/views/Template/NavLayout.dart';
+import 'package:provider/provider.dart';
 import '/components/customWidgets/Typography.dart';
 import '/components/icons/MinusIcon.dart';
 import '/components/icons/PrevIcon.dart';
@@ -28,11 +30,6 @@ class _ThresholdCustomPageState extends State<ThresholdCustomPage> {
     const Color.fromRGBO(249, 192, 228, 0.6),
   ];
 
-  void setThreshold({required double threshold}) async {
-    print("setting ...");
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble('threshold', threshold);
-  }
 
   void _setup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -175,6 +172,17 @@ class _ThresholdCustomPageState extends State<ThresholdCustomPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    ProfileProvider profileProvider = Provider.of<ProfileProvider>(context);
+
+    void setThreshold({required double threshold}) async {
+      print("setting ...");
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setDouble('threshold', threshold);
+      profileProvider.setThreshold(threshold);
+    }
+
+
 
     void onBack() {
       Navigator.pop(context);

@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:ios_d1/Provider/HeadsetProvider.dart';
+import 'package:provider/provider.dart';
 
 // class MyCharacteristic {
 //   final Guid uuid;
@@ -461,6 +463,15 @@ class _HeadsetConnectorState extends State<HeadsetConnector> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
+    HeadsetProvider headsetProvider = Provider.of<HeadsetProvider>(context);
+
+    if (connectionState == HEADSET_READY_STATE && headsetService != null) {
+      print("maybr work ${headsetService}");
+      headsetProvider.setHeadsetService(headsetService!);
+    }
+
+
     return InkWell(
       onTap: startScan,
       child: Container(

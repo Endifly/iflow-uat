@@ -4,7 +4,18 @@ import '/contexts/kColors.dart';
 
 class ProfileImage extends StatelessWidget {
   final String imagePath;
-  ProfileImage({required this.imagePath});
+  DecorationImage? avatar;
+  ProfileImage({required this.imagePath}) {
+    // print("${this.imagePath}, ${imagePath}");
+    if (this.imagePath.startsWith('https')) {
+      avatar = DecorationImage(image: NetworkImage(this.imagePath));
+    }
+    else {
+      avatar = DecorationImage(image : AssetImage("assets/images/person_2.png"));
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +45,7 @@ class ProfileImage extends StatelessWidget {
                   height: MediaQuery.of(context).size.width * 0.7,
                   margin: EdgeInsets.all(0.0),
                   decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image : AssetImage(imagePath),
-                      // image : AssetImage("assets/images/person_2.png"),
-                      // fit: BoxFit.cove,
-                    ),
+                    image: avatar,
                     color : Colors.white,
                     shape: BoxShape.circle,
                   ),

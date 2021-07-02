@@ -4,6 +4,8 @@ import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 import 'dart:async';
 // import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:ios_d1/Provider/HeadsetProvider.dart';
+import 'package:ios_d1/components/customWidgets/HeadsetConnector.dart';
 import 'package:ios_d1/views/ProfilePage/ProfilePage.dart';
 import 'package:ios_d1/views/ProfilePage/SummaryPage/ConsciousGraph.dart';
 import 'package:ios_d1/views/ProfilePage/SummaryPage/ConsciousSummaryPage.dart';
@@ -66,7 +68,7 @@ FlutterLocalNotificationsPlugin();
 const String LINE_CHANNEL_ID = "1655689195";
 
 void main() {
-  SharedPreferences.setMockInitialValues({});
+  // SharedPreferences.setMockInitialValues({});
   WidgetsFlutterBinding.ensureInitialized();
   LineSDK.instance.setup("${LINE_CHANNEL_ID}").then((_) {
     print("LineSDK Prepared");
@@ -85,7 +87,11 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (_) => ProfileProvider(threshold: 50.0, accessToken: ""))
+            create: (_) => ProfileProvider(threshold: 50.0, accessToken: "")
+        ),
+        ChangeNotifierProvider(
+            create: (_) => HeadsetProvider()
+        ),
       ],
       child: MaterialApp(
         theme: ThemeData(

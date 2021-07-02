@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ios_d1/Provider/ProfileProvider.dart';
+import 'package:provider/provider.dart';
 import '/components/customWidgets/Typography.dart';
 import '/components/icons/PrevIcon.dart';
 import '/contexts/kColors.dart';
@@ -78,6 +80,8 @@ class _ThresholdSettingPageState extends State<ThresholdSettingPage> {
   @override
   Widget build(BuildContext context) {
 
+    ProfileProvider profileProvider = Provider.of<ProfileProvider>(context);
+
     void onBack() {
       Navigator.pop(context);
     }
@@ -109,7 +113,7 @@ class _ThresholdSettingPageState extends State<ThresholdSettingPage> {
                 CTypo(text:"ตั้งค่าแจ้งเตือน เมื่อค่าสมาธิผ่อนคลายถึงเกณท์ที่กำหนด",color: "secondary",),
                 SizedBox(height: 24,),
                 CTypo(text:"ค่า Threshold ปัจจุบัน",variant: "body1",color: "secondary",),
-                CTypo(text:": ${_threshold}",color: "secondary",),
+                CTypo(text:": ${profileProvider.threshold}",color: "secondary",),
               ],
             ),
           ),

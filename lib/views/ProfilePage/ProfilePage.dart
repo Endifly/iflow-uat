@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ios_d1/contexts/kPrefs.dart';
 import 'package:ios_d1/views/Template/NavLayout.dart';
 import '/components/ButtonNavigationBar.dart';
 import '/components/customWidgets/Typography.dart';
@@ -24,8 +25,8 @@ class _ProfilePageState extends State<ProfilePage> {
   void _setup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      username = prefs.getString('username');
-      avatarURL = prefs.getString('avatarURL');
+      username = prefs.getString(kPrefs.username);
+      avatarURL = prefs.getString(kPrefs.avatarURL);
 
     });
   }
