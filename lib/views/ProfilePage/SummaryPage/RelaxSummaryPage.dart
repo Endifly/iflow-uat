@@ -69,7 +69,8 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
 
   void _setup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? userSessionsStore =  prefs.getString(kPrefs.userSessions);
+    String userID = prefs.getString(kPrefs.userID)!;
+    String? userSessionsStore =  prefs.getString(userID);
 
     print("sesion store : ${userSessionsStore}");
 
@@ -79,9 +80,12 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
         threshold: prefs.getDouble(kPrefs.threshold)!.toInt(),
     );
 
+    print("created new Session data");
+
     UserSessions? userSessions;
     var json;
     if (userSessionsStore != null) {
+      print("loading user session");
       json = jsonDecode(userSessionsStore);
       userSessions = UserSessions.fromJson(json);
       print("loaded user session : ${userSessions.userID} ${userSessions.sessions}");
@@ -107,7 +111,7 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
           userID: prefs.getString(kPrefs.userID)!,
           sessions: [newSessionData],
       );
-      print("add to new user sesion ${newUserSession.sessions}");
+      print("add to new user sesion ${newUserSession.sessions.length}");
       saveData(newUserSession);
     }
 

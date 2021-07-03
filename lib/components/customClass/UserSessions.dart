@@ -6,10 +6,27 @@ class UserSessions {
 
   UserSessions({required this.userID,required this.sessions});
 
+  List<SessionData> loadSessionDaraFromJson(dynamic tmp) {
+    List<SessionData> result = [];
+    for (dynamic session in tmp) {
+      SessionData sessionData = SessionData.fromJson(session);
+      result.add(sessionData);
+    }
+    return result;
+  }
+
   factory UserSessions.fromJson(Map<String, dynamic> parsedJson) {
+    print("load user sesssion");
+    List<SessionData> results = [];
+    for (dynamic session in parsedJson['sessions']) {
+      SessionData sessionData = SessionData.fromJson(session);
+      results.add(sessionData);
+      print("cc ${sessionData}");
+    }
+    print("pares result ${results}");
     return new UserSessions(
       userID: parsedJson['userID'] ?? "",
-      sessions: parsedJson['sessions'] ?? "",
+      sessions: results as List<SessionData>,
     );
   }
 

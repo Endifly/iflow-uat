@@ -275,7 +275,7 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
     rotationController?.repeat(reverse: true);
 
     MAX_TIME = widget.progress_time!*60;
-    // MAX_TIME = 30;
+    // MAX_TIME = 10;
 
     this._animationController = AnimationController(vsync: this,duration: Duration(milliseconds: 200));
     _animationController?.forward();

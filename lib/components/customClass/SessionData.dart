@@ -6,10 +6,11 @@ class SessionData {
   SessionData({required this.type,required this.rawSession,required this.threshold});
 
   factory SessionData.fromJson(Map<String, dynamic> parsedJson) {
+    print("session datas ${parsedJson}");
     return new SessionData(
         type: parsedJson['type'] ?? "",
         threshold: parsedJson['threshold'] ?? "",
-        rawSession: parsedJson['rawSession'] ?? "",
+        rawSession: parsedJson['rawSession'] as List<int>,
     );
   }
 
