@@ -4,6 +4,8 @@ import 'dart:typed_data';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ios_d1/components/customClass/UseProfile.dart';
+import 'package:ios_d1/components/customWidgets/HeadsetRSSI.dart';
 import 'package:ios_d1/views/ProfilePage/SummaryPage/RelaxSummaryPage.dart';
 
 import '/components/customWidgets/HeadsetConnector.dart';
@@ -39,9 +41,11 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
   //mediatation attention
   int currentMediatationValue = 0;
   int currentAttentionValue = 0;
+  UseProfile profile = UseProfile();
   double threshold = 60.0;
 
   final assetsAudioPlayer = AssetsAudioPlayer();
+  bool soundAvailable = true;
 
   List<int> mediatations = [];
   List<int> attentions = [];
@@ -73,7 +77,7 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
       rotateAngle[0] = rotateAngle[1];
       rotateAngle[1] = newDistance;
     });
-    print("circle distance ${rotateAngle}");
+    // print("circle distance ${rotateAngle}");
     rotationController = AnimationController(duration: Duration(milliseconds: 1000), vsync: this);
     rotateAnimation = Tween(begin: rotateAngle[0],end:rotateAngle[1]).animate(rotationController!);
     rotateAnimation!.addListener(() {
@@ -86,7 +90,15 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
 
   void onPlaySound(double average) {
     if (average > threshold) {
+      print("play sound");
+      assetsAudioPlayer.open(Audio("assets/sounds/gong.mp3"));
       assetsAudioPlayer.play();
+      soundAvailable = false;
+      Future.delayed(Duration(seconds: 5),() {
+        print("stop sound");
+        assetsAudioPlayer.stop();
+        soundAvailable = true;
+      });
     }
   }
 
@@ -98,8 +110,8 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
     print("on read eeg");
     var attention = await widget.headsetService!.readAttention();
     var mediatation = await widget.headsetService!.readMeditation();
-    print("attention relax: ${attention}");
-    print("mediatation relax : ${mediatation}");
+    // print("attention relax: ${attention}");
+    // print("mediatation relax : ${mediatation}");
     setState(() {
       currentMediatationValue = mediatation[0];
       currentAttentionValue = attention[0];
@@ -121,11 +133,12 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
     updateRingColor(average);
     // updateRingColor(makeAverage(last3relaxes));
     updateFlowerSpeed(average);
-    onPlaySound(average);
+    if (soundAvailable) onPlaySound(average);
     // updateFlowerSpeed(makeAverage(last3relaxes));
   }
 
   void startUpdater() {
+    onUpdateEEG();
     setState(() {
       updater = Timer.periodic(Duration(seconds: 1), (timer) {
         onUpdateEEG();
@@ -166,13 +179,13 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
     if (average >= 70) {
       setState(() {
         slowFactor = 2;
-        print("slow factor : 2");
+        // print("slow factor : 2");
       });
     } else {
       setState(() {
         // slowFactor = ( 5-((3/70)*(average-30)) ).round();
         slowFactor = ( 5 - ((3/70)*(average)) ).round();
-        print("slow factor : ${( 5 - ((3/70)*(average)) ).round()}");
+        // print("slow factor : ${( 5 - ((3/70)*(average)) ).round()}");
       });
     }
   }
@@ -265,6 +278,12 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
   }
 
 
+  void loadThreshold() async {
+    var th = await profile.getThreshold();
+    setState(() {
+      threshold = th;
+    });
+  }
 
 
   @override
@@ -274,8 +293,9 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
     rotationController = AnimationController(duration: const Duration(seconds: 30), vsync: this);
     rotationController?.repeat(reverse: true);
 
-    // MAX_TIME = widget.progress_time!*60;
-    MAX_TIME = 10;
+    MAX_TIME = widget.progress_time!*60;
+    // MAX_TIME = 10+1;
+    loadThreshold();
 
     this._animationController = AnimationController(vsync: this,duration: Duration(milliseconds: 200));
     _animationController?.forward();
@@ -382,7 +402,11 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
             Navigator.push(
             context,
             new MaterialPageRoute(
-            builder: (context) => new RelaxSummaryPage(relaxIndexs: relaxes,isSessionComplete: true,)),
+            builder: (context) => new RelaxSummaryPage(
+              relaxIndexs: relaxes,
+              isSessionComplete: true,
+              duration: widget.progress_time,
+            )),
             ),
           },
           child: Text("ถัดไป", style: TextStyle(fontSize: 20,color: Colors.black38),),
@@ -404,8 +428,8 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
 
     return Scaffold(
       // resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: ListView(
+      body:ListView(
+          padding: EdgeInsets.zero,
           children: [
             Container(
               height: MediaQuery.of(context).size.height,
@@ -457,6 +481,7 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
                         ),
                         Text("Connected"),
                         Text(poorQuality),
+                        HeadsetRSSI(headsetService: widget.headsetService!),
                         Container(height: 32,),
                         Text('${minutes} : ${seconds}', style: TextStyle(fontSize: 24, color: Colors.black54),),
                         Container(height: 16,),
@@ -535,7 +560,6 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
             ),
           ],
         ),
-      ),
     );
   }
 }

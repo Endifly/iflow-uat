@@ -48,7 +48,13 @@ class _StatePageState extends State<StartPage> {
 
   List<Widget> time_selection() {
     return timing.map((time) => Container(
-      child: Text('${time} นาที', style:TextStyle(fontSize: 20)),
+      child: Text(
+          '${time} นาที',
+          style:TextStyle(
+              fontSize: 20,
+              color: current_time_selection == time ? Colors.black : Colors.grey,
+          ),
+      ),
       padding: EdgeInsets.fromLTRB(64,8, 64, 0),
       decoration: BoxDecoration(
         border: Border(

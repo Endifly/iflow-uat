@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ios_d1/Provider/ProfileProvider.dart';
+import 'package:ios_d1/components/customClass/UseProfile.dart';
 import 'package:ios_d1/components/customWidgets/OrangeButton.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,17 @@ class IntroPage extends StatefulWidget{
 class _IntroPageState extends State<IntroPage>{
 
   bool rendered = false;
+  UseProfile profile = UseProfile();
+
+  void router() async {
+    var userID = await profile.getUserID();
+    if (userID == "") {
+      Navigator.pushNamedAndRemoveUntil(context, "/introduce", (route) => false);
+    }
+    else {
+      Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+    }
+  }
 
   @override
   void initState() {
@@ -29,7 +41,8 @@ class _IntroPageState extends State<IntroPage>{
       setState(() {
         rendered = true;
       });
-      Navigator.pushNamed(context, "/introduce");
+      // Navigator.pushNamed(context, "/introduce");
+      router();
     });
   }
 

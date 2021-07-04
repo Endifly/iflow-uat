@@ -414,11 +414,6 @@ class _HeadsetConnectorState extends State<HeadsetConnector> {
         if (targetDevices.length ==1) {
           connectionState = HEADSET_FOUND_DEVICE_STATE;
           setDevice(targetDevices[0]);
-          // Future.delayed(Duration(seconds: 2),(){
-          //   setState(() {
-          //     connectionState = 5;
-          //   });
-          // });
         } else {
           connectionState = HEADSET_TOO_MANY_DEVICE_STATE;
         }

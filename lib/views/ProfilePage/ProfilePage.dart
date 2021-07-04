@@ -67,19 +67,24 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    void viewSession(List<int>? relaxes) {
+    void viewSession(List<int>? relaxes,int? duraiton) {
       Navigator.push(
         context,
         new MaterialPageRoute(
-            builder: (context) => new RelaxSummaryPage(relaxIndexs: relaxes,isSessionComplete: false,)),
+            builder: (context) => new RelaxSummaryPage(
+              relaxIndexs: relaxes,
+              isSessionComplete: false,
+              duration: duraiton,
+            )),
       );
     }
 
     List<Widget> SessionHistory(UserSessions? us)  {
       List<Widget> widgets = [];
+      print("### us ${us}");
       if (us == null) return widgets;
       us.sessions.forEach((e) {
-        widgets.add(ResultContainer(sessionData: e,onpress: ()=>viewSession(e.rawSession),));
+        widgets.add(ResultContainer(sessionData: e,onpress: ()=>viewSession(e.rawSession,e.duration),));
         widgets.add(SizedBox(height: 16,));
       });
       return widgets;
