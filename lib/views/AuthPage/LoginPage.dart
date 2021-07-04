@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:ios_d1/contexts/kPrefs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -111,6 +112,7 @@ class _LoginPageState extends State<LoginPage> {
     print("setting ...");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('username', username);
+    await prefs.setString(kPrefs.userID, username);
     await prefs.setString('accessToken', token);
     await prefs.setDouble('threshold', 60.0);
     print("SharedPreferences ${username}");

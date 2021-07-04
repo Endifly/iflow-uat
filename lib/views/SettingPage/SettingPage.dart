@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ios_d1/views/SettingPage/components/ClearPrefsButton.dart';
 import 'package:ios_d1/views/SettingPage/components/LogoutButton.dart';
 import 'package:ios_d1/views/Template/NavLayout.dart';
 import '/components/customWidgets/OrangeButton.dart';
@@ -154,6 +155,11 @@ class _SettingPageState extends State<SettingPage> {
                   SettingWhiteButton(icon: FaIcon(FontAwesomeIcons.infoCircle),title: "ขอความช่วยเหลือ",onPress: ()=>to(path: "/help"),),
                   SizedBox(height: 24,),
                   SettingWhiteButton(icon: FaIcon(FontAwesomeIcons.envelope),title: "ส่งความเห็น",onPress: ()=>to(path: "/comment"),),
+                  SizedBox(height: 24,),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width*0.7,
+                    child: ClearPrefsButton(),
+                  ),
                   SizedBox(height: 24,),
                   SizedBox(
                     width: MediaQuery.of(context).size.width*0.7,

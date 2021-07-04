@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class CTypo extends StatelessWidget {
   final String? variant;
-  final String text;
+  final String? text;
   final String? color;
   final TextStyle? textStyle;
   final TextAlign? textAlign;
@@ -59,9 +59,14 @@ class CTypo extends StatelessWidget {
     return typoStyle.merge(textStyle);
   }
 
+  String getText() {
+    if (this.text == null) return "";
+    return this.text!;
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Text(text,style:getTextStyle(),textAlign: textAlign,);
+    return Text(getText(),style:getTextStyle(),textAlign: textAlign,);
   }
 }

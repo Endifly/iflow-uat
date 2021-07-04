@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ios_d1/components/customWidgets/Typography.dart';
 import 'package:ios_d1/views/Template/NavLayout.dart';
 import '/components/ButtonNavigationBar.dart';
 import '/components/DecorationConcave.dart';
@@ -55,10 +56,25 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Hero(),
-                  SizedBox(height: 32,),
-                  RelaxButton(),
-                  SizedBox(height: 32,),
-                  WanderingButton(),
+                  SizedBox(height: 16,),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(64, 0, 64, 0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(width: 16,),
+                            CTypo(text: "เลือกแบบฝึกหัด",color:"secondary",variant: 'body1',),
+                          ],
+                        ),
+                        SizedBox(height: 32,),
+                        RelaxButton(),
+                        SizedBox(height: 32,),
+                        WanderingButton(),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
@@ -161,7 +177,7 @@ class _WanderingButtonState extends State<WanderingButton> {
 
     return Container(
         padding: EdgeInsets.all(2),
-        width: MediaQuery.of(context).size.width * 0.6,
+        width: MediaQuery.of(context).size.width,
         decoration: isPress ? BACKGROUND_COLOR:BORDER_COLOR,
         child: Listener(
           onPointerDown: onPressDown,
@@ -301,7 +317,7 @@ class _RelaxButtonState extends State<RelaxButton> {
     // TODO: implement build
     return Container(
       padding: EdgeInsets.all(2),
-      width: MediaQuery.of(context).size.width * 0.6,
+      width: MediaQuery.of(context).size.width,
       decoration: isPress ? BACKGROUND_COLOR:BORDER_COLOR,
       child: Listener(
         onPointerUp: onPressUp,

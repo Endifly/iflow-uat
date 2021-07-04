@@ -39,7 +39,12 @@ class UserSessions {
 
   void addSession(String type, List<int>? data, int? th) {
     if (data != null) {
-      SessionData newSessionData = SessionData(type: type, rawSession: data, threshold: th ?? 60);
+      SessionData newSessionData = SessionData(
+          type: type,
+          rawSession: data,
+          threshold: th ?? 60,
+          sessionDate: (new DateTime.now().toString())
+      );
       this.sessions.add(newSessionData);
     }
   }

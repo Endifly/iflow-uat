@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ios_d1/components/customClass/SessionData.dart';
+import 'package:ios_d1/components/customClass/UserSessions.dart';
 import '/components/customWidgets/Typography.dart';
 
 typedef void onpressCallback();
@@ -7,8 +9,9 @@ typedef void onpressCallback();
 class ResultContainer extends StatelessWidget {
 
   final onpressCallback? onpress;
+  final SessionData? sessionData;
 
-  ResultContainer({this.onpress});
+  ResultContainer({this.onpress,this.sessionData});
 
   List<BoxShadow> neumorphicBoxShahow = [
     BoxShadow(
@@ -43,6 +46,21 @@ class ResultContainer extends StatelessWidget {
       stops: [0.2,0.5,1.0]
   );
 
+  String getLabel() {
+    if (sessionData?.type == "relax") return "ผ่อนคลาย";
+    return "รู้สึกตัว";
+  }
+
+  String getDate() {
+    // print(sessionData?.sessionDate);
+    // var s = new  DateTime.
+    var initialDate = "1/1/1997 0.00";
+    var sd = sessionData?.sessionDate;
+    if (sd == null) return initialDate;
+    return sd.substring(0,"YYY-MM-DD HH:MM:SS".length+1);
+    // return sessionData?.sessionDate ?? "1/1/1997 0.00";
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -74,19 +92,19 @@ class ResultContainer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CTypo(text: "รู้สึกตัว",color:"secondary"),
-                    CTypo(text: "11 / 02 / 2564",color:"secondary"),
+                    CTypo(text: getLabel(),color:"secondary"),
+                    CTypo(text: getDate(),color:"secondary"),
                   ],
                 ),
-                SizedBox(width: 12,),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CTypo(text: "",color:"secondary"),
-                    CTypo(text: "21:00 น.",color:"secondary"),
-                  ],
-                ),
+                // SizedBox(width: 12,),
+                // Column(
+                //   mainAxisAlignment: MainAxisAlignment.start,
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     CTypo(text: "",color:"secondary"),
+                //     CTypo(text: "21:00 น.",color:"secondary"),
+                //   ],
+                // ),
               ],
             )
         ),

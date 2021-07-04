@@ -382,7 +382,7 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
             Navigator.push(
             context,
             new MaterialPageRoute(
-            builder: (context) => new RelaxSummaryPage(relaxIndexs: relaxes,)),
+            builder: (context) => new RelaxSummaryPage(relaxIndexs: relaxes,isSessionComplete: true,)),
             ),
           },
           child: Text("ถัดไป", style: TextStyle(fontSize: 20,color: Colors.black38),),

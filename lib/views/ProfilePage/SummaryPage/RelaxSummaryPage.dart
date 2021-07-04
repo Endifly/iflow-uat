@@ -17,15 +17,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class RelaxSumamryPageArguments {
   final List<int>? relaxIndexs;
+  final bool? isSessionComplete;
 
-  RelaxSumamryPageArguments({this.relaxIndexs});
+  RelaxSumamryPageArguments({this.relaxIndexs,this.isSessionComplete});
 }
 
 class RelaxSummaryPage extends StatefulWidget {
   final List<int>? relaxIndexs;
+  final bool? isSessionComplete;
   // SessionData? sessionData;
 
-  RelaxSummaryPage({this.relaxIndexs});
+  RelaxSummaryPage({this.relaxIndexs,this.isSessionComplete});
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -67,7 +69,7 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
     await prefs.setString(userID, jsonEncode(_userSessions));
   }
 
-  void _setup() async {
+  void _storeIndexes() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userID = prefs.getString(kPrefs.userID)!;
     String? userSessionsStore =  prefs.getString(userID);
@@ -78,6 +80,7 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
         type: 'relax',
         rawSession: widget.relaxIndexs!,
         threshold: prefs.getDouble(kPrefs.threshold)!.toInt(),
+        sessionDate: (new DateTime.now()).toString(),
     );
 
     print("created new Session data");
@@ -100,6 +103,7 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
       type: 'relax',
       rawSession: widget.relaxIndexs!,
       threshold: prefs.getDouble(kPrefs.threshold)!.toInt(),
+      sessionDate: (new DateTime.now()).toString(),
     );
 
     if (userSessions != null) {
@@ -120,7 +124,9 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
   @override
   void initState() {
     // TODO: implement initState
-    _setup();
+    if (widget.isSessionComplete!) {
+      _storeIndexes();
+    }
 
     super.initState();
   }

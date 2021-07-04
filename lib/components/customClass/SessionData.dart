@@ -2,13 +2,9 @@ class SessionData {
   final String type;
   final List<int> rawSession;
   final int threshold;
+  final String sessionDate;
 
-  SessionData({required this.type,required this.rawSession,required this.threshold});
-
-  void loadRawSession(dynamic json) {
-    List<dynamic> rawSession =  json['rawSession'];
-    print("rawSession : ${rawSession[2]}");
-  }
+  SessionData({required this.type,required this.rawSession,required this.threshold,required this.sessionDate});
 
   factory SessionData.fromJson(Map<String, dynamic> parsedJson) {
     print("session datas ${parsedJson}");
@@ -19,6 +15,7 @@ class SessionData {
         type: parsedJson['type'] ?? "",
         threshold: parsedJson['threshold'] ?? "",
         rawSession: parsedRawSession,
+        sessionDate: parsedJson['sessionDate'] ?? "",
     );
   }
 
@@ -27,6 +24,7 @@ class SessionData {
       "type": this.type,
       "rawSession": this.rawSession,
       "threshold": this.threshold,
+      "sessionDate": this.sessionDate,
     };
   }
 }

@@ -8,6 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ios_d1/components/customWidgets/LineLogin.dart';
 import 'package:ios_d1/contexts/kColors.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:ios_d1/contexts/kPrefs.dart';
 import '/Provider/ProfileProvider.dart';
 import '/components/customWidgets/OrangeButton.dart';
 import '/components/customWidgets/WhiteButton.dart';
@@ -219,6 +220,7 @@ class _SelectPageState extends State<SelectPage> {
       print("setting ...");
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('username', username);
+      await prefs.setString(kPrefs.userID, username);
       await prefs.setString('accessToken', token);
       await prefs.setDouble('threshold', 60.0);
       print("SharedPreferences ${username}");

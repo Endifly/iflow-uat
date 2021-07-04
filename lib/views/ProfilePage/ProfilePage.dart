@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ios_d1/components/customClass/UserSessions.dart';
+import 'package:ios_d1/components/customClass/useUserSession.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
+import 'package:ios_d1/views/ProfilePage/SummaryPage/RelaxSummaryPage.dart';
 import 'package:ios_d1/views/Template/NavLayout.dart';
 import '/components/ButtonNavigationBar.dart';
 import '/components/customWidgets/Typography.dart';
@@ -22,6 +25,8 @@ class _ProfilePageState extends State<ProfilePage> {
   String? username = "";
   String? avatarURL = "";
 
+  final useUserSession = UseUserSession();
+
   void _setup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -40,16 +45,46 @@ class _ProfilePageState extends State<ProfilePage> {
 
   DecorationImage getAvatar() {
     print(avatarURL);
-    if (avatarURL != "") return DecorationImage(image: NetworkImage(avatarURL!));
-    // return Image.asset("assets/images/person_2.png");
-    return DecorationImage(
-      image : AssetImage("assets/images/person_2.png"),
-    );
+    var defaultProfile = DecorationImage(image : AssetImage("assets/images/person_2.png"),);
+    if (avatarURL == null) return defaultProfile;
+    if (avatarURL == "") return defaultProfile;
+    if (avatarURL!.startsWith('http')) return DecorationImage(image: NetworkImage(avatarURL!));
+    return DecorationImage(image : AssetImage("assets/images/person_2.png"),);
   }
+
+
+  // List<Widget> SessionHistory(UserSessions? us)  {
+  //   List<Widget> widgets = [];
+  //   if (us == null) return widgets;
+  //   us.sessions.forEach((e) {
+  //     widgets.add(ResultContainer(sessionData: e,));
+  //     widgets.add(SizedBox(height: 16,));
+  //   });
+  //   return widgets;
+  // }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
+    void viewSession(List<int>? relaxes) {
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => new RelaxSummaryPage(relaxIndexs: relaxes,isSessionComplete: false,)),
+      );
+    }
+
+    List<Widget> SessionHistory(UserSessions? us)  {
+      List<Widget> widgets = [];
+      if (us == null) return widgets;
+      us.sessions.forEach((e) {
+        widgets.add(ResultContainer(sessionData: e,onpress: ()=>viewSession(e.rawSession),));
+        widgets.add(SizedBox(height: 16,));
+      });
+      return widgets;
+    }
+
     return NavLayout(
           useSafeArea: false,
           child: Container(
@@ -66,11 +101,23 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: CTypo(text: "ดูข้อมูลย้อนหลัง",variant: "body1",),
                 ),
                 SizedBox(height: 16,),
-                ResultContainer(onpress: ()=>Navigator.pushNamed(context, '/history'),),
-                SizedBox(height: 16,),
-                ResultContainer(),
-                SizedBox(height: 16,),
-                ResultContainer(),
+                // ResultContainer(onpress: ()=>Navigator.pushNamed(context, '/history'),),
+                FutureBuilder(
+                    future: useUserSession.getUserSession(),
+                    builder: (context,AsyncSnapshot<UserSessions?> snapshot) {
+                      if (snapshot.hasData) {
+                        return Column(children: SessionHistory(snapshot.data),);
+                      }
+                      return Container(
+                        child: CTypo(
+                          text: 'กรุณาเริ่ม session เพื่อบันทึกข้อมูล',
+                          color: 'secondary',
+                          variant: 'body2',
+                          textAlign: TextAlign.start,
+                        ),
+                      );
+                    }
+                ),
               ],
             ),
           ),
