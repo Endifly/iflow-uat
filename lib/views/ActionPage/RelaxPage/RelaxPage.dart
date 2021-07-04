@@ -43,6 +43,7 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
   int currentAttentionValue = 0;
   UseProfile profile = UseProfile();
   double threshold = 60.0;
+  int poorQuality = 200;
 
   final assetsAudioPlayer = AssetsAudioPlayer();
   bool soundAvailable = true;
@@ -110,11 +111,13 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
     print("on read eeg");
     var attention = await widget.headsetService!.readAttention();
     var mediatation = await widget.headsetService!.readMeditation();
+    var pq = await widget.headsetService!.readSignalQuality();
     // print("attention relax: ${attention}");
     // print("mediatation relax : ${mediatation}");
     setState(() {
       currentMediatationValue = mediatation[0];
       currentAttentionValue = attention[0];
+      poorQuality = pq[0];
     });
     mediatations.add(mediatation[0]);
     attentions.add(attention[0]);
@@ -123,18 +126,20 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
     var mediatationValue = mediatation[0];
     var average = (attentionValue+mediatationValue)/2;
 
-    relaxes.add(average.round());
+    if (poorQuality == 0) {
+      relaxes.add(average.round());
 
-    // var last3relaxes = relaxes.sublist(relaxes.length-2,relaxes.length);
+      // var last3relaxes = relaxes.sublist(relaxes.length-2,relaxes.length);
 
-    print("relax average : ${average}");
-    // addRotate(makeAverage(last3relaxes)/100-0.75);
-    addRotate(average/100-0.75);
-    updateRingColor(average);
-    // updateRingColor(makeAverage(last3relaxes));
-    updateFlowerSpeed(average);
-    if (soundAvailable) onPlaySound(average);
-    // updateFlowerSpeed(makeAverage(last3relaxes));
+      print("relax average : ${average}");
+      // addRotate(makeAverage(last3relaxes)/100-0.75);
+      addRotate(average/100-0.75);
+      updateRingColor(average);
+      // updateRingColor(makeAverage(last3relaxes));
+      updateFlowerSpeed(average);
+      if (soundAvailable) onPlaySound(average);
+      // updateFlowerSpeed(makeAverage(last3relaxes));
+    }
   }
 
   void startUpdater() {
@@ -152,7 +157,6 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
 
   //bluetooth ...
   static final clientID = 0;
-  String poorQuality = "200";
   // BluetoothConnection connection;
 
   // List<_Message> messages = List<_Message>();
@@ -234,26 +238,28 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
     _timer = new Timer.periodic(
       oneSec,
           (Timer timer) => setState( () {
-        if (seconds < 0) {
-          timer.cancel();
-        }
-        else {
-          _width = 20.0 + ((2+seconds+minutes*60)/MAX_TIME)*(MAX_WIDTH-20);
-          // print('${_width} , ${MAX_WIDTH}');
-          seconds = seconds + 1;
-          if (seconds%slowFactor ==0) {handleNextFlower();}
-          // handleNextColor();
-          if (1+seconds+minutes*60 > MAX_TIME) {
-            isComplete = true;
-            onComplete();
-            _timer?.cancel();
+        if (poorQuality == 0) {
+          if (seconds < 0) {
+            timer.cancel();
           }
-          if (seconds > 59) {
-            minutes += 1;
-            seconds = 0;
-            if (minutes > 59) {
-              hours += 1;
-              minutes = 0;
+          else {
+            _width = 20.0 + ((2+seconds+minutes*60)/MAX_TIME)*(MAX_WIDTH-20);
+            // print('${_width} , ${MAX_WIDTH}');
+            seconds = seconds + 1;
+            if (seconds%slowFactor ==0) {handleNextFlower();}
+            // handleNextColor();
+            if (1+seconds+minutes*60 > MAX_TIME) {
+              isComplete = true;
+              onComplete();
+              _timer?.cancel();
+            }
+            if (seconds > 59) {
+              minutes += 1;
+              seconds = 0;
+              if (minutes > 59) {
+                hours += 1;
+                minutes = 0;
+              }
             }
           }
         }
@@ -322,46 +328,6 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
     disConnectDevice();
     _timer?.cancel();
     super.dispose();
-  }
-
-  void _onDataReceived(Uint8List data) {
-
-    bool found32 = false;
-    bool foundPoor = false;
-    int poor_quality = 0;
-    int attention = 0;
-    int meditation = 0;
-    int blink = 0;
-    // print(data);
-
-    if (data.contains(170) && data.contains(32) && data.contains(2) ) {
-      print(data);
-      data.forEach((element) {
-        if (foundPoor) {
-          setState(() {
-            poorQuality = element.toString();
-            found32 = false;
-            foundPoor = false;
-          });
-        }
-        else if (found32 && element ==2) {
-          foundPoor = true;
-        }
-        else if (element == 32) {
-          found32 = true;
-        }
-        else {
-          found32 = false;
-          foundPoor = false;
-        }
-      });
-    }
-
-    // data.forEach((byte) {
-    //   // print(SYNC);
-    //   print(byte);
-    // });
-
   }
 
   @override
@@ -479,9 +445,9 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
                             ],
                           ),
                         ),
-                        Text("Connected"),
-                        Text(poorQuality),
-                        HeadsetRSSI(headsetService: widget.headsetService!),
+                        // Text("Connected"),
+                        // Text(poorQuality.toString()),
+                        HeadsetRSSI(headsetService: widget.headsetService!,poorQuality: poorQuality,),
                         Container(height: 32,),
                         Text('${minutes} : ${seconds}', style: TextStyle(fontSize: 24, color: Colors.black54),),
                         Container(height: 16,),

@@ -130,9 +130,16 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
     }
   }
 
-  void calculateRelaxRatio() async {
+  Future<int> calculateRelaxRatio() async {
+    double threshold = await profile.getThreshold();
+    var relaxIndex = widget.relaxIndexs!;
+    var relaxCount = relaxIndex.length;
+    var overThCount = 0;
+    relaxIndex.forEach((i) {
+      if (i > threshold) overThCount++;
+    });
+    return (overThCount*100/relaxCount).toInt();
 
-    var relaxIndex = widget.relaxIndexs;
 
   }
 
@@ -260,9 +267,18 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("14",style: TextStyle(fontSize: 48),),
+                        FutureBuilder(
+                            future: calculateRelaxRatio(),
+                            builder: (context,snapshot){
+                              if (snapshot.hasData) {
+                                return Text(snapshot.data.toString(),style: TextStyle(fontSize: 48),);
+                              } else {
+                                return Text("0",style: TextStyle(fontSize: 48),);
+                              }
+                            })
+                        ,
                         SizedBox(width: 8,),
-                        Text("ครั้ง",textAlign: TextAlign.end,),
+                        Text("%",textAlign: TextAlign.end,style: TextStyle(fontSize: 22),),
                       ],
                     ),
                   ],
