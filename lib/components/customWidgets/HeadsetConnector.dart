@@ -144,6 +144,7 @@ class HeadsetConnector extends StatefulWidget {
 }
 
 const HEADSET_DEFAULT_STATE = 0;
+const HEADSET_CACHE_CHECKING = 8;
 const HEADSET_FINDING_STATE = 1;
 const HEADSET_FOUND_DEVICE_STATE = 2;
 const HEADSET_TOO_MANY_DEVICE_STATE = 3;
@@ -169,9 +170,11 @@ class _HeadsetConnectorState extends State<HeadsetConnector> {
   var isCalibrated = false;
 
   void onLoadSuccess() {
+    print("load success");
     updater!.cancel();
     timeout!.cancel();
-    stopUpdater();
+    // stopUpdater();
+
     setState(() {
       connectionState = HEADSET_READY_STATE;
       loadingValue = 100.0;
@@ -266,6 +269,7 @@ class _HeadsetConnectorState extends State<HeadsetConnector> {
   }
   
   void onUpdateHeadset() async {
+    print("updating ...");
     var signalQualitys = await headsetService!.readSignalQuality();
     var signalQuality = signalQualitys[0];
     print("Signal quality : ${signalQuality})");
@@ -275,15 +279,15 @@ class _HeadsetConnectorState extends State<HeadsetConnector> {
     }
     if (connectionState == HEADSET_TUNING_STATE) {
       // checkSignalQuality(signalQuality);
-      // headsetService!.useCalibration();
-      // Future.delayed(Duration(seconds: 2),checkCalibration);
-      if (firstTuning) {
-        firstTuning = false;
-        Future.delayed(Duration(seconds: 10),()=>{setCallibrationState(1)});
-        Future.delayed(Duration(seconds: 12),()=>{setCallibrationState(2)});
-        Future.delayed(Duration(seconds: 15),()=>{setCallibrationState(3)});
-        Future.delayed(Duration(seconds: 18),()=>{setCallibrationState(4)});
-      }
+      headsetService!.useCalibration();
+      Future.delayed(Duration(seconds: 2),checkCalibration);
+      // if (firstTuning) {
+      //   firstTuning = false;
+      //   Future.delayed(Duration(seconds: 10),()=>{setCallibrationState(1)});
+      //   Future.delayed(Duration(seconds: 12),()=>{setCallibrationState(2)});
+      //   Future.delayed(Duration(seconds: 15),()=>{setCallibrationState(3)});
+      //   Future.delayed(Duration(seconds: 18),()=>{setCallibrationState(4)});
+      // }
 
     }
     if (connectionState == HEADSET_READY_STATE) {
@@ -327,6 +331,10 @@ class _HeadsetConnectorState extends State<HeadsetConnector> {
   }
 
   Future<void> getService(BluetoothDevice device) async {
+    if (connectionState != HEADSET_FOUND_DEVICE_STATE) {
+      print("break get service");
+      return ;
+    }
     await device.connect();
     print("connected");
     List<BluetoothService> servicesTmp = [];
@@ -386,7 +394,7 @@ class _HeadsetConnectorState extends State<HeadsetConnector> {
       connectionState = HEADSET_FINDING_STATE;
       loadingValue = null;
     });
-    await flutterBlue.startScan(timeout: Duration(seconds: 4));
+    await flutterBlue.startScan(timeout: Duration(seconds: 2));
     List<BluetoothDevice> devicesTmp = [];
     flutterBlue.scanResults.listen((results) {
       // do something with scan results
@@ -411,6 +419,8 @@ class _HeadsetConnectorState extends State<HeadsetConnector> {
           //     connectionState = 5;
           //   });
           // });
+        } else {
+          connectionState = HEADSET_TOO_MANY_DEVICE_STATE;
         }
       } else {
         connectionState = HEADSET_DEVICE_NOT_FOUND_STATE;
@@ -437,9 +447,26 @@ class _HeadsetConnectorState extends State<HeadsetConnector> {
         return "กำลัง calibrate";
       case HEADSET_READY_STATE :
         return "อุปกรณ์พร้อมแล้ว";
+      case HEADSET_CACHE_CHECKING :
+        return "กำลังเชื่อมต่อ";
       default :
         return "เริ่มการเชื่อมต่อ";
 
+    }
+  }
+
+  void onCacheHeadset(HeadsetService hs) async {
+    // var signalQuality = hs.readSignalQuality();
+    hs.useCalibration();
+    Future.delayed(Duration(seconds: 1));
+    var calibrationState = await hs.readTx();
+    if (calibrationState[1] >= 4) {
+      if (widget.onConnected != null) {
+        widget.onConnected!(hs);
+        setState(() {
+          connectionState = HEADSET_READY_STATE;
+        });
+      }
     }
   }
 
@@ -466,10 +493,18 @@ class _HeadsetConnectorState extends State<HeadsetConnector> {
 
     HeadsetProvider headsetProvider = Provider.of<HeadsetProvider>(context);
 
-    if (connectionState == HEADSET_READY_STATE && headsetService != null) {
-      print("maybr work ${headsetService}");
+    if (connectionState == HEADSET_READY_STATE && headsetService != null && headsetProvider.headsetService == null) {
+      print("add headset service to store ${headsetService}");
       headsetProvider.setHeadsetService(headsetService!);
     }
+
+    // if (headsetProvider.headsetService != null) {
+    //   var hs = headsetProvider.headsetService;
+    //   setState(() {
+    //     connectionState = HEADSET_CACHE_CHECKING;
+    //   });
+    //   if (hs != null) onCacheHeadset(hs);
+    // }
 
 
     return InkWell(
