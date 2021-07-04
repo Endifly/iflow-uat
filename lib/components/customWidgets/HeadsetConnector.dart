@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:ios_d1/Provider/HeadsetProvider.dart';
+import 'package:ios_d1/components/customClass/AnimationQueue.dart';
 import 'package:provider/provider.dart';
 
 // class MyCharacteristic {
@@ -153,7 +154,7 @@ const HEADSET_WAIT_FOR_EQUIP_STATE = 5;
 const HEADSET_TUNING_STATE = 6;
 const HEADSET_READY_STATE = 7;
 
-class _HeadsetConnectorState extends State<HeadsetConnector> {
+class _HeadsetConnectorState extends State<HeadsetConnector> with TickerProviderStateMixin {
   int connectionState = HEADSET_DEFAULT_STATE; //default , finding, found device, too many devices ,not found, wait for equip, tuning, ready
   var loadingValue = null;
   bool firstTuning = true;
@@ -169,6 +170,10 @@ class _HeadsetConnectorState extends State<HeadsetConnector> {
 
   var isCalibrated = false;
 
+  Animation<double>? progressAnimation;
+  AnimationController? progressController;
+  var queue = AnimationQueue(from: 0.0, to: 0.0);
+
   void onLoadSuccess() {
     print("load success");
     updater!.cancel();
@@ -179,6 +184,19 @@ class _HeadsetConnectorState extends State<HeadsetConnector> {
       connectionState = HEADSET_READY_STATE;
       loadingValue = 100.0;
     });
+  }
+
+  void addProgress(double val) {
+    queue.add(val);
+    // print("circle distance ${rotateAngle}");
+    progressController = AnimationController(duration: Duration(milliseconds: 1000), vsync: this);
+    progressAnimation = Tween(begin: queue.from,end:queue.to).animate(progressController!);
+    progressAnimation!.addListener(() {
+      setState(() {
+        loadingValue = progressAnimation!.value;
+      });
+    });
+    progressController!.forward();
   }
 
   // void checkSignalQuality(int signalQuality) {
@@ -252,7 +270,8 @@ class _HeadsetConnectorState extends State<HeadsetConnector> {
       });
     }
     var loadingVal = min(((100/5)*(callibration+1))/100, 1.0);
-    setLoadingValue(loadingVal);
+    // setLoadingValue(loadingVal);
+    addProgress(loadingVal);
   }
 
   void checkCalibration() async {
@@ -265,7 +284,8 @@ class _HeadsetConnectorState extends State<HeadsetConnector> {
       });
     }
     var loadingVal = min(((100/5)*(callibration+1))/100, 1.0);
-    setLoadingValue(loadingVal);
+    // setLoadingValue(loadingVal);
+    addProgress(loadingVal);
   }
   
   void onUpdateHeadset() async {
