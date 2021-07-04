@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ios_d1/views/SettingPage/components/LogoutButton.dart';
 import 'package:ios_d1/views/Template/NavLayout.dart';
 import '/components/customWidgets/OrangeButton.dart';
 import '/components/customWidgets/Typography.dart';
@@ -156,7 +157,7 @@ class _SettingPageState extends State<SettingPage> {
                   SizedBox(height: 24,),
                   SizedBox(
                     width: MediaQuery.of(context).size.width*0.7,
-                    child: OrangeButton(title: "ออกจากระบบ",),
+                    child: LogoutButton(),
                   ),
                 ],
               ),
