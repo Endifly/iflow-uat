@@ -1,19 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ios_d1/components/customClass/UserSessions.dart';
+import 'package:ios_d1/contexts/kPrefs.dart';
 import '/components/customWidgets/GraphButton.dart';
 import '/views/ProfilePage/SummaryPage/ConsciousGraph.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WanderingSumamryPageArguments {
   final List<int>? relaxIndexs;
+  final bool? isSessionComplete;
+  final int? duration;
 
-  WanderingSumamryPageArguments({this.relaxIndexs});
+  WanderingSumamryPageArguments({this.relaxIndexs,this.duration,this.isSessionComplete});
 }
 
 class ConsciousSummaryPage extends StatefulWidget{
   final List<int>? relaxIndexs;
+  final bool? isSessionComplete;
+  final int? duration;
 
-  ConsciousSummaryPage({this.relaxIndexs});
+  ConsciousSummaryPage({this.relaxIndexs,this.duration,this.isSessionComplete});
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -33,6 +39,29 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
     return nums.reduce((int a, int b) => a + b) / nums.length;
   }
 
+  void _storeSession() async {
+    UserSessions prevUserSessions = UserSessions();
+    await prevUserSessions.sync();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      username = prefs.getString('username');
+    });
+
+    if (prevUserSessions != null) {
+      var _th = prefs.getDouble(kPrefs.threshold)?.toInt();
+      print("prevUserSessions : ${prevUserSessions.sessions?.length}");
+      // prevUserSessions.addWandering(widget.relaxIndexs, _th, widget.duration!);
+      prevUserSessions.addWandering(
+        du: widget.duration!,
+        relax: widget.relaxIndexs,
+        th_r: _th,
+      );
+      print("prevUserSessions : ${prevUserSessions.sessions?.length}");
+      await prevUserSessions.save();
+    }
+  }
+
   void _setup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -47,14 +76,17 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
     // TODO: implement initState
     _setup();
     print("got relaxs : ${widget.relaxIndexs}");
+    if (widget.isSessionComplete!) {
+      _storeSession();
+    }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    final WanderingSumamryPageArguments args = ModalRoute.of(context)?.settings.arguments as WanderingSumamryPageArguments;
-    print("args : ${args.relaxIndexs}");
+    // final WanderingSumamryPageArguments args = ModalRoute.of(context)?.settings.arguments as WanderingSumamryPageArguments;
+    // print("args : ${args.relaxIndexs}");
 
     // TODO: implement build
     return Scaffold(
@@ -189,7 +221,7 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
                             children: [
                               Text("กราฟ",style:TextStyle(fontSize: 16)),
                               SizedBox(height: 16,),
-                              GraphButton(onPress: () => Navigator.pushNamed(context, '/conscious-summary-graph',arguments: WanderingGraphArguments(relaxIndexs: args.relaxIndexs)),),
+                              GraphButton(onPress: () => Navigator.pushNamed(context, '/conscious-summary-graph',arguments: WanderingGraphArguments(relaxIndexs: widget.relaxIndexs)),),
                               // Container(
                               //   // color: Colors.white,
                               //   decoration: BoxDecoration(
@@ -256,7 +288,8 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
                               SizedBox(height: 8,),
                               Container(
                                 // color: Colors.white,
-                                  child: Text("${average(args.relaxIndexs!).toStringAsFixed(1)}",style: TextStyle(fontSize: 42),)
+                                //   child: Text("${average(args.relaxIndexs!).toStringAsFixed(1)}",style: TextStyle(fontSize: 42),)
+                                  child: Text("${average(widget.relaxIndexs!).toStringAsFixed(1)}",style: TextStyle(fontSize: 42),)
                                 // child : Text("asd")
                               )
                             ],
@@ -298,7 +331,7 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
                       ),
                     ),
                     InkWell(
-                      onTap: () => Navigator.pushNamed(context, '/relax-summary'),
+                      onTap: () => Navigator.pushNamed(context, '/home'),
                       child: Container(
                         padding: EdgeInsets.all(8),
                         width : MediaQuery.of(context).size.width*0.5,

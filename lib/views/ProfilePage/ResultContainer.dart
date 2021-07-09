@@ -35,7 +35,7 @@ class ResultContainer extends StatelessWidget {
         Color.fromRGBO(255, 219, 100, 1),
       ]);
 
-  LinearGradient buttonGradient = LinearGradient(
+  LinearGradient relaxButtonGradient = LinearGradient(
       begin: Alignment.centerLeft,
       end : Alignment.centerRight,
       colors: [
@@ -46,9 +46,29 @@ class ResultContainer extends StatelessWidget {
       stops: [0.2,0.5,1.0]
   );
 
+  LinearGradient wanderingButtonGradient = LinearGradient(
+      begin: Alignment.centerLeft,
+      end : Alignment.centerRight,
+      colors: [
+        Colors.white,
+        Color.fromRGBO(233, 234, 238, 1),
+      ],
+      stops: [0.2,1.0]
+  );
+
   String getLabel() {
     if (sessionData?.type == "relax") return "ผ่อนคลาย";
     return "รู้สึกตัว";
+  }
+
+  String getIconPath() {
+    if (sessionData?.type == "relax") return "assets/icons/iflow_full.png";
+    return "assets/icons/pearl_full.png";
+  }
+
+  LinearGradient getBackground() {
+    if (sessionData?.type == "relax") return relaxButtonGradient;
+    return wanderingButtonGradient;
   }
 
   String getDate() {
@@ -80,13 +100,13 @@ class ResultContainer extends StatelessWidget {
         child: Container(
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
-              gradient: buttonGradient,
+              gradient: getBackground(),
               borderRadius: BorderRadius.circular(40.0),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset("assets/icons/iflow_full.png"),
+                Image.asset(getIconPath()),
                 SizedBox(width: 12,),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,

@@ -463,9 +463,21 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
                     child: Center(
                       child: _animationController != null ? isComplete ?
                       InkWell(
+                        // onTap: ()=>{
+                        //   widget.headsetService?.device.disconnect(),
+                        //   Navigator.pushNamed(context, "/conscious-summary",arguments: WanderingSumamryPageArguments(relaxIndexs: relaxs))
+                        // },
                         onTap: ()=>{
                           widget.headsetService?.device.disconnect(),
-                          Navigator.pushNamed(context, "/conscious-summary",arguments: WanderingSumamryPageArguments(relaxIndexs: relaxs))
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => new ConsciousSummaryPage(
+                                  relaxIndexs: relaxs,
+                                  isSessionComplete: true,
+                                  duration: widget.progress_time,
+                                )),
+                          ),
                         },
                         child: Text("ถัดไป", style: TextStyle(fontSize: 20,color: Colors.black38),),
                       ):

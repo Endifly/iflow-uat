@@ -87,5 +87,23 @@ class UserSessions {
     }
   }
 
+  void addWandering(
+      {List<int>? relax, List<int>? wandering, int? th_r, int? th_w, required int du}) {
+    // if (relax != null) {
+      SessionData newSessionData = SessionData(
+        type: 'wandering',
+        rawRelax: relax ?? [],
+        rawWandering: wandering ?? [],
+        threshold: th_r ?? 60,
+        sessionDate: (new DateTime.now().toString()),
+        duration: du,
+      );
+      // this.sessions.add(newSessionData);
+      if (this.sessions != null) {
+        this.sessions!.add(newSessionData);
+      }
+    // }
+  }
+
 
 }

@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ios_d1/components/customClass/UserSessions.dart';
 import 'package:ios_d1/components/customClass/useUserSession.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
+import 'package:ios_d1/views/ProfilePage/SummaryPage/ConsciousSummaryPage.dart';
 import 'package:ios_d1/views/ProfilePage/SummaryPage/RelaxSummaryPage.dart';
 import 'package:ios_d1/views/Template/NavLayout.dart';
 import '/components/ButtonNavigationBar.dart';
@@ -70,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    void viewSession(List<int>? relaxes,int? duraiton) {
+    void viewRelax(List<int>? relaxes,int? duraiton) {
       Navigator.push(
         context,
         new MaterialPageRoute(
@@ -82,13 +83,31 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     }
 
+    void viewWandering(List<int>? relaxes,int? duraiton) {
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => new ConsciousSummaryPage(
+              relaxIndexs: relaxes,
+              isSessionComplete: false,
+              duration: duraiton,
+            )),
+      );
+    }
+
+    void viewSession(String type,List<int>? relaxes,int? duraiton) {
+      if (type == "relax") viewRelax(relaxes,duraiton);
+      if (type == "wandering") viewWandering(relaxes,duraiton);
+
+    }
+
     List<Widget> SessionHistory(UserSessions? us)  {
       List<Widget> widgets = [];
       print("### us ${us}");
       if (us == null) return widgets;
       print("### us2 ${us.sessions?.length}");
       us.sessions?.forEach((e) {
-        widgets.add(ResultContainer(sessionData: e,onpress: ()=>viewSession(e.rawRelax,e.duration),));
+        widgets.add(ResultContainer(sessionData: e,onpress: ()=>viewSession(e.type,e.rawRelax,e.duration),));
         widgets.add(SizedBox(height: 16,));
       });
       return widgets;
