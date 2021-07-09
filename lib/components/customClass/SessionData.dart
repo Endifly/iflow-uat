@@ -22,10 +22,10 @@ class SessionData {
     List<int> parsedWandering = [];
 
     var rawRelax =  parsedJson['rawRelax']?.forEach((e) => parsedRelax.add(e));
-    print("rawRelax : ${parsedRelax[2]} ,rawType : ${parsedRelax.runtimeType}, value type : ${parsedRelax[2].runtimeType}");
+    // print("rawRelax : ${parsedRelax[2]} ,rawType : ${parsedRelax.runtimeType}, value type : ${parsedRelax[2].runtimeType}");
 
     var rawWandering =  parsedJson['rawWandering']?.forEach((e) => parsedWandering.add(e));
-    print("rawWandering : ${rawWandering[2]} ,rawType : ${rawWandering.runtimeType}, value type : ${rawWandering[2].runtimeType}");
+    // print("rawWandering : ${rawWandering[2]} ,rawType : ${rawWandering.runtimeType}, value type : ${rawWandering[2].runtimeType}");
 
     return new SessionData(
         type: parsedJson['type'] ?? "",

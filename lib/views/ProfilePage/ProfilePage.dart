@@ -25,9 +25,12 @@ class _ProfilePageState extends State<ProfilePage> {
   String? username = "";
   String? avatarURL = "";
 
-  final useUserSession = UseUserSession();
+  // final useUserSession = UseUserSession();
+  UserSessions userSessions = UserSessions();
+
 
   void _setup() async {
+    await userSessions.sync();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       username = prefs.getString(kPrefs.username);
@@ -83,7 +86,8 @@ class _ProfilePageState extends State<ProfilePage> {
       List<Widget> widgets = [];
       print("### us ${us}");
       if (us == null) return widgets;
-      us.sessions.forEach((e) {
+      print("### us2 ${us.sessions?.length}");
+      us.sessions?.forEach((e) {
         widgets.add(ResultContainer(sessionData: e,onpress: ()=>viewSession(e.rawRelax,e.duration),));
         widgets.add(SizedBox(height: 16,));
       });
@@ -107,22 +111,25 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 SizedBox(height: 16,),
                 // ResultContainer(onpress: ()=>Navigator.pushNamed(context, '/history'),),
-                FutureBuilder(
-                    future: useUserSession.getUserSession(),
-                    builder: (context,AsyncSnapshot<UserSessions?> snapshot) {
-                      if (snapshot.hasData) {
-                        return Column(children: SessionHistory(snapshot.data),);
-                      }
-                      return Container(
-                        child: CTypo(
-                          text: 'กรุณาเริ่ม session เพื่อบันทึกข้อมูล',
-                          color: 'secondary',
-                          variant: 'body2',
-                          textAlign: TextAlign.start,
-                        ),
-                      );
-                    }
-                ),
+                Column(
+                  children: SessionHistory(userSessions),
+                )
+                // FutureBuilder(
+                //     future: useUserSession.getUserSession(),
+                //     builder: (context,AsyncSnapshot<UserSessions?> snapshot) {
+                //       if (snapshot.hasData) {
+                //         return Column(children: SessionHistory(snapshot.data),);
+                //       }
+                //       return Container(
+                //         child: CTypo(
+                //           text: 'กรุณาเริ่ม session เพื่อบันทึกข้อมูล',
+                //           color: 'secondary',
+                //           variant: 'body2',
+                //           textAlign: TextAlign.start,
+                //         ),
+                //       );
+                //     }
+                // ),
               ],
             ),
           ),

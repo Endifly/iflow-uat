@@ -125,7 +125,7 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
           userID: prefs.getString(kPrefs.userID)!,
           sessions: [newSessionData],
       );
-      print("add to new user sesion ${newUserSession.sessions.length}");
+      print("add to new user sesion ${newUserSession.sessions?.length}");
       saveData(newUserSession);
     }
   }

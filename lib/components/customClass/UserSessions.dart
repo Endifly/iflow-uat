@@ -1,13 +1,36 @@
+import 'dart:convert';
+
 import 'package:ios_d1/components/customClass/SessionData.dart';
+import 'package:ios_d1/contexts/kPrefs.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserSessions {
-  final String userID;
-  final List<SessionData> sessions;
+  String? userID;
+  List<SessionData>? sessions;
 
-  UserSessions({required this.userID,required this.sessions});
+  UserSessions({this.sessions,this.userID});
 
-  Future init() async {
+  Future sync() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    this.userID = prefs.getString(kPrefs.userID)!;
+    String? userSessionsStore =  prefs.getString(this.userID!);
 
+    UserSessions? userSessions;
+    var json;
+    if (userSessionsStore != null) {
+      // print("loading user session : ${userSessionsStore}");
+      json = jsonDecode(userSessionsStore);
+      userSessions = UserSessions.fromJson(json);
+      // print("before loaded : ${userSessions}");
+      // print("loaded user session : ${userSessions.userID} ${userSessions.sessions}");
+    }
+
+    // print("user session loaded");
+   if (userSessions?.sessions == null) {
+     this.sessions = [];
+   } else {
+     this.sessions = userSessions!.sessions!;
+   }
   }
 
   List<SessionData> loadSessionDaraFromJson(dynamic tmp) {
@@ -50,7 +73,10 @@ class UserSessions {
           sessionDate: (new DateTime.now().toString()),
           duration: du,
       );
-      this.sessions.add(newSessionData);
+      // this.sessions.add(newSessionData);
+      if (this.sessions != null) {
+        this.sessions!.add(newSessionData);
+      }
     }
   }
 
