@@ -84,7 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
       print("### us ${us}");
       if (us == null) return widgets;
       us.sessions.forEach((e) {
-        widgets.add(ResultContainer(sessionData: e,onpress: ()=>viewSession(e.rawSession,e.duration),));
+        widgets.add(ResultContainer(sessionData: e,onpress: ()=>viewSession(e.rawRelax,e.duration),));
         widgets.add(SizedBox(height: 16,));
       });
       return widgets;

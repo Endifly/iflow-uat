@@ -172,6 +172,7 @@ class _HeadsetConnectorState extends State<HeadsetConnector> with TickerProvider
 
   Animation<double>? progressAnimation;
   AnimationController? progressController;
+  int progressAnimationSpeed = 1;
   var queue = AnimationQueue(from: 0.0, to: 0.0);
 
   void onLoadSuccess() {
@@ -189,8 +190,10 @@ class _HeadsetConnectorState extends State<HeadsetConnector> with TickerProvider
   void addProgress(double val) {
     queue.add(val);
     // print("circle distance ${rotateAngle}");
-    progressController = AnimationController(duration: Duration(milliseconds: 1000), vsync: this);
-    progressAnimation = Tween(begin: queue.from,end:queue.to).animate(progressController!);
+    progressController = AnimationController(duration: Duration(seconds: progressAnimationSpeed), vsync: this);
+    progressAnimation = Tween(begin: queue.from,end:queue.to).animate(
+      new CurvedAnimation(parent: progressController!, curve: Curves.easeInOut)
+    );
     progressAnimation!.addListener(() {
       setState(() {
         loadingValue = progressAnimation!.value;
@@ -262,16 +265,22 @@ class _HeadsetConnectorState extends State<HeadsetConnector> with TickerProvider
     });
   }
 
-  void setCallibrationState(int callibration) {
-    // var callibration = callibrations[1];
-    if (callibration >= 4) {
-      setState(() {
-        connectionState = HEADSET_READY_STATE;
-      });
-    }
-    var loadingVal = min(((100/5)*(callibration+1))/100, 1.0);
-    // setLoadingValue(loadingVal);
-    addProgress(loadingVal);
+  // void setCallibrationState(int callibration) {
+  //   // var callibration = callibrations[1];
+  //   if (callibration >= 4) {
+  //     setState(() {
+  //       connectionState = HEADSET_READY_STATE;
+  //     });
+  //   }
+  //   var loadingVal = min(((100/5)*(callibration+1))/100, 1.0);
+  //   // setLoadingValue(loadingVal);
+  //   addProgress(loadingVal);
+  // }
+
+  void setLoadingSpeed(int second) {
+    setState(() {
+      progressAnimationSpeed = second;
+    });
   }
 
   void checkCalibration() async {
@@ -283,9 +292,35 @@ class _HeadsetConnectorState extends State<HeadsetConnector> with TickerProvider
         connectionState = HEADSET_READY_STATE;
       });
     }
-    var loadingVal = min(((100/5)*(callibration+1))/100, 1.0);
+    // var loadingVal = min(((100/5)*(callibration+1))/100, 1.0);
     // setLoadingValue(loadingVal);
-    addProgress(loadingVal);
+    switch(callibration) {
+      case 0 :
+        setLoadingSpeed(2);
+        addProgress(0.2);
+        break;
+      case 1 :
+        setLoadingSpeed(5);
+        addProgress(0.65);
+        break;
+      case 2 :
+        setLoadingSpeed(1);
+        addProgress(0.85);
+        break;
+      case 3 :
+        setLoadingSpeed(1);
+        addProgress(0.95);
+        break;
+      case 4 :
+        setLoadingSpeed(1);
+        addProgress(1.0);
+        break;
+      default :
+        setLoadingSpeed(1);
+        addProgress(1.0);
+        break;
+    }
+    // addProgress(loadingVal);
   }
   
   void onUpdateHeadset() async {

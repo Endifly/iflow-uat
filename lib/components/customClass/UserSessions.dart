@@ -6,6 +6,10 @@ class UserSessions {
 
   UserSessions({required this.userID,required this.sessions});
 
+  Future init() async {
+
+  }
+
   List<SessionData> loadSessionDaraFromJson(dynamic tmp) {
     List<SessionData> result = [];
     for (dynamic session in tmp) {
@@ -37,11 +41,11 @@ class UserSessions {
     };
   }
 
-  void addSession(String type, List<int>? data, int? th,int du) {
+  void addRelax(List<int>? data, int? th,int du) {
     if (data != null) {
       SessionData newSessionData = SessionData(
-          type: type,
-          rawSession: data,
+          type: 'relax',
+          rawRelax: data,
           threshold: th ?? 60,
           sessionDate: (new DateTime.now().toString()),
           duration: du,
@@ -49,4 +53,6 @@ class UserSessions {
       this.sessions.add(newSessionData);
     }
   }
+
+
 }

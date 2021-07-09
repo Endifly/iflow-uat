@@ -86,7 +86,7 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
 
     SessionData newSessionData = SessionData(
         type: 'relax',
-        rawSession: widget.relaxIndexs!,
+        rawRelax: widget.relaxIndexs!,
         threshold: prefs.getDouble(kPrefs.threshold)!.toInt(),
         sessionDate: (new DateTime.now()).toString(),
         duration: widget.duration!,
@@ -110,14 +110,14 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
 
     sessionData = SessionData(
       type: 'relax',
-      rawSession: widget.relaxIndexs!,
+      rawRelax: widget.relaxIndexs!,
       threshold: prefs.getDouble(kPrefs.threshold)!.toInt(),
       sessionDate: (new DateTime.now()).toString(),
       duration: widget.duration!,
     );
 
     if (userSessions != null) {
-      userSessions.addSession('relax', widget.relaxIndexs, prefs.getDouble(kPrefs.threshold)?.toInt(),widget.duration!);
+      userSessions.addRelax(widget.relaxIndexs, prefs.getDouble(kPrefs.threshold)?.toInt(),widget.duration!);
       print("add to old user sesion ${userSessions.sessions}");
       saveData(userSessions);
     } else {
@@ -139,8 +139,14 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
       if (i > threshold) overThCount++;
     });
     return (overThCount*100/relaxCount).toInt();
+  }
 
-
+  Widget getPerformance(int score) {
+    if (score <= 45) return Image.asset("assets/images/sun1.png");
+    if (score <= 50 && score > 45) return Image.asset("assets/images/sun2.png");
+    if (score <= 55 && score > 50) return Image.asset("assets/images/sun3.png");
+    if (score > 55) return Image.asset("assets/images/sun4.png");
+    return Image.asset("assets/images/sun4.png");
   }
 
   int getDuration() {
@@ -248,7 +254,7 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
           ),
           SizedBox(height: 8,),
           Center(
-            child: Text("แบบฝึกหัด รู้สึกตัว", style: TextStyle(
+            child: Text("แบบฝึกหัด ผ่อนคลาย", style: TextStyle(
               fontSize: 20,
             ),
             ),
@@ -346,8 +352,19 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("ผลการประเมิณ",style:TextStyle(fontSize: 16)),
-                    SizedBox(height: 16,),
-                    Text("Level 2")
+                    // SizedBox(height: 16,),
+                    // Text("Level 2")
+                    // Image.asset("assets/images/sun1.png")
+                    FutureBuilder(
+                        future: calculateRelaxRatio(),
+                        builder: (context,AsyncSnapshot<int> snapshot){
+                          if (snapshot.hasData) {
+                            return getPerformance(snapshot.data!);
+                          } else {
+                            return getPerformance(0);
+                          }
+                        })
+                    ,
                   ],
                 ),
               )
@@ -355,7 +372,7 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
           ),
           SizedBox(height: 32,),
           Container(
-              width: MediaQuery.of(context).size.width*0.8,
+              width: MediaQuery.of(context).size.width*0.6,
               height: 3,
               color : Colors.black12
           ),
