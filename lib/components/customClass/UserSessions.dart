@@ -33,6 +33,13 @@ class UserSessions {
    }
   }
 
+  Future save() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userID = prefs.getString(kPrefs.userID)!;
+    print("on savev ${userID} , data : ${jsonEncode(this)}");
+    await prefs.setString(userID, jsonEncode(this));
+  }
+
   List<SessionData> loadSessionDaraFromJson(dynamic tmp) {
     List<SessionData> result = [];
     for (dynamic session in tmp) {

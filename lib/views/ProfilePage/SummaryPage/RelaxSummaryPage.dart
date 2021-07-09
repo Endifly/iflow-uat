@@ -78,11 +78,13 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
   }
 
   void _storeIndexes() async {
+    UserSessions prevUserSessions = UserSessions();
+    await prevUserSessions.sync();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userID = prefs.getString(kPrefs.userID)!;
-    String? userSessionsStore =  prefs.getString(userID);
+    // String userID = prefs.getString(kPrefs.userID)!;
+    // String? userSessionsStore =  prefs.getString(userID);
 
-    print("sesion store : ${userSessionsStore}");
+    // print("sesion store : ${userSessionsStore}");
 
     SessionData newSessionData = SessionData(
         type: 'relax',
@@ -92,42 +94,49 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
         duration: widget.duration!,
     );
 
-    print("created new Session data");
-
-    UserSessions? userSessions;
-    var json;
-    if (userSessionsStore != null) {
-      print("loading user session");
-      json = jsonDecode(userSessionsStore);
-      userSessions = UserSessions.fromJson(json);
-      print("loaded user session : ${userSessions.userID} ${userSessions.sessions}");
-    }
+    // print("created new Session data");
+    //
+    // UserSessions? userSessions;
+    // var json;
+    // if (userSessionsStore != null) {
+    //   print("loading user session");
+    //   json = jsonDecode(userSessionsStore);
+    //   userSessions = UserSessions.fromJson(json);
+    //   print("loaded user session : ${userSessions.userID} ${userSessions.sessions}");
+    // }
 
 
     setState(() {
       username = prefs.getString('username');
     });
-
-    sessionData = SessionData(
-      type: 'relax',
-      rawRelax: widget.relaxIndexs!,
-      threshold: prefs.getDouble(kPrefs.threshold)!.toInt(),
-      sessionDate: (new DateTime.now()).toString(),
-      duration: widget.duration!,
-    );
-
-    if (userSessions != null) {
-      userSessions.addRelax(widget.relaxIndexs, prefs.getDouble(kPrefs.threshold)?.toInt(),widget.duration!);
-      print("add to old user sesion ${userSessions.sessions}");
-      saveData(userSessions);
-    } else {
-      UserSessions newUserSession = UserSessions(
-          userID: prefs.getString(kPrefs.userID)!,
-          sessions: [newSessionData],
-      );
-      print("add to new user sesion ${newUserSession.sessions?.length}");
-      saveData(newUserSession);
+    //
+    // sessionData = SessionData(
+    //   type: 'relax',
+    //   rawRelax: widget.relaxIndexs!,
+    //   threshold: prefs.getDouble(kPrefs.threshold)!.toInt(),
+    //   sessionDate: (new DateTime.now()).toString(),
+    //   duration: widget.duration!,
+    // );
+    if (prevUserSessions != null) {
+      var _th = prefs.getDouble(kPrefs.threshold)?.toInt();
+      print("prevUserSessions : ${prevUserSessions.sessions?.length}");
+      prevUserSessions.addRelax(widget.relaxIndexs, _th, widget.duration!);
+      print("prevUserSessions : ${prevUserSessions.sessions?.length}");
+      await prevUserSessions.save();
     }
+
+    // if (userSessions != null) {
+    //   userSessions.addRelax(widget.relaxIndexs, prefs.getDouble(kPrefs.threshold)?.toInt(),widget.duration!);
+    //   print("add to old user sesion ${userSessions.sessions}");
+    //   saveData(userSessions);
+    // } else {
+    //   UserSessions newUserSession = UserSessions(
+    //       userID: prefs.getString(kPrefs.userID)!,
+    //       sessions: [newSessionData],
+    //   );
+    //   print("add to new user sesion ${newUserSession.sessions?.length}");
+    //   saveData(newUserSession);
+    // }
   }
 
   Future<int> calculateRelaxRatio() async {
