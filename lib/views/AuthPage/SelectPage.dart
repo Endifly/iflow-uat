@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:ios_d1/components/customWidgets/FacebookLogin.dart';
 import 'package:ios_d1/components/customWidgets/LineLogin.dart';
 import 'package:ios_d1/contexts/kColors.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
@@ -125,22 +126,22 @@ class _SelectPageState extends State<SelectPage> {
     print("SharedPreferences ${username}");
   }
 
-  void _setToken({required String token}) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('fbtoken', token);
-  }
+  // void _setToken({required String token}) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   await prefs.setString('fbtoken', token);
+  // }
 
-  Future<Null> _logOut() async {
-    await facebookSignIn.logOut();
-    _showMessage('Logged out.');
-  }
+  // Future<Null> _logOut() async {
+  //   await facebookSignIn.logOut();
+  //   _showMessage('Logged out.');
+  // }
 
-  void _showMessage(String message) {
-    print(message);
-    setState(() {
-      _message = message;
-    });
-  }
+  // void _showMessage(String message) {
+  //   print(message);
+  //   setState(() {
+  //     _message = message;
+  //   });
+  // }
 
   Future<http.Response> login(String username,String password, String URI) {
     return http.post(
@@ -251,61 +252,61 @@ class _SelectPageState extends State<SelectPage> {
       }
     }
 
-    void onSubmit() async{
-      print("submit");
-      var response = await login("123", "123", MyConstants.of(context)!.REST_URI);
-      var body = jsonDecode(response.body);
-      var res = body['result'];
-      print(res);
-      switch(body['result']['__typename']) {
-        case "loginOutput" : {
-          await _setUser(username: 'fb-user',role: res['role'],user_id: res['user_id']);
-          toHome();
-          break;
-        }
-        case "error" : {
-          break;
-        }
-        default :
-      }
+    // void onSubmit() async{
+    //   print("submit");
+    //   var response = await login("123", "123", MyConstants.of(context)!.REST_URI);
+    //   var body = jsonDecode(response.body);
+    //   var res = body['result'];
+    //   print(res);
+    //   switch(body['result']['__typename']) {
+    //     case "loginOutput" : {
+    //       await _setUser(username: 'fb-user',role: res['role'],user_id: res['user_id']);
+    //       toHome();
+    //       break;
+    //     }
+    //     case "error" : {
+    //       break;
+    //     }
+    //     default :
+    //   }
+    //
+    // }
 
-    }
-
-    Future<Null> _login() async {
-      print("start login ...");
-      final FacebookLoginResult result =
-      await facebookSignIn.logIn(['email']);
-
-      print("logged in ... ${result.status}");
-      print(result.errorMessage);
-      // print(result.accessToken.token);
-      onSubmit();
-      // print(result.status);
-      switch (result.status) {
-        case FacebookLoginStatus.loggedIn:
-          final FacebookAccessToken accessToken = result.accessToken;
-          _showMessage('''
-         Logged in!
-         
-         Token: ${accessToken.token}
-         User id: ${accessToken.userId}
-         Expires: ${accessToken.expires}
-         Permissions: ${accessToken.permissions}
-         Declined permissions: ${accessToken.declinedPermissions}
-         ''');
-          _setToken(token: accessToken.token);
-          profileProvider.setToken(accessToken.token);
-          profileProvider.setThreshold(50.0);
-          break;
-        case FacebookLoginStatus.cancelledByUser:
-          _showMessage('Login cancelled by the user.');
-          break;
-        case FacebookLoginStatus.error:
-          _showMessage('Something went wrong with the login process.\n'
-              'Here\'s the error Facebook gave us: ${result.errorMessage}');
-          break;
-      }
-    }
+    // Future<Null> _login() async {
+    //   print("start login ...");
+    //   final FacebookLoginResult result =
+    //   await facebookSignIn.logIn(['email']);
+    //
+    //   print("logged in ... ${result.status}");
+    //   print(result.errorMessage);
+    //   // print(result.accessToken.token);
+    //   onSubmit();
+    //   print(result.status);
+    //   switch (result.status) {
+    //     case FacebookLoginStatus.loggedIn:
+    //       final FacebookAccessToken accessToken = result.accessToken;
+    //       _showMessage('''
+    //      Logged in!
+    //
+    //      Token: ${accessToken.token}
+    //      User id: ${accessToken.userId}
+    //      Expires: ${accessToken.expires}
+    //      Permissions: ${accessToken.permissions}
+    //      Declined permissions: ${accessToken.declinedPermissions}
+    //      ''');
+    //       _setToken(token: accessToken.token);
+    //       profileProvider.setToken(accessToken.token);
+    //       profileProvider.setThreshold(50.0);
+    //       break;
+    //     case FacebookLoginStatus.cancelledByUser:
+    //       _showMessage('Login cancelled by the user.');
+    //       break;
+    //     case FacebookLoginStatus.error:
+    //       _showMessage('Something went wrong with the login process.\n'
+    //           'Here\'s the error Facebook gave us: ${result.errorMessage}');
+    //       break;
+    //   }
+    // }
 
     void onClickMobileNo() {
       Navigator.pushNamed(context, '/mobile-no');
@@ -390,21 +391,22 @@ class _SelectPageState extends State<SelectPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      InkWell(
-                        onTap: ()=> {_login()},
-                        child: ClipOval(
-                          child: Image.asset(
-                            "assets/icons/facebook.png",
-                            height: 48,
-                          ),
-                        ),
-                      ),
+                      // InkWell(
+                      //   onTap: ()=> {_login()},
+                      //   child: ClipOval(
+                      //     child: Image.asset(
+                      //       "assets/icons/facebook.png",
+                      //       height: 48,
+                      //     ),
+                      //   ),
+                      // ),
                       // Icon(
                       //   Icons.face_unlock_outlined,
                       //   color: Colors.grey,
                       //   size: 42.0,
                       //   semanticLabel: 'Text to announce in accessibility modes',
                       // ),
+                      FacebookLoginButton(),
                       LineLogin(),
                     ],
                   ),

@@ -91,8 +91,7 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
     // TODO: implement build
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: SafeArea(
-          child: ListView(
+      body: ListView(
             children: [
               Container(
                 child: Column(
@@ -368,7 +367,6 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
                 ),
               ),
             ],
-          )
       ),
     );
   }

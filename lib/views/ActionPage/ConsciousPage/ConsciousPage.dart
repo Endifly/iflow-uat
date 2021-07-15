@@ -324,8 +324,7 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
 
     return Scaffold(
       // resizeToAvoidBottomInset: false,
-      body: SafeArea(
-          child: Container(
+      body: Container(
             decoration: BoxDecoration(
               // color: Colors.red,
                 gradient: LinearGradient(
@@ -359,7 +358,7 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
                           // alignment: Alignment.topLeft,
                           children: [
                               Circle(
-                                edgeInsets: positionCalculate(distance: _circleDistance,angle: _circle2Angle),
+                                edgeInsets: positionCalculate(distance: _circleDistance*1.5,angle: _circle2Angle),
                                 opacity: 0.3,
                                 // color1: Color.fromRGBO(255, 136, 48, 1),
                                 // color2: Color.fromRGBO(255, 135, 208, 1),
@@ -375,7 +374,7 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
                               ),
                             ),
                               Circle(
-                                edgeInsets: positionCalculate(distance: _circleDistance,angle: _circle1Angle),
+                                edgeInsets: positionCalculate(distance: 0,angle: 0),
                                 opacity: 0.5,
                                 color1: color1,
                                 color2: color2,
@@ -498,7 +497,6 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
                 ) ,
               ],
             ),
-          )
       ),
 
     );

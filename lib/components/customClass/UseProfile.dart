@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ios_d1/components/customClass/ProfileQuery.dart';
 import 'package:ios_d1/components/customClass/UserSessions.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,5 +27,16 @@ class UseProfile {
     String? userID = prefs.getString(kPrefs.userID);
     return userID ?? "";
   }
+
+  static Future<void> initProfile(ProfileQuery profileQuery) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(kPrefs.username, profileQuery.userName);
+    await prefs.setString(kPrefs.userID, profileQuery.userID);
+    await prefs.setString(kPrefs.role, profileQuery.role);
+    await prefs.setString(kPrefs.firstname, profileQuery.firstName);
+    await prefs.setString(kPrefs.lastname, profileQuery.lastName);
+    await prefs.setString(kPrefs.avatarURL, profileQuery.pictureURL);
+    await prefs.setDouble(kPrefs.threshold, 60.0);
+}
 
 }

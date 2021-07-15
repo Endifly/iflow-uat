@@ -9,8 +9,10 @@ mixin kPrefs implements InheritedWidget {
 
   static String avatarURL = "avatarURL";
   static String username = "username";
+  static String firstname = "firstname";
+  static String lastname = "lastname";
   static String threshold = "threshold";
-  static String userID = "user_id";
+  static String userID = "userID";
   static String role = "role";
 
   static String userSessions = "userSessions";
