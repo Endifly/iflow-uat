@@ -94,7 +94,7 @@ class SessionServices {
     );
   }
 
-  Future session(String id) async {
+  Future<SessionData> session(String id) async {
     var res = await getSession(id);
     UserSessions userSessions = new UserSessions(userID:this.userID);
 
@@ -102,7 +102,7 @@ class SessionServices {
     SessionData newSessionData = new SessionData.fromQueryOne(session);
     userSessions.addSessionData(newSessionData);
 
-    return userSessions;
+    return newSessionData;
   }
 
 }

@@ -1,6 +1,8 @@
 import 'package:ios_d1/components/customClass/Parser.dart';
 
 class SessionData {
+  final String? id;
+  final bool uploaded;
   final String type;
   final List<int> rawRelax;
   final List<int>? rawWandering;
@@ -15,6 +17,8 @@ class SessionData {
     required this.sessionDate,
     required this.duration,
     this.rawWandering,
+    this.id,
+    required this.uploaded,
   });
 
   static String typeParser(int type) {
@@ -33,7 +37,9 @@ class SessionData {
         rawRelax: Parser.ListDynaminToListInt(parsedJson['valueRaw'].split(',')),
         threshold: parsedJson['thresholdMax'],
         sessionDate: parsedJson['createdAt'],
-        duration: parsedJson['duration']
+        duration: parsedJson['duration'],
+        id: parsedJson['id']?.toString() ?? "",
+        uploaded: parsedJson['upadloed'] ?? false,
     );
   }
 
@@ -46,7 +52,9 @@ class SessionData {
         rawRelax: parsedRelax,
         threshold: 0,
         sessionDate: parsedJson['createdAt'],
-        duration: parsedJson['duration']
+        duration: parsedJson['duration'],
+        id: parsedJson['id']?.toString() ?? "",
+        uploaded: true,
     );
   }
 
@@ -69,6 +77,8 @@ class SessionData {
         rawWandering: parsedWandering,
         sessionDate: parsedJson['sessionDate'] ?? "",
         duration: parsedJson['duration'] ?? "",
+        id: parsedJson['id']?.toString() ?? "",
+        uploaded: parsedJson['uploaded'] ?? false,
     );
   }
 
@@ -80,6 +90,8 @@ class SessionData {
       "threshold": this.threshold,
       "sessionDate": this.sessionDate,
       "duration" : this.duration,
+      "id" : this.id ?? "",
+      "uploaded" : this.uploaded,
     };
   }
 }

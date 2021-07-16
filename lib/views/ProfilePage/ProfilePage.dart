@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ios_d1/components/customClass/SessionData.dart';
 import 'package:ios_d1/components/customClass/UserSessions.dart';
 import 'package:ios_d1/components/customClass/useUserSession.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
@@ -107,9 +108,23 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     }
 
-    void viewSession(String type,List<int>? relaxes,int? duraiton) {
-      if (type == "relax") viewRelax(relaxes,duraiton);
-      if (type == "wandering") viewWandering(relaxes,duraiton);
+    void viewSession(SessionData e) async {
+      var type = e.type;
+      List<int> rawRelax = [];
+      var duration = 0;
+
+      if (e.uploaded) {
+        var tmp = await sessionServices.session(e.id!);
+        rawRelax = tmp.rawRelax;
+        duration = tmp.duration;
+      } else {
+        rawRelax = e.rawRelax;
+        duration = e.duration;
+      }
+
+
+      if (type == "relax") viewRelax(rawRelax,duration);
+      if (type == "wandering") viewWandering(rawRelax,duration);
 
     }
 
@@ -119,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
       if (us == null) return widgets;
       print("### us2 ${us.sessions?.length}");
       us.sessions?.forEach((e) {
-        widgets.add(ResultContainer(sessionData: e,onpress: ()=>viewSession(e.type,e.rawRelax,e.duration),));
+        widgets.add(ResultContainer(sessionData: e,onpress: ()=>viewSession(e),));
         widgets.add(SizedBox(height: 16,));
       });
       return widgets;

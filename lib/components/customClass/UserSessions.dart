@@ -17,8 +17,6 @@ class UserSessions {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     this.userID = prefs.getString(kPrefs.userID)!;
     String? userSessionsStore =  prefs.getString(this.userID!);
-
-    UserSessions? onlineUserSessions = await sessionServices.sessions();
     UserSessions? localUserSessions;
     var json;
     if (userSessionsStore != null) {
@@ -33,13 +31,17 @@ class UserSessions {
      this.sessions = localUserSessions!.sessions!;
    }
 
-   print(localUserSessions?.sessions);
+   // print(localUserSessions?.sessions);
    // print(onlineUserSessions?.sessions);
 
-   // this.sessions = this.sessions! + onlineUserSessions!.sessions!;
+   UserSessions? onlineUserSessions = await sessionServices.sessions();
+   this.sessions = this.sessions! + onlineUserSessions!.sessions!;
 
     // onlineUserSessions?.sessions?.forEach((session) {
     //   this.sessions = this.sessions + on
+    // });
+    // this.sessions?.forEach((element) {
+    //   print(element.uploaded);
     // });
   }
 
@@ -89,6 +91,7 @@ class UserSessions {
           threshold: th ?? 60,
           sessionDate: (new DateTime.now().toString()),
           duration: du,
+          uploaded: false,
       );
       // this.sessions.add(newSessionData);
       if (this.sessions != null) {
@@ -107,6 +110,7 @@ class UserSessions {
         threshold: th_r ?? 60,
         sessionDate: (new DateTime.now().toString()),
         duration: du,
+        uploaded: false,
       );
       // this.sessions.add(newSessionData);
       if (this.sessions != null) {
