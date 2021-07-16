@@ -1,3 +1,5 @@
+import 'package:ios_d1/components/customClass/Parser.dart';
+
 class SessionData {
   final String type;
   final List<int> rawRelax;
@@ -14,6 +16,39 @@ class SessionData {
     required this.duration,
     this.rawWandering,
   });
+
+  static String typeParser(int type) {
+    if (type == 0) return 'relax';
+    if (type == 1) return 'wandering';
+    return 'relax';
+  }
+
+  factory SessionData.fromQueryOne(Map<String, dynamic> parsedJson) {
+    List<int> parsedRelax = [];
+    List<int> parsedWandering = [];
+
+    print(parsedJson['valueRaw']);
+    return new SessionData(
+        type: typeParser(parsedJson['sessionType']),
+        rawRelax: Parser.ListDynaminToListInt(parsedJson['valueRaw'].split(',')),
+        threshold: parsedJson['thresholdMax'],
+        sessionDate: parsedJson['createdAt'],
+        duration: parsedJson['duration']
+    );
+  }
+
+  factory SessionData.fromQueryAll(Map<String, dynamic> parsedJson) {
+    List<int> parsedRelax = [];
+    List<int> parsedWandering = [];
+
+    return new SessionData(
+        type: typeParser(parsedJson['sessionType']),
+        rawRelax: parsedRelax,
+        threshold: 0,
+        sessionDate: parsedJson['createdAt'],
+        duration: parsedJson['duration']
+    );
+  }
 
   factory SessionData.fromJson(Map<String, dynamic> parsedJson) {
     print("session datas ${parsedJson}");

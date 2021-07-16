@@ -28,6 +28,12 @@ class UseProfile {
     return userID ?? "";
   }
 
+  Future<String> getProlfileString(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? val = prefs.getString(key);
+    return val ?? "";
+  }
+
   static Future<void> initProfile(ProfileQuery profileQuery) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(kPrefs.username, profileQuery.userName);
@@ -36,6 +42,7 @@ class UseProfile {
     await prefs.setString(kPrefs.firstname, profileQuery.firstName);
     await prefs.setString(kPrefs.lastname, profileQuery.lastName);
     await prefs.setString(kPrefs.avatarURL, profileQuery.pictureURL);
+    await prefs.setString(kPrefs.accessToken, profileQuery.accessToken);
     await prefs.setDouble(kPrefs.threshold, 60.0);
 }
 

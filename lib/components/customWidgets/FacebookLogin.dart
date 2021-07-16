@@ -9,6 +9,7 @@ import 'package:ios_d1/components/customClass/ProfileQuery.dart';
 import 'package:ios_d1/components/customClass/UseProfile.dart';
 import 'package:ios_d1/contexts/Constant.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
+import 'package:ios_d1/contexts/kURI.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -37,9 +38,9 @@ class FacebookLoginButton extends StatelessWidget {
     }
 
     Future<http.Response> _verifyToken({required String token}) {
-      print("verify token : ${MyConstants.of(context)!.REST_URI}");
+      print("verify token : $kURI.BACKEND}");
       return http.post(
-        Uri.http(MyConstants.of(context)!.REST_URI, 'auth/facebook'),
+        Uri.http(kURI.BACKEND, '/auth/facebook'),
         headers: <String, String>{
           'Content-Type': 'application/json',
         },

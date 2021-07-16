@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:ios_d1/components/customClass/SessionData.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
+import 'package:ios_d1/services/SessionService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserSessions {
@@ -11,26 +12,35 @@ class UserSessions {
   UserSessions({this.sessions,this.userID});
 
   Future sync() async {
+    SessionServices sessionServices = new SessionServices();
+    await sessionServices.initial();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     this.userID = prefs.getString(kPrefs.userID)!;
     String? userSessionsStore =  prefs.getString(this.userID!);
 
-    UserSessions? userSessions;
+    UserSessions? onlineUserSessions = await sessionServices.sessions();
+    UserSessions? localUserSessions;
     var json;
     if (userSessionsStore != null) {
-      // print("loading user session : ${userSessionsStore}");
       json = jsonDecode(userSessionsStore);
-      userSessions = UserSessions.fromJson(json);
-      // print("before loaded : ${userSessions}");
-      // print("loaded user session : ${userSessions.userID} ${userSessions.sessions}");
+      localUserSessions = UserSessions.fromJson(json);
     }
 
     // print("user session loaded");
-   if (userSessions?.sessions == null) {
+   if (localUserSessions?.sessions == null) {
      this.sessions = [];
    } else {
-     this.sessions = userSessions!.sessions!;
+     this.sessions = localUserSessions!.sessions!;
    }
+
+   print(localUserSessions?.sessions);
+   // print(onlineUserSessions?.sessions);
+
+   // this.sessions = this.sessions! + onlineUserSessions!.sessions!;
+
+    // onlineUserSessions?.sessions?.forEach((session) {
+    //   this.sessions = this.sessions + on
+    // });
   }
 
   Future save() async{
@@ -105,5 +115,12 @@ class UserSessions {
     // }
   }
 
+  void addSessionData(SessionData newSessionData) {
+    if (this.sessions != null) {
+      this.sessions!.add(newSessionData);
+    } else {
+      this.sessions = [newSessionData];
+    }
+  }
 
 }

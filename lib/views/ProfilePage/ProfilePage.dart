@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ios_d1/components/customClass/UserSessions.dart';
 import 'package:ios_d1/components/customClass/useUserSession.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
+import 'package:ios_d1/services/SessionService.dart';
 import 'package:ios_d1/views/ProfilePage/SummaryPage/ConsciousSummaryPage.dart';
 import 'package:ios_d1/views/ProfilePage/SummaryPage/RelaxSummaryPage.dart';
 import 'package:ios_d1/views/Template/NavLayout.dart';
@@ -25,12 +26,14 @@ class ProfilePage extends StatefulWidget{
 class _ProfilePageState extends State<ProfilePage> {
   String? username = "";
   String? avatarURL = "";
+  SessionServices sessionServices = SessionServices();
 
   // final useUserSession = UseUserSession();
   UserSessions userSessions = UserSessions();
 
 
   void _setup() async {
+    await sessionServices.initial();
     await userSessions.sync();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -38,6 +41,15 @@ class _ProfilePageState extends State<ProfilePage> {
       avatarURL = prefs.getString(kPrefs.avatarURL);
 
     });
+  }
+
+  Future onSync() async{
+    if (userSessions.sessions != null) {
+      var firstSession = userSessions.sessions![0];
+      // await sessionServices.uploadOneSession(firstSession);
+      await sessionServices.session('1');
+      // await sessionServices.sessions();
+    }
   }
 
   @override
@@ -52,7 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
     var defaultProfile = DecorationImage(image : AssetImage("assets/images/person_2.png"),);
     if (avatarURL == null) return defaultProfile;
     if (avatarURL == "") return defaultProfile;
-    if (avatarURL!.startsWith('http')) return DecorationImage(image: NetworkImage(avatarURL!));
+    if (avatarURL!.startsWith('http')) return DecorationImage(image: NetworkImage(avatarURL!,),fit: BoxFit.fill);
     return DecorationImage(image : AssetImage("assets/images/person_2.png"),);
   }
 
@@ -123,10 +135,20 @@ class _ProfilePageState extends State<ProfilePage> {
                 SizedBox(height: 16,),
                 CTypo(text: "ชื่อ ${username}",variant: "body1",color: "secondary",),
                 SizedBox(height: 32,),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: 8),
-                  child: CTypo(text: "ดูข้อมูลย้อนหลัง",variant: "body1",),
+                Row(
+                  children: [
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.only(left: 8),
+                      child: CTypo(text: "ดูข้อมูลย้อนหลัง",variant: "body1",),
+                    ),
+                    Container(
+                      child: IconButton(
+                        icon: FaIcon(FontAwesomeIcons.sync),
+                        onPressed: onSync,
+                      ),
+                    )
+                  ],
                 ),
                 SizedBox(height: 16,),
                 // ResultContainer(onpress: ()=>Navigator.pushNamed(context, '/history'),),
