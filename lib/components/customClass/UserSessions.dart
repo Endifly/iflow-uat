@@ -31,11 +31,13 @@ class UserSessions {
      this.sessions = localUserSessions!.sessions!;
    }
 
-   // print(localUserSessions?.sessions);
+   print("local session : ${localUserSessions?.sessions}");
    // print(onlineUserSessions?.sessions);
 
-   UserSessions? onlineUserSessions = await sessionServices.sessions();
-   this.sessions = this.sessions! + onlineUserSessions!.sessions!;
+   UserSessions onlineUserSessions = await sessionServices.sessions();
+   if (onlineUserSessions.sessions != null) {
+     this.sessions = this.sessions! + onlineUserSessions.sessions!;
+   }
 
     // onlineUserSessions?.sessions?.forEach((session) {
     //   this.sessions = this.sessions + on

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ios_d1/components/customClass/SessionData.dart';
+import 'package:ios_d1/components/customClass/Stat.dart';
 import 'package:ios_d1/components/customClass/UserSessions.dart';
 import '/components/customWidgets/Typography.dart';
 
@@ -71,13 +72,31 @@ class ResultContainer extends StatelessWidget {
     return wanderingButtonGradient;
   }
 
+  String getScore() {
+    if (sessionData != null && sessionData!.rawRelax != null && sessionData!.rawRelax.length != 0) {
+      var avr = Stat.average(sessionData!.rawRelax);
+      return "${avr.toInt()}";
+    }
+    return "-";
+  }
+
   String getDate() {
     // print(sessionData?.sessionDate);
     // var s = new  DateTime.
     var initialDate = "1/1/1997 0.00";
     var sd = sessionData?.sessionDate;
     if (sd == null) return initialDate;
-    return sd.substring(0,"YYY-MM-DD HH:MM:SS".length+1);
+    return sd.substring(0,"YYY-MM-DD HH:MM:SS".length+1).replaceAll('T', ' ').split(' ')[0];
+    // return sessionData?.sessionDate ?? "1/1/1997 0.00";
+  }
+
+  String getTime() {
+    // print(sessionData?.sessionDate);
+    // var s = new  DateTime.
+    var initialDate = "1/1/1997 0.00";
+    var sd = sessionData?.sessionDate;
+    if (sd == null) return initialDate;
+    return sd.substring(0,"YYY-MM-DD HH:MM:SS".length+1).replaceAll('T', ' ').split(' ')[1];
     // return sessionData?.sessionDate ?? "1/1/1997 0.00";
   }
 
@@ -113,9 +132,28 @@ class ResultContainer extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CTypo(text: getLabel(),color:"secondary"),
-                    CTypo(text: getDate(),color:"secondary"),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CTypo(text: getDate(),color:"secondary"),
+                        CTypo(text: getTime(),color:"secondary"),
+                      ],
+                    )
                   ],
                 ),
+                SizedBox(width: 12,),
+                Container(
+                  child: CTypo(
+                    text: getScore(),
+                    variant: 'h4',
+                  ),
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.5),
+                    shape: BoxShape.circle,
+                  ),
+                )
+                // CTypo(text: '90'),
                 // SizedBox(width: 12,),
                 // Column(
                 //   mainAxisAlignment: MainAxisAlignment.start,

@@ -8,7 +8,7 @@ class ProfileImage extends StatelessWidget {
   ProfileImage({required this.imagePath}) {
     // print("${this.imagePath}, ${imagePath}");
     if (this.imagePath.startsWith('https')) {
-      avatar = DecorationImage(image: NetworkImage(this.imagePath));
+      avatar = DecorationImage(image: NetworkImage(this.imagePath),fit: BoxFit.fill);
     }
     else {
       avatar = DecorationImage(image : AssetImage("assets/images/person_2.png"));

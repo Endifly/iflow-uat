@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ios_d1/components/ProfileImage.dart';
 import 'package:ios_d1/components/customClass/SessionData.dart';
+import 'package:ios_d1/components/customClass/Stat.dart';
 import 'package:ios_d1/components/customClass/UseProfile.dart';
 import 'package:ios_d1/components/customClass/UserSessions.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
+import 'package:ios_d1/services/SessionService.dart';
 import '/components/customWidgets/Typography.dart' as Typo;
 import '/components/customWidgets/WhiteButton.dart';
 import '/components/icons/MinusIcon.dart';
@@ -78,6 +80,9 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
   }
 
   void _storeIndexes() async {
+    SessionServices sv = new SessionServices();
+    await sv.initial();
+
     UserSessions prevUserSessions = UserSessions();
     await prevUserSessions.sync();
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -91,8 +96,19 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
       print("prevUserSessions : ${prevUserSessions.sessions?.length}");
       prevUserSessions.addRelax(widget.relaxIndexs, _th, widget.duration!);
       print("prevUserSessions : ${prevUserSessions.sessions?.length}");
-      await prevUserSessions.save();
+      // await prevUserSessions.save();
+      try {
+        sv.uploadOneSession(prevUserSessions.sessions!.last);
+      } catch(_) {
+        await prevUserSessions.save();
+      }
     }
+  }
+
+  Future<int> performance() async {
+    var relaxIndex = widget.relaxIndexs!;
+    var avr = Stat.average(relaxIndex);
+    return (avr).toInt();
   }
 
   Future<int> calculateRelaxRatio() async {
@@ -233,7 +249,7 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
                 width: 128,
                 child: Column(
                   children: [
-                    Text("สภาวะโพร่ง",style:TextStyle(fontSize: 16)),
+                    Text("เบิกบาน",style:TextStyle(fontSize: 16)),
                     SizedBox(height: 16,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -321,7 +337,7 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
                     // Text("Level 2")
                     // Image.asset("assets/images/sun1.png")
                     FutureBuilder(
-                        future: calculateRelaxRatio(),
+                        future: performance(),
                         builder: (context,AsyncSnapshot<int> snapshot){
                           if (snapshot.hasData) {
                             return getPerformance(snapshot.data!);

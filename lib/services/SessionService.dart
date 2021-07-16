@@ -58,6 +58,7 @@ class SessionServices {
     // print("upload session");
     var res = await putSession(session: session);
     print("put session : ${res.body}");
+    return res.body;
   }
 
   Future<http.Response> getAllSession() {
@@ -76,7 +77,7 @@ class SessionServices {
     print(res.body);
     UserSessions userSessions = new UserSessions(userID:this.userID);
     List<dynamic> sessions = jsonDecode(res.body);
-    print("load sessions : ${sessions[0]['id']}");
+    // print("load sessions : ${sessions[0]['id']}");
     sessions.forEach((session) {
       SessionData sdto = SessionData.fromQueryAll(session);
       userSessions.addSessionData(sdto);
