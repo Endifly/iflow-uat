@@ -28,7 +28,28 @@
     "clearCache" : "ลบ cache",
     "logout" : "ออกจากระบบ",
     "fullname" : "ชื่อ",
-    "username" : "ชื่อผู้ใช้"
+    "username" : "ชื่อผู้ใช้",
+    "selectSession" : "เลือกแบบฝึกหัด",
+
+    "averageScore" : "คะแนนเฉลี่ย",
+    "time" : "เวลา",
+    "result" : "ผลการประเมิณ",
+    "session" : "แบบฝึกหัด",
+    "graph" : "กราฟ",
+    "next" : "ถัดไป",
+    "prev" : "ก่อนหน้า",
+    "login" : "เข้าสู่ระบบ",
+    "forgotPassword" : "ลืมรหัสผ่าน",
+    "registeration" : "สมัคร",
+    "autoLogin" : "เข้าสู่ระบบอัติโนมัติ",
+    "register" : "สมัคร",
+    "servicePolicy" : "นโยบายการให้บริการ",
+    "acceptServicePolicy" : "ยอมรับนโนบายการให้บริการ",
+    "or" : "หรือ",
+    "with" : "ด้วย",
+    "signInWith" : "เข้าสู่ระบบด้วย",
+    "minute" : "นาที",
+    "start" : "เริ่ม"
   },
   "setting" : {
     "systemSettingTitle" : "ตั้งค่าระบบ",
@@ -68,6 +89,7 @@
         "useDefaultThreshold" : "ค่ามาตรฐาน",
         "selfSettingTheshold" : {
           "title" : "ั้งค่า Threshold ของคุณเอง",
+          "thresoldCriterionTitle" : "เกณฑ์ค่า threshold",
           "criterion" : "เกณท์การประเมินค่าเฉลี่ยของ App:"
         }
       }
@@ -80,5 +102,16 @@
       "title" : "feedback",
       "desc" : "Send us the IFLOW feedback and satisfaction"
     }
+  },
+  "headsetConnection" : {
+    "startConnection" : "เริ่มการเชื่อมต่อ",
+    "connectingDevice" : "กำลังเชื่อมต่อ",
+    "seachDevice" : "กำลังค้นหาอุปกรณ์",
+    "foundDevice" : "พบอุปกรณ์แล้ว",
+    "foundTooManyDevice" : "พบอุปกรณ์หลายตัว",
+    "notFoundDevice" : "ไม่พบอุปกรณ์",
+    "equipToStart" : "สวมใส่เพื่อเริ่มใช้งาน",
+    "calibrating" : "กำลัง calibrate",
+    "headsetReady" : "อุปกรณ์พร้อมแล้ว"
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
@@ -482,25 +483,25 @@ class _HeadsetConnectorState extends State<HeadsetConnector> with TickerProvider
   String getLabel() {
     switch(connectionState) {
       case HEADSET_DEFAULT_STATE :
-        return "เริ่มการเชื่อมต่อ";
+        return tr('headsetConnection.startConnection');
       case HEADSET_FINDING_STATE :
-        return "กำลังค้นหาอุปกรณ์";
+        return tr('headsetConnection.seachDevice');
       case HEADSET_FOUND_DEVICE_STATE :
-        return "พบอุปกรณ์แล้ว";
+        return tr('headsetConnection.foundDevice');
       case HEADSET_TOO_MANY_DEVICE_STATE :
-        return "พบอุปกรณ์หลายตัว";
+        return tr('headsetConnection.foundTooManyDevice');
       case HEADSET_DEVICE_NOT_FOUND_STATE :
-        return "ไม่พบอุปกรณ์";
+        return tr('headsetConnection.notFoundDevice');
       case HEADSET_WAIT_FOR_EQUIP_STATE :
-        return "สวมใส่เพื่อเริ่มใช้งาน";
+        return tr('headsetConnection.equipToStart');
       case HEADSET_TUNING_STATE :
-        return "กำลัง calibrate";
+        return tr('headsetConnection.calibrating');
       case HEADSET_READY_STATE :
-        return "อุปกรณ์พร้อมแล้ว";
+        return tr('headsetConnection.headsetReady');
       case HEADSET_CACHE_CHECKING :
-        return "กำลังเชื่อมต่อ";
+        return tr('headsetConnection.connectingDevice');
       default :
-        return "เริ่มการเชื่อมต่อ";
+        return tr('headsetConnection.startConnection');
 
     }
   }

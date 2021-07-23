@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ios_d1/contexts/kPrefs.dart';
 import '/components/customWidgets/Typography.dart' as Typo;
 import '/components/customWidgets/WhiteButton.dart';
 import '/components/icons/MinusIcon.dart';
@@ -92,7 +94,7 @@ class _ConsciousGraphPageState extends State<ConsciousGraphPage> {
     // controller = new SwiperController();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      username = prefs.getString('username');
+      username = '${prefs.getString('${kPrefs.firstname}')} ${prefs.getString('${kPrefs.lastname}')}';
       threshold = prefs.getDouble('threshold');
     });
   }
@@ -248,11 +250,11 @@ class _ConsciousGraphPageState extends State<ConsciousGraphPage> {
                   ClipOval(
                     child: Image.asset("assets/images/person_2.png",height: 128,),
                   ),
-                  SizedBox(width: 16,),
+                  SizedBox(width: 8,),
                   Column(
                     children: [
-                      Typo.CTypo(text: "ชื่อ ${username}",variant: "body1",color: "secondary",),
-                      Typo.CTypo(text: "แบบฝึกหัดผ่อนคลาย",variant: "body1",color: "primary",),
+                      Typo.CTypo(text: "${username}",variant: "body1",color: "secondary",),
+                      Typo.CTypo(text: '${tr('app.session')} ${tr('app.wandering')}',variant: "body1",color: "primary",),
                     ],
                   ),
                 ],
@@ -280,7 +282,7 @@ class _ConsciousGraphPageState extends State<ConsciousGraphPage> {
             Container(
               width: 64,
               margin: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width*0.3, 0, MediaQuery.of(context).size.width*0.3, 0),
-              child: WhiteButton(title: "ถัดไป",),
+              child: WhiteButton(title: tr('app.next'),),
             )
           ],
         ),

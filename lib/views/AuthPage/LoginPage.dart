@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -188,7 +189,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "เข้าสู่ระบบ",
+                        tr('app.login'),
                         style: TextStyle(
                           color: Colors.black45,
                           fontWeight: FontWeight.bold,
@@ -204,7 +205,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "ด้วย I Flow Account",
+                        "${tr('app.signInWith')} I Flow Account",
                         style: TextStyle(color: Colors.black45),
                       ),
                     ],
@@ -227,7 +228,7 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                         Container(
                           width: MediaQuery.of(context).size.width*0.3,
-                          child: OrangeButton(title: "ถัดไป",onPress: onSubmit,),
+                          child: OrangeButton(title: tr('app.next'),onPress: onSubmit,),
                         )
                     ],
                   ),
@@ -235,7 +236,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 16,
                   ),
                   Text(
-                    "ลืมรหัสผ่าน",
+                    tr('app.forgotPassword'),
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.black38),
                   )

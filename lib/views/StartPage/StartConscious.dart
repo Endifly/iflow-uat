@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
@@ -52,7 +53,7 @@ class _StartConsciousPageState extends State<StartConsciousPage> {
 
   List<Widget> time_selection() {
     return timing.map((time) => Container(
-      child: Text('${time} นาที', style:TextStyle(fontSize: 20)),
+      child: Text('${time} ${tr('app.minute')}', style:TextStyle(fontSize: 20)),
       padding: EdgeInsets.fromLTRB(64,8, 64, 0),
       decoration: BoxDecoration(
         border: Border(
@@ -117,7 +118,7 @@ class _StartConsciousPageState extends State<StartConsciousPage> {
                 Container(
                   child: Container(
                     width: MediaQuery.of(context).size.width*0.5,
-                    child: headsetService == null ? WhiteButton(title: 'เริ่ม',):OrangeButton(title: 'เริ่ม',onPress: toWandering,),
+                    child: headsetService == null ? WhiteButton(title: tr('app.start'),):OrangeButton(title: tr('app.start'),onPress: toWandering,),
                   ),
                 )
               ],

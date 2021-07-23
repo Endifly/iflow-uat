@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -73,7 +74,7 @@ class _PersonalInfomationPageState extends State<PersonalInfomationPage> {
             SizedBox(height: 16,),
             Divider(color: kColors.blue[500],),
             ProfileImage(imagePath: avatarURL!,),
-            CTypo(text:"ข้อมูลส่วนตัว",variant: "body2",),
+            CTypo(text:tr('setting.personal.title'),variant: "body2",),
             SizedBox(height: 32,),
             OrangeTextfield(title: "${username}",),
             SizedBox(height: 32,),
@@ -90,7 +91,7 @@ class _PersonalInfomationPageState extends State<PersonalInfomationPage> {
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width*0.3,
-                  child: OrangeButton(title: "ตกลง",),
+                  child: OrangeButton(title: tr('app.confirm'),),
                 ),
               ],
             ),

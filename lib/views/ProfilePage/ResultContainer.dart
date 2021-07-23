@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ios_d1/components/customClass/SessionData.dart';
@@ -59,8 +60,8 @@ class ResultContainer extends StatelessWidget {
   );
 
   String getLabel() {
-    if (sessionData?.type == "relax") return "ผ่อนคลาย";
-    return "รู้สึกตัว";
+    if (sessionData?.type == "relax") return tr('app.relax');
+    return tr('app.wandering');
   }
 
   String getIconPath() {

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -342,7 +343,7 @@ class _SelectPageState extends State<SelectPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      OrangeButton(title:"เข้าระบบ",onPress: onClickLogin,),
+                      OrangeButton(title:tr('app.login'),onPress: onClickLogin,),
                     ],
                   ),
                   Container(
@@ -352,7 +353,7 @@ class _SelectPageState extends State<SelectPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "ด้วย I Flow Account",
+                        "${tr('app.signInWith')} I Flow Account",
                         style: TextStyle(color: Colors.black45),
                       ),
                     ],
@@ -377,7 +378,7 @@ class _SelectPageState extends State<SelectPage> {
                             margin: EdgeInsets.all(16),
                           ),
                       ),
-                      Text("หรือ"),
+                      Text(tr('app.or')),
                       Expanded(
                         child: Container(
                           height: 2,
@@ -437,7 +438,7 @@ class _SelectPageState extends State<SelectPage> {
                   Row(
                     children: [
                       Expanded(
-                          child: OrangeButton(title:"สมัคร",onPress: onClickSignUp,)
+                          child: OrangeButton(title:tr('app.registeration'),onPress: onClickSignUp,)
                       ),
                     ],
                   ),
@@ -445,7 +446,7 @@ class _SelectPageState extends State<SelectPage> {
                     height: 16,
                   ),
                   Text(
-                    "ลืมรหัสผ่าน",
+                    tr('app.forgotPassword'),
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.black38),
                   ),

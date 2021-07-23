@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ios_d1/Provider/ProfileProvider.dart';
+import 'package:ios_d1/contexts/kTR.dart';
 import 'package:provider/provider.dart';
 import '/components/customWidgets/Typography.dart';
 import '/components/icons/PrevIcon.dart';
@@ -43,7 +45,7 @@ class _ThresholdSettingPageState extends State<ThresholdSettingPage> {
       child:Row(
         children: [
           SizedBox(width: 16,),
-          CTypo(text: "ตั้งค่า Threshold ของคุณเอง",variant: "subtitle1",),
+          CTypo(text: tr('${kTR.appThresholdSetting}.selfSettingTheshold.title'),variant: "subtitle1",),
           // SizedBox(width: 16,),
           SizedBox(
             height: 56,
@@ -109,10 +111,10 @@ class _ThresholdSettingPageState extends State<ThresholdSettingPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CTypo(text:"กำหนดค่า Threshold",variant: "body1",color: "secondary",),
-                CTypo(text:"ตั้งค่าแจ้งเตือน เมื่อค่าสมาธิผ่อนคลายถึงเกณท์ที่กำหนด",color: "secondary",),
+                CTypo(text:tr('${kTR.appThresholdSetting}.thresholdConfigureTitle'),variant: "body1",color: "secondary",),
+                CTypo(text:tr('${kTR.appThresholdSetting}.thresholdConfigureDesc'),color: "secondary",),
                 SizedBox(height: 24,),
-                CTypo(text:"ค่า Threshold ปัจจุบัน",variant: "body1",color: "secondary",),
+                CTypo(text:tr('${kTR.appThresholdSetting}.currentThreshold'),variant: "body1",color: "secondary",),
                 CTypo(text:": ${profileProvider.threshold}",color: "secondary",),
               ],
             ),
@@ -124,7 +126,7 @@ class _ThresholdSettingPageState extends State<ThresholdSettingPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CTypo(text: "ค่ามาตรฐาน",color: "secondary"),
+                CTypo(text: tr('${kTR.appThresholdSetting}.useDefaultThreshold'),color: "secondary"),
                 Switch(
                     value: true,
                     onChanged: (value)=>print(value),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ios_d1/components/customClass/UserSessions.dart';
@@ -206,7 +207,7 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
                       color: Colors.black54,
                     ),),
                     SizedBox(height: 8,),
-                    Text("แบบฝึกหัด รู้สึกตัว", style: TextStyle(
+                    Text("${tr('app.session')} ${tr('app.wandering')}", style: TextStyle(
                       fontSize: 20,
                     ),),
                     SizedBox(height: 24,),
@@ -218,7 +219,7 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
                           width: 128,
                           child: Column(
                             children: [
-                              Text("กราฟ",style:TextStyle(fontSize: 16)),
+                              Text(tr('app.graph'),style:TextStyle(fontSize: 16)),
                               SizedBox(height: 16,),
                               GraphButton(onPress: () => Navigator.pushNamed(context, '/conscious-summary-graph',arguments: WanderingGraphArguments(relaxIndexs: widget.relaxIndexs)),),
                               // Container(
@@ -257,14 +258,14 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("เวลา",style:TextStyle(fontSize: 16)),
+                              Text(tr('app.time'),style:TextStyle(fontSize: 16)),
                               SizedBox(height: 16,),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text("1",style: TextStyle(fontSize: 48),),
                                   SizedBox(width: 8,),
-                                  Text("นาที",textAlign: TextAlign.end,),
+                                  Text(tr('app.minute'),textAlign: TextAlign.end,),
                                 ],
                               ),
                               SizedBox(height: 40,),
@@ -283,7 +284,7 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("คะแนนเฉลี่ย"),
+                              Text(tr('app.averageScore')),
                               SizedBox(height: 8,),
                               Container(
                                 // color: Colors.white,
@@ -306,7 +307,7 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("ผลการประเมิณ",style:TextStyle(fontSize: 16)),
+                              Text(tr('app.result'),style:TextStyle(fontSize: 16)),
                               SizedBox(height: 16,),
                               Text("Level 2")
                             ],
@@ -335,7 +336,7 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
                         padding: EdgeInsets.all(8),
                         width : MediaQuery.of(context).size.width*0.5,
                         child: Text(
-                          "ตกลง",
+                          tr('app.confirm'),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.black38,

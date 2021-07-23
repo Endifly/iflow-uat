@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ios_d1/components/customWidgets/Typography.dart';
+import 'package:ios_d1/contexts/kPrefs.dart';
 import 'package:ios_d1/views/Template/NavLayout.dart';
 import '/components/ButtonNavigationBar.dart';
 import '/components/DecorationConcave.dart';
@@ -19,14 +20,26 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   String role = "";
+  String? avatarURL = "";
+  String fullname = "";
 
   void _setup() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       role = prefs.getString('role')!;
+      fullname = '${prefs.getString(kPrefs.firstname)!} ${prefs.getString(kPrefs.lastname)!}';
+      avatarURL = prefs.getString(kPrefs.avatarURL);
     });
   }
 
+  DecorationImage getAvatar(String? avatarUrl) {
+    print("home ${avatarUrl}");
+    var defaultProfile = DecorationImage(image : AssetImage("assets/images/person_2.png"),);
+    if (avatarUrl == null) return defaultProfile;
+    if (avatarUrl == "") return defaultProfile;
+    if (avatarUrl!.startsWith('http')) return DecorationImage(image: NetworkImage(avatarUrl,),fit: BoxFit.fill);
+    return DecorationImage(image : AssetImage("assets/images/person_2.png"),);
+  }
 
   @override
   void initState() {
@@ -63,10 +76,33 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              height: 64,
+                              width: 64,
+                              margin: EdgeInsets.all(0.0),
+                              decoration: BoxDecoration(
+                                image: getAvatar(this.avatarURL),
+                                color : Colors.white,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CTypo(text:this.fullname,variant: "body2",),
+                                CTypo(text:this.role,variant: "subtitle1",)
+                              ],
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 32,),
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SizedBox(width: 16,),
-                            CTypo(text: "เลือกแบบฝึกหัด",color:"secondary",variant: 'body1',),
+                            CTypo(text: tr("app.selectSession"),color:"secondary",variant: 'body1',),
                           ],
                         ),
                         SizedBox(height: 32,),

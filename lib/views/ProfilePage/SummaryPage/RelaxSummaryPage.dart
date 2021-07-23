@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -235,7 +236,7 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
           ),
           SizedBox(height: 8,),
           Center(
-            child: Text("แบบฝึกหัด ผ่อนคลาย", style: TextStyle(
+            child: Text("${tr('app.session')} ${tr('app.relax')}", style: TextStyle(
               fontSize: 20,
             ),
             ),
@@ -249,7 +250,7 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
                 width: 128,
                 child: Column(
                   children: [
-                    Text("เบิกบาน",style:TextStyle(fontSize: 16)),
+                    Text(tr('app.relax'),style:TextStyle(fontSize: 16)),
                     SizedBox(height: 16,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -284,7 +285,7 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("เวลา",style:TextStyle(fontSize: 16)),
+                    Text(tr('app.time'),style:TextStyle(fontSize: 16)),
                     SizedBox(height: 16,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -310,7 +311,7 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("คะแนนเฉลี่ย"),
+                    Text(tr('app.averageScore')),
                     SizedBox(height: 8,),
                     Container(
                       // color: Colors.white,
@@ -332,7 +333,7 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("ผลการประเมิณ",style:TextStyle(fontSize: 16)),
+                    Text(tr('app.result'),style:TextStyle(fontSize: 16)),
                     // SizedBox(height: 16,),
                     // Text("Level 2")
                     // Image.asset("assets/images/sun1.png")
@@ -373,7 +374,7 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
                 padding: EdgeInsets.all(8),
                 width : MediaQuery.of(context).size.width*0.5,
                 child: Text(
-                  "ตกลง",
+                  tr('app.confirm'),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black38,

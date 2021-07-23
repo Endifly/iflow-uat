@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -62,11 +63,11 @@ class _SendCommentPageState extends State<SendCommentPage> {
           Divider(color: kColors.blue[500],),
           SizedBox(height: 64,),
           Center(
-            child: CTypo(text:"ส่งความคิดเห็น",variant: "h6",color: "secondary",),
+            child: CTypo(text:tr('setting.feedback.title'),variant: "h6",color: "secondary",),
           ),
           SizedBox(height: 32,),
           Center(
-            child: CTypo(text:"กรุณาให้ข้อเสนอแนะ และให้คะแนนความพึงพอใจในการใช้งาน",variant: "body2",color: "secondary",textAlign: TextAlign.center,),
+            child: CTypo(text:tr('setting.feedback.desc'),variant: "body2",color: "secondary",textAlign: TextAlign.center,),
           ),
           SizedBox(height: 32,),
           Row(
@@ -121,7 +122,7 @@ class _SendCommentPageState extends State<SendCommentPage> {
           SizedBox(height: 32,),
           Center(
             child: OrangeButton(
-              title: "ส่งข้อมูล",
+              title: tr('app.send'),
             ),
           )
         ],

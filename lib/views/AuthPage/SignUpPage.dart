@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ios_d1/components/DTO/iflowRegisDTO.dart';
@@ -55,7 +56,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
     Widget Title() {
       return Text(
-        "สมัคร",
+        tr('app.register'),
         style: TextStyle(
             fontSize: 33,
             color: Colors.grey
@@ -148,13 +149,13 @@ class _SignUpPageState extends State<SignUpPage> {
                       SizedBox(width: 16,),
                       OrangeCheckbox(onChange: onChange,),
                       SizedBox(width: 16,),
-                      CTypo(text: "เข้าระบบโดยอัตโนมัติ",variant: "subtitle1",color: "secondary",),
+                      CTypo(text: tr('app.autoLogin'),variant: "subtitle1",color: "secondary",),
                     ],
                   ),
                   Container(height: 80,),
                   Container(
                     width: MediaQuery.of(context).size.width*0.4,
-                    child: OrangeButton(title: "สมัคร",onPress: toPolicy,),
+                    child: OrangeButton(title: tr('app.register'),onPress: toPolicy,),
                   )
                 ],
               ),

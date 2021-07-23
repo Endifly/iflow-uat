@@ -28,7 +28,29 @@
     "clearCache" : "delete cache",
     "logout" : "logout",
     "fullname" : "name",
-    "username" : "username"
+    "username" : "username",
+    "selectSession" : "select session",
+
+    "averageScore" : "average score",
+    "time" : "time",
+    "result" : "result",
+    "session" : "session",
+    "graph" : "graph",
+    "next" : "next",
+    "prev" : "previous",
+    "login" : "login",
+    "forgotPassword" : "forgot password",
+    "registeration" : "regiseration",
+    "autoLogin" : "login automaticly",
+    "register" : "register",
+    "servicePolicy" : "Service Policy",
+    "acceptServicePolicy" : "Accept Service Policy",
+    "or" : "or",
+    "with" : "with",
+    "signInWith" : "Sign in with",
+    "minute" : "minute",
+    "start" : "start"
+
   },
   "setting" : {
     "systemSettingTitle" : "system",
@@ -63,11 +85,12 @@
       "thresholdSetting" : {
         "title" : "threshold setting",
         "thresholdConfigureTitle" : "Threshold configure",
-        "thresholdConfigureDesc" : "Notification setting while meditate index reach the threshold",
+        "thresholdConfigureDesc" : "Notification setting when meditate index reach the threshold",
         "currentThreshold" : "Current thershold",
         "useDefaultThreshold" : "Default threshold",
         "selfSettingTheshold" : {
           "title" : "Configure your threshold",
+          "thresoldCriterionTitle" : "Threshold criterion",
           "criterion" : "IFLOW criterion"
         }
       }
@@ -80,6 +103,17 @@
       "title" : "feedback",
       "desc" : "Send us the IFLOW feedback and satisfaction"
     }
+  },
+  "headsetConnection" : {
+    "startConnection" : "connecting",
+    "connectingDevice" : "connecting",
+    "seachDevice" : "device searching",
+    "foundDevice" : "device found",
+    "foundTooManyDevice" : "found too many device",
+    "notFoundDevice" : "device not found",
+    "equipToStart" : "Equip heatset to start",
+    "calibrating" : "calibrating",
+    "headsetReady" : "Headset is ready"
   }
 
 }

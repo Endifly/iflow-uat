@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -47,16 +48,16 @@ class _InvitePageState extends State<InvitePage> {
             SizedBox(height: 32,),
             InviteHero(),
             SizedBox(height: 32,),
-            CTypo(text:"เชิญชวนเพื่อน",variant: "body2",),
-            CTypo(text:"แนะนำเพื่อให้รู้จักแอปพลิเคชั่น I Flow",color: "secondary",),
-            CTypo(text:"ผ่านทาง Social network",color: "secondary"),
+            CTypo(text:tr('setting.invite.title'),variant: "body2",),
+            CTypo(text:tr('setting.invite.recommendDesc'),color: "secondary",textAlign: TextAlign.center,),
+            // CTypo(text:"ผ่านทาง Social network",color: "secondary"),
             SizedBox(height: 32,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width*0.7,
-                  child: OrangeButton(title: "แชร์เลย",),
+                  child: OrangeButton(title: tr('app.share'),),
                 ),
               ],
             ),
@@ -78,7 +79,7 @@ class _InvitePageState extends State<InvitePage> {
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width*0.5,
-                  child: OrangeButton(title: "คัดลอกลิงค์",),
+                  child: OrangeButton(title: tr('app.copy'),),
                 ),
               ],
             ),

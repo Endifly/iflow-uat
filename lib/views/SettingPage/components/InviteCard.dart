@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -82,7 +83,7 @@ class _InviteCardState extends State<InviteCard> {
                       mainAxisAlignment: MainAxisAlignment.start,
                     ),
                     Spacer(flex: 1,),
-                    CTypo(text: "เชิญชวนเพื่อน",color: "secondary", variant: 'subtitle2',),
+                    CTypo(text: tr('setting.invite.title'),color: "secondary", variant: 'subtitle2',),
                     SizedBox(height: 16,),
                   ],
                 ),

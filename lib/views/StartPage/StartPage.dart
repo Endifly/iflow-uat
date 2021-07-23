@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ios_d1/views/Template/NavLayout.dart';
@@ -49,7 +50,7 @@ class _StatePageState extends State<StartPage> {
   List<Widget> time_selection() {
     return timing.map((time) => Container(
       child: Text(
-          '${time} นาที',
+          '${time} ${tr('app.minute')}',
           style:TextStyle(
               fontSize: 20,
               color: current_time_selection == time ? Colors.black : Colors.grey,
@@ -143,7 +144,7 @@ class _StatePageState extends State<StartPage> {
 
                       child: Container(
                         width: MediaQuery.of(context).size.width*0.5,
-                        child: headsetService == null ? WhiteButton(title: 'เริ่ม',):OrangeButton(title: 'เริ่ม',onPress: toRelax,),
+                        child: headsetService == null ? WhiteButton(title: tr('app.start'),):OrangeButton(title: tr('app.start'),onPress: toRelax,),
                       )
                   ),
                 ],

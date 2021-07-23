@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ios_d1/Provider/ProfileProvider.dart';
+import 'package:ios_d1/contexts/kTR.dart';
 import 'package:ios_d1/views/Template/NavLayout.dart';
 import 'package:provider/provider.dart';
 import '/components/customWidgets/Typography.dart';
@@ -205,10 +207,10 @@ class _ThresholdCustomPageState extends State<ThresholdCustomPage> {
       return Container(
         child: Column(
           children: [
-            CTypo(text:">65 : ดีเยี่ยม",color:"secondary"),
-            CTypo(text:"55-65 : ดีมาก",color:"secondary"),
-            CTypo(text:"46-54 : ดี",color:"secondary"),
-            CTypo(text:">65 : เบิกบานกว่านี้",color:"secondary"),
+            CTypo(text:">65 : ${tr('app.excellent')}",color:"secondary"),
+            CTypo(text:"55-65 : ${tr('app.great')}",color:"secondary"),
+            CTypo(text:"46-54 : ${tr('app.good')}",color:"secondary"),
+            CTypo(text:">65 : ${tr('app.better')}",color:"secondary"),
           ],
         ),
       );
@@ -246,7 +248,7 @@ class _ThresholdCustomPageState extends State<ThresholdCustomPage> {
               child: Column(
                 children: [
                   SizedBox(height: 32,),
-                  CTypo(text:"เกณท์การประเมินค่าเฉลี่ยของ App:"),
+                  CTypo(text:tr('${kTR.appThresholdSelfConfigSetting}.criterion')),
                   SizedBox(height: 16,),
                   Image.asset("assets/images/sun4.png"),
                   SizedBox(height: 16,),
@@ -266,19 +268,19 @@ class _ThresholdCustomPageState extends State<ThresholdCustomPage> {
                   SizedBox(height: 16,),
 
 
-                  CTypo(text: "ตั้งค่า Threshold ของคุณเอง",variant: "body2",),
+                  CTypo(text: tr('${kTR.appThresholdSelfConfigSetting}.title'),variant: "body2",),
                   Padding(
                     padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                    child: CTypo(text: "แอปจะแจ้งเตือน (ทางเสียงหรือระบบสั่น)เมื่อท่านเบิกบานในระดับที่ตั้งค่าไว้ตามเกณท์ค่า Threshold",variant: "subtitle1",color: "secondary",),
+                    child: CTypo(text: tr('${kTR.appThresholdSetting}.thresholdConfigureDesc'),variant: "subtitle1",color: "secondary",),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       IconButton(icon: FaIcon(FontAwesomeIcons.bell),onPressed: ()=>{},),
-                      CTypo(text: "เกณฑ์ค่า Threshold",),
-                      CTypo(text: "ค่า 60   =   ดี",),
-                      CTypo(text: "ค่า 70   =   ดีมาก",),
-                      CTypo(text: "ค่า 80   =   ดีเยี่ยม",),
+                      CTypo(text: tr('${kTR.appThresholdSelfConfigSetting}.thresoldCriterionTitle'),),
+                      CTypo(text: "${tr('app.value')} 60   =   ${tr('app.good')}",),
+                      CTypo(text: "${tr('app.value')} 70   =   ${tr('app.great')}"),
+                      CTypo(text: "${tr('app.value')} 80   =   ${tr('app.excellent')}",),
                     ],
                   ),
                   Slider(
@@ -299,7 +301,7 @@ class _ThresholdCustomPageState extends State<ThresholdCustomPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CTypo(text: "ค่า Threshold ปัจจุบัน",variant: "body2",color: "secondary",),
+                      CTypo(text: tr('setting.appSetting.thresholdSetting.currentThreshold'),variant: "body2",color: "secondary",),
                       SizedBox(width: 16,),
                       Container(
                         child: Container(
@@ -388,7 +390,7 @@ class ThresholdHero extends StatelessWidget {
             child: Column(
               children: [
                 Image.asset("assets/images/sun4.png"),
-                CTypo(text:"ดีเยี่ยม",variant: "subtitle2",textStyle: TextStyle(color: Colors.white),),
+                CTypo(text:tr('app.excellent'),variant: "subtitle2",textStyle: TextStyle(color: Colors.white),),
               ],
             ),
           ),
@@ -398,7 +400,7 @@ class ThresholdHero extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image.asset("assets/images/sun2.png"),
-                CTypo(text:"ดี",variant: "subtitle2",textStyle: TextStyle(color: Colors.white),),
+                CTypo(text:tr('app.good'),variant: "subtitle2",textStyle: TextStyle(color: Colors.white),),
               ],
             ),
           ),
@@ -408,7 +410,7 @@ class ThresholdHero extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image.asset("assets/images/sun1.png"),
-                CTypo(text:"เบิกบานกว่านี้",variant: "subtitle2",textStyle: TextStyle(color: Colors.white),),
+                CTypo(text:tr('app.better'),variant: "subtitle2",textStyle: TextStyle(color: Colors.white),),
               ],
             ),
           ),

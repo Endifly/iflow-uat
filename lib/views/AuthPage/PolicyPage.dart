@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -61,7 +62,7 @@ class _PolicyPageState extends State<PolicyPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("นโยบายการให้บริการ",style: TextStyle(
+                Text(tr('app.servicePolicy'),style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),),
@@ -73,13 +74,13 @@ class _PolicyPageState extends State<PolicyPage> {
                     SizedBox(width: 16,),
                     OrangeCheckbox(),
                     SizedBox(width: 16,),
-                    CTypo(text: "ยอมรับนโยบายการให้บริการ",variant: "subtitle2",color: "secondary",),
+                    CTypo(text: tr('app.acceptServicePolicy'),variant: "subtitle2",color: "secondary",),
                   ],
                 ),
                 SizedBox(height: 32,),
                 Container(
                   width: MediaQuery.of(context).size.width*0.3,
-                  child: OrangeButton(title: "ถัดไป",onPress: onRegis,),
+                  child: OrangeButton(title: tr('app.next'),onPress: onRegis,),
                 )
               ],
             ),

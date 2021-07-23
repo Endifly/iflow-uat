@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -42,11 +43,11 @@ class _HelpPageState extends State<HelpPage> {
           Divider(color: kColors.blue[500],),
           SizedBox(height: 64,),
           Center(
-            child: CTypo(text:"ขอความช่วยเหลือ",variant: "h6",color: "secondary",),
+            child: CTypo(text:tr('setting.help.title'),variant: "h6",color: "secondary",),
           ),
           SizedBox(height: 64,),
           WhiteButton(
-            title: "Contact us",
+            title: tr('setting.help.contactUs'),
           )
         ],
       ),

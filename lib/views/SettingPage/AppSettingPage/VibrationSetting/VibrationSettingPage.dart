@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ios_d1/contexts/kTR.dart';
 import '/components/customWidgets/Typography.dart';
 import '/components/icons/PrevIcon.dart';
 import '/contexts/kColors.dart';
@@ -49,7 +51,7 @@ class _VibrationSettingPageState extends State<VibrationSettingPage> {
           SizedBox(height: 16,),
           Divider(color: kColors.blue[500],),
           SizedBox(height: 16,),
-          VibrateSettingButton(title: "ตั้งค่าการสั่น",desc: "เลือกโหมดการสั่นเวลาค่าดัชนี i flow ถึงระดับแจ้งเตือน",enable: vibrate,type: "vibrate",onPress: (value,type)=>toggle(val: value,type: type),),
+          VibrateSettingButton(title: tr(kTR.appVibrationTitleSetting),desc: tr(kTR.appVibrationDescSetting),enable: vibrate,type: "vibrate",onPress: (value,type)=>toggle(val: value,type: type),),
           SizedBox(height: 16,),
           Divider(color: kColors.blue[500],),
         ],
