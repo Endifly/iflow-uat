@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ios_d1/contexts/kTR.dart';
 import '/components/customWidgets/Typography.dart';
 import '/components/icons/PrevIcon.dart';
 import '/contexts/kColors.dart';
@@ -62,15 +64,15 @@ class _VoiceSettingPageState extends State<VoiceSettingPage> {
           SizedBox(height: 16,),
           Divider(color: kColors.blue[500],),
           SizedBox(height: 16,),
-          VoiceSettingButton(title: "เสียงพูด",desc: "เสียงอธิบายการทำงานในหมวดต่างๆของ App",enable: talk,type: "talk",onPress: (value,type)=>toggle(type: type,val: value),),
+          VoiceSettingButton(title: tr('${kTR.appSoundSetting}.vocalTitle'),desc: tr('${kTR.appSoundSetting}.vocalDesc'),enable: talk,type: "talk",onPress: (value,type)=>toggle(type: type,val: value),),
           SizedBox(height: 16,),
           Divider(color: kColors.blue[500],),
           SizedBox(height: 16,),
-          VoiceSettingButton(title: "เสียงประกอบ",desc: "เสียงที่ใช้แจ้งเตือนเมื่อเครื่อง i flow วัดค่าถึงระดับเกณท์แจ้งเตือน" ,enable: env,type: "env",onPress: (value,type)=>toggle(type: type,val: value),),
+          VoiceSettingButton(title: tr('${kTR.appSoundSetting}.soundEffectTitle'),desc: tr('${kTR.appSoundSetting}.soundEffectDesc') ,enable: env,type: "env",onPress: (value,type)=>toggle(type: type,val: value),),
           SizedBox(height: 16,),
           Divider(color: kColors.blue[500],),
           SizedBox(height: 16,),
-          VoiceSettingButton(title: "เสียงแจ้งเตือนสัญญาอุปกรณ์",desc: "เปิดหรือปิดเสียงแจ้งเตือนของอุปกรณ์เมื่อ App เปิดใช้งาน",enable: device,type: "device",onPress: (value,type)=>toggle(type: type,val: value),),
+          VoiceSettingButton(title: tr('${kTR.appSoundSetting}.soundDeviceTitle'),desc: tr('${kTR.appSoundSetting}.soundDeviceDesc'),enable: device,type: "device",onPress: (value,type)=>toggle(type: type,val: value),),
           SizedBox(height: 16,),
           Divider(color: kColors.blue[500],),
         ],

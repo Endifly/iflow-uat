@@ -1,15 +1,19 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:ios_d1/components/customWidgets/OrangeButton.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
+import 'package:ios_d1/services/AuthService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LogoutButton extends StatelessWidget {
-  @override
+  AuthService authService = AuthService();
 
+  @override
   Widget build(BuildContext context) {
     // TODO: implement build
     void toSelectPage() {
-      Navigator.pushNamed(context, '/select-auth');
+      // Navigator.pushNamed(context, '/select-auth');
+      authService.logout(context);
     }
 
     void handleLogout() async{
@@ -22,7 +26,7 @@ class LogoutButton extends StatelessWidget {
     }
 
     return OrangeButton(
-      title: "ออกจากระบบ",
+      title: tr('app.logout'),
       onPress: handleLogout,
     );
   }

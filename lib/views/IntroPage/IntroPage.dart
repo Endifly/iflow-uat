@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ios_d1/Provider/ProfileProvider.dart';
+import 'package:ios_d1/components/customClass/Loader.dart';
 import 'package:ios_d1/components/customClass/UseProfile.dart';
 import 'package:ios_d1/components/customWidgets/OrangeButton.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
+import 'package:ios_d1/services/AuthService.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,6 +23,7 @@ class _IntroPageState extends State<IntroPage>{
 
   bool rendered = false;
   UseProfile profile = UseProfile();
+  AuthService authService = AuthService();
 
   void router() async {
     var userID = await profile.getUserID();
@@ -32,18 +35,26 @@ class _IntroPageState extends State<IntroPage>{
     }
   }
 
+  void authGuard() async {
+    var me = await authService.queryMe();
+    print("queryMe ${me.userID}");
+    if (me.userID != "") Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+    else Navigator.pushNamedAndRemoveUntil(context, "/introduce", (route) => false);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 3), () {
-      // 5s over, navigate to a new page
-      setState(() {
-        rendered = true;
-      });
-      // Navigator.pushNamed(context, "/introduce");
-      router();
-    });
+    authGuard();
+    // Timer(Duration(seconds: 3), () {
+    //   // 5s over, navigate to a new page
+    //   setState(() {
+    //     rendered = true;
+    //   });
+    //   // Navigator.pushNamed(context, "/introduce");
+    //   router();
+    // });
   }
 
   @override
@@ -88,7 +99,7 @@ class _IntroPageState extends State<IntroPage>{
              mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset("assets/images/main_logo.png"),
-              MenualNext(),
+              Loader.circleLoader,
             ],
           ),
         ),

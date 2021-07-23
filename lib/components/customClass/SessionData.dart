@@ -9,6 +9,7 @@ class SessionData {
   final int threshold;
   final int duration;
   final String sessionDate;
+  final int average;
 
   SessionData({
     required this.type,
@@ -19,6 +20,7 @@ class SessionData {
     this.rawWandering,
     this.id,
     required this.uploaded,
+    required this.average,
   });
 
   static String typeParser(int type) {
@@ -39,7 +41,8 @@ class SessionData {
         sessionDate: parsedJson['createdAt'],
         duration: parsedJson['duration'],
         id: parsedJson['id']?.toString() ?? "",
-        uploaded: parsedJson['upadloed'] ?? false,
+        uploaded: parsedJson['uploaded'] ?? false,
+        average: parsedJson['valueAverage'] ?? 0,
     );
   }
 
@@ -55,6 +58,7 @@ class SessionData {
         duration: parsedJson['duration'],
         id: parsedJson['id']?.toString() ?? "",
         uploaded: true,
+        average: parsedJson['valueAverage'] ?? 0,
     );
   }
 
@@ -79,6 +83,7 @@ class SessionData {
         duration: parsedJson['duration'] ?? "",
         id: parsedJson['id']?.toString() ?? "",
         uploaded: parsedJson['uploaded'] ?? false,
+        average: parsedJson['average'] ?? 0,
     );
   }
 
@@ -92,6 +97,7 @@ class SessionData {
       "duration" : this.duration,
       "id" : this.id ?? "",
       "uploaded" : this.uploaded,
+      "average" : this.average,
     };
   }
 }

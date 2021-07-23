@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ios_d1/components/DTO/iflowRegisDTO.dart';
+import 'package:ios_d1/views/AuthPage/PolicyPage.dart';
 import '/components/DecorationConcave.dart';
 import '/components/customWidgets/OrangeButton.dart';
 import '/components/customWidgets/OrangeCheckbox.dart';
@@ -17,9 +19,15 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+
+  String username = "";
+  String password = "";
+  String phoneNo = "";
+  String email = "";
+
+
+
   @override
-
-
 
   final BACKGROUND = BoxDecoration(
       gradient: LinearGradient(
@@ -77,13 +85,46 @@ class _SignUpPageState extends State<SignUpPage> {
     }
 
     void toPolicy() {
-      Navigator.pushNamed(context, '/policy');
+      var regisParams = iflowRegisDTO(
+        username: this.username,
+        email: this.email,
+        password: this.password,
+        phoneNo: this.phoneNo
+      );
+      // Navigator.pushNamed(context, '/policy');
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => new PolicyPage(
+              regisParams: regisParams,
+            )),
+      );
+    }
+
+    void onChangeUsername(String val) {
+      setState(() {
+        username = val;
+      });
+    }
+    void onChangePassword(String val) {
+      setState(() {
+        password = val;
+      });
+    }
+    void onChangeEmail(String val) {
+      setState(() {
+        email = val;
+      });
+    }
+    void onChangePhone(String val) {
+      setState(() {
+        phoneNo = val;
+      });
     }
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-          body: SafeArea(
-        child: Container(
+          body: Container(
           alignment: Alignment.center,
           decoration: BACKGROUND,
           child: SafeArea(
@@ -94,13 +135,13 @@ class _SignUpPageState extends State<SignUpPage> {
                 children: [
                   Title(),
                   Container(height: 80,),
-                  WhiteTextfield(title:"Username"),
+                  WhiteTextfield(title:"Username",callback: onChangeUsername),
                   Container(height: 24,),
-                  WhiteTextfield(title:"Password"),
+                  WhiteTextfield(title:"Password",callback: onChangePassword,),
                   PasswordAware(),
-                  WhiteTextfield(title:"Mobile No"),
+                  WhiteTextfield(title:"Mobile No",callback: onChangePhone,),
                   Container(height: 16,),
-                  WhiteTextfield(title:"E-mail"),
+                  WhiteTextfield(title:"E-mail",callback: onChangeEmail,),
                   SizedBox(height: 16,),
                   Row(
                     children: [
@@ -120,7 +161,6 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
           )
         ),
-      ),
     );
   }
 }

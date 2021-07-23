@@ -1,6 +1,7 @@
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_line_sdk/flutter_line_sdk.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'dart:async';
 // import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -67,16 +68,25 @@ FlutterLocalNotificationsPlugin();
 
 const String LINE_CHANNEL_ID = "1655689195";
 
-void main() {
+void main() async {
   // SharedPreferences.setMockInitialValues({});
   WidgetsFlutterBinding.ensureInitialized();
   LineSDK.instance.setup("${LINE_CHANNEL_ID}").then((_) {
     print("LineSDK Prepared");
     });
-  runApp(MyConstants(
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  runApp(
+      MyConstants(
     key: UniqueKey(),
-    child: MyApp(),
-  ));
+    child:  EasyLocalization(
+      supportedLocales: [Locale('en'), Locale('th')],
+      path: 'assets/lang',
+      fallbackLocale: Locale('th'),
+      child: MyApp(),
+    ),
+  )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -94,6 +104,9 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
         theme: ThemeData(
           highlightColor: Color(0xffffc600),
           fontFamily: 'Prompt',

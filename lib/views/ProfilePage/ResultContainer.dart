@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ios_d1/components/customClass/SessionData.dart';
 import 'package:ios_d1/components/customClass/Stat.dart';
 import 'package:ios_d1/components/customClass/UserSessions.dart';
+import 'package:ios_d1/contexts/kColors.dart';
 import '/components/customWidgets/Typography.dart';
 
 typedef void onpressCallback();
@@ -123,8 +124,9 @@ class ResultContainer extends StatelessWidget {
               borderRadius: BorderRadius.circular(40.0),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                SizedBox(width: 12,),
                 Image.asset(getIconPath()),
                 SizedBox(width: 12,),
                 Column(
@@ -144,15 +146,20 @@ class ResultContainer extends StatelessWidget {
                 SizedBox(width: 12,),
                 Container(
                   child: CTypo(
-                    text: getScore(),
+                    text: "${sessionData?.average}",
                     variant: 'h4',
                   ),
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.5),
+                    // color: Colors.white.withOpacity(0.5),
+                    gradient: RadialGradient(
+                      colors: [Colors.white,kColors.gold[500]!],
+                      radius: 1.5,
+                    ),
                     shape: BoxShape.circle,
                   ),
-                )
+                ),
+                SizedBox(width: 12,),
                 // CTypo(text: '90'),
                 // SizedBox(width: 12,),
                 // Column(

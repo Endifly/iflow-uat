@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ios_d1/components/customClass/UseProfile.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
 import 'package:ios_d1/views/Template/NavLayout.dart';
 import '/components/ProfileImage.dart';
@@ -25,12 +26,17 @@ class _PersonalInfomationPageState extends State<PersonalInfomationPage> {
 
   String? username = "";
   String? avatarURL = "";
+  UseProfile profile = UseProfile();
 
   void _setupSharePreference() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    var loginType = prefs.getString(kPrefs.type);
+
     setState(() {
-      username = prefs.getString(kPrefs.username);
       avatarURL = prefs.getString(kPrefs.avatarURL);
+      if (loginType == "facebook") {
+        username = "${prefs.getString(kPrefs.firstname)} ${prefs.getString(kPrefs.lastname)}";
+      }
     });
   }
 

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -24,7 +25,7 @@ class _SettingPageState extends State<SettingPage> {
   Widget personalCard() {
     return Container(
       height: 160,
-      width: MediaQuery.of(context).size.width*0.3,
+      width: MediaQuery.of(context).size.width*0.35,
       decoration: BoxDecoration(
         color: kColors.gold[400]!.withOpacity(0.8),
         borderRadius: BorderRadius.circular(24),
@@ -53,7 +54,7 @@ class _SettingPageState extends State<SettingPage> {
             mainAxisAlignment: MainAxisAlignment.start,
           ),
           Spacer(flex: 1,),
-          CTypo(text: "ข้อมูลส่วนตัว",color: "secondary",),
+          CTypo(text: tr('setting.personal.title'),color: "secondary",),
           SizedBox(height: 16,),
         ],
       ),
@@ -123,7 +124,7 @@ class _SettingPageState extends State<SettingPage> {
               children: [
                 IconButton(icon: Image.asset("assets/icons/setting1.png"), onPressed: ()=>{},),
                 SizedBox(width: 64,),
-                CTypo(text: "ตั้งค่าระบบ",variant: "h6",),
+                CTypo(text: tr('setting.systemSettingTitle'),variant: "h6",),
               ],
             ),
             SizedBox(height: 16,),
@@ -148,13 +149,13 @@ class _SettingPageState extends State<SettingPage> {
               padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
               child: Column(
                 children: [
-                  SettingWhiteButton(icon: FaIcon(FontAwesomeIcons.userShield),title: "ความเป็นส่วนตัว",onPress: ()=>to(path: "/privacy"),),
+                  SettingWhiteButton(icon: FaIcon(FontAwesomeIcons.userShield),title: tr('setting.privacy.title'),onPress: ()=>to(path: "/privacy"),),
                   SizedBox(height: 24,),
-                  SettingWhiteButton(icon: FaIcon(FontAwesomeIcons.cog),title: "ตั้งค่าการใช้งาน",onPress: ()=>to(path: "/app"),),
+                  SettingWhiteButton(icon: FaIcon(FontAwesomeIcons.cog),title: tr('setting.appSetting.title'),onPress: ()=>to(path: "/app"),),
                   SizedBox(height: 24,),
-                  SettingWhiteButton(icon: FaIcon(FontAwesomeIcons.infoCircle),title: "ขอความช่วยเหลือ",onPress: ()=>to(path: "/help"),),
+                  SettingWhiteButton(icon: FaIcon(FontAwesomeIcons.infoCircle),title: tr('setting.help.title'),onPress: ()=>to(path: "/help"),),
                   SizedBox(height: 24,),
-                  SettingWhiteButton(icon: FaIcon(FontAwesomeIcons.envelope),title: "ส่งความเห็น",onPress: ()=>to(path: "/comment"),),
+                  SettingWhiteButton(icon: FaIcon(FontAwesomeIcons.envelope),title: tr('setting.feedback.title'),onPress: ()=>to(path: "/comment"),),
                   SizedBox(height: 24,),
                   SizedBox(
                     width: MediaQuery.of(context).size.width*0.7,

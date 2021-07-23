@@ -1,0 +1,84 @@
+{
+  "app": {
+    "title": "Multi locale clicker",
+    "changeLang": "Change language",
+    "description": "คลิกสิคลิกหลายๆที",
+    "increment": "เพิ่ม",
+    "counter": {
+      "zero": "{} ครั้ง",
+      "one": "{} ครั้ง",
+      "two": "{} ครั้ง",
+      "other": "{} ครั้ง"
+    },
+    "new" : "ใหม่",
+    "relax" : "ผ่อนคลาย",
+    "wandering" : "รู้สึกตัว",
+    "sessionHistoryTitle" : "ดูข้อมูลย้อนหลัง",
+    "submit" : "ยืนยัน",
+    "confirm" : "ยืนยัน",
+    "cancel" : "ยกเลิก",
+    "share" : "แชร์",
+    "copy" : "คัดลอก",
+    "good" : "ดี",
+    "great" : "เยี่ยม",
+    "excellent" : "เยี่ยมมาก",
+    "better" : "เบิกบานกว่านี้",
+    "value" : "ค่า",
+    "send" : "ส่ง",
+    "clearCache" : "ลบ cache",
+    "logout" : "ออกจากระบบ",
+    "fullname" : "ชื่อ",
+    "username" : "ชื่อผู้ใช้"
+  },
+  "setting" : {
+    "systemSettingTitle" : "ตั้งค่าระบบ",
+    "personal" : {
+      "title" : "ข้อมูลส่วนตัว"
+    },
+    "invite" : {
+      "title" : "เชิญชวนเพื่อน",
+      "recommendDesc" : "แนะนำเพื่อให้รู้จักแอปพลิเคชั่น I Flow ผ่านทาง Social network"
+    },
+    "privacy" : {
+      "title" : "ความเป็นส่วนตัว",
+      "desc" : "เราเคารพความเป็นส่วนตัวของท่านในการใช้งานแอพพลิเคชั่น i flow โดยอ่านรายละเอียดโดยกดปุ่มข้างล่างนี้",
+      "openPolicyButton" : "อ่านนโยบายการใช้แอพพลิเคชั่น"
+    },
+    "appSetting" : {
+      "title" : "ตั้งค่าการใช้งาน",
+      "soundSetting" : {
+        "title" : "ตั้งค่าเสียง",
+        "vocalTitle" : "เสียงพูด",
+        "vocalDesc" : "เสียงอธิบายการทำงานในหมวดต่างๆของ App",
+        "soundEffectTitle" : "เสียงประกอบ",
+        "soundEffectDesc" : "เสียงที่ใช้แจ้งเตือนเมื่อเครื่อง i flow วัดค่าถึงระดับเกณท์แจ้งเตือน",
+        "soundDeviceTitle" : "เสียงแจ้งเตือนสัญญาอุปกรณ์",
+        "soundDeviceDesc" : "เปิดหรือปิดเสียงแจ้งเตือนของอุปกรณ์เมื่อ App เปิดใช้งาน"
+      },
+      "vibrationSetting" : {
+        "title" : "ตั้งค่าการสั่น",
+        "vibrateTitle" : "ตั้งค่าการสั่น",
+        "vibrateDesc" : "เลือกโหมดการสั่นเวลาค่าดัชนี i flow ถึงระดับแจ้งเตือน"
+      },
+      "thresholdSetting" : {
+        "title" : "กำหนดค่า Threshold",
+        "thresholdConfigureTitle" : "กำหนดค่า Threshold",
+        "thresholdConfigureDesc" : "ั้งค่าแจ้งเตือน เมื่อค่าสมาธิผ่อนคลายถึงเกณท์ที่กำหนด",
+        "currentThreshold" : "ค่า Threshold ปัจจุบัน",
+        "useDefaultThreshold" : "ค่ามาตรฐาน",
+        "selfSettingTheshold" : {
+          "title" : "ั้งค่า Threshold ของคุณเอง",
+          "criterion" : "เกณท์การประเมินค่าเฉลี่ยของ App:"
+        }
+      }
+    },
+    "help" : {
+      "title" : "help",
+      "contactUs" : "Contact Us"
+    },
+    "feedback" : {
+      "title" : "feedback",
+      "desc" : "Send us the IFLOW feedback and satisfaction"
+    }
+  }
+}

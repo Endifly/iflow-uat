@@ -1,0 +1,85 @@
+{
+  "app": {
+    "title": "Multi locale clicker",
+    "changeLang": "เปลี่ยนภาษา",
+    "description": "You have pushed the button this many times",
+    "increment": "Increment",
+    "counter": {
+      "zero": "{} times",
+      "one": "{} time",
+      "two": "{} times",
+      "other": "{} times"
+    },
+    "new" : "new",
+    "relax" : "relax",
+    "wandering" : "wandering",
+    "sessionHistoryTitle" : "history",
+    "submit" : "submit",
+    "confirm" : "confirm",
+    "cancel" : "cancel",
+    "share" : "share",
+    "copy" : "copy",
+    "good" : "good",
+    "great" : "great",
+    "excellent" : "excellent",
+    "better" : "relax more",
+    "value" : "value",
+    "send" : "send",
+    "clearCache" : "delete cache",
+    "logout" : "logout",
+    "fullname" : "name",
+    "username" : "username"
+  },
+  "setting" : {
+    "systemSettingTitle" : "system",
+    "personal" : {
+      "title" : "personal info"
+    },
+    "invite" : {
+      "title" : "invite friend",
+      "recommendDesc" : "Recommend IFLOW to your friends through social networks"
+    },
+    "privacy" : {
+      "title" : "privacy",
+      "desc" : "Click the button below for more details about the privacy policy",
+      "openPolicyButton" : "privacy policy"
+    },
+    "appSetting" : {
+      "title" : "setting",
+      "soundSetting" : {
+        "title" : "sound setting",
+        "vocalTitle" : "Vocal voice",
+        "vocalDesc" : "Vocal description about application workflow",
+        "soundEffectTitle" : "Sound effect",
+        "soundEffectDesc" : "Notification sound when your IFLOW index is above threshold",
+        "soundDeviceTitle" : "Device sound",
+        "soundDeviceDesc" : "Open / Off sound notification from headset device while using IFLOW"
+      },
+      "vibrationSetting" : {
+        "title" : "vibration setting",
+        "vibrateTitle" : "vibration setting",
+        "vibrateDesc" : "select vibration mode when IFLOW index is above threshold"
+      },
+      "thresholdSetting" : {
+        "title" : "threshold setting",
+        "thresholdConfigureTitle" : "Threshold configure",
+        "thresholdConfigureDesc" : "Notification setting while meditate index reach the threshold",
+        "currentThreshold" : "Current thershold",
+        "useDefaultThreshold" : "Default threshold",
+        "selfSettingTheshold" : {
+          "title" : "Configure your threshold",
+          "criterion" : "IFLOW criterion"
+        }
+      }
+    },
+    "help" : {
+      "title" : "help",
+      "contactUs" : "Contact Us"
+    },
+    "feedback" : {
+      "title" : "feedback",
+      "desc" : "Send us the IFLOW feedback and satisfaction"
+    }
+  }
+
+}

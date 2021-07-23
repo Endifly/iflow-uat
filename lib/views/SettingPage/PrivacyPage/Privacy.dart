@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -39,14 +40,14 @@ class _PrivacyPageState extends State<PrivacyPage> {
           SizedBox(height: 16,),
           Divider(color: kColors.blue[500],),
           SizedBox(height: 32,),
-          CTypo(text:"ความเป็นส่วนตัว",variant: "body2",),
+          CTypo(text:tr('setting.privacy.title'),variant: "body2",),
           SizedBox(height: 8,),
-          CTypo(text:"เราเคารพความเป็นส่วนตัวของท่านในการใช้งานแอพพลิเคชั่น i flow โดยอ่านรายละเอียดโดยกดปุ่มข้างล่างนี้",color: "secondary",),
+          CTypo(text:tr('setting.privacy.desc'),color: "secondary",),
           SizedBox(height: 32,),
           Center(
             child: SizedBox(
               width: MediaQuery.of(context).size.width*1.0,
-              child: OrangeButton(title: "อ่านนโยบายการใช้แอพพลิเคชั่น",),
+              child: OrangeButton(title: tr('setting.privacy.openPolicyButton'),),
             ),
           ),
           SizedBox(height: 64,),

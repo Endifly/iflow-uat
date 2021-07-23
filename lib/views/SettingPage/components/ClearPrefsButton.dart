@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:ios_d1/components/customWidgets/OrangeButton.dart';
 import 'package:ios_d1/components/customWidgets/WhiteButton.dart';
@@ -18,7 +19,7 @@ class ClearPrefsButton extends StatelessWidget {
     }
 
     return WhiteButton(
-      title: "ลบ cache",
+      title: tr('app.clearCache'),
       onPress: handleLogout,
     );
   }

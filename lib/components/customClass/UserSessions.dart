@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:ios_d1/components/customClass/SessionData.dart';
+import 'package:ios_d1/components/customClass/Stat.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
 import 'package:ios_d1/services/SessionService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -94,6 +95,7 @@ class UserSessions {
           sessionDate: (new DateTime.now().toString()),
           duration: du,
           uploaded: false,
+          average: Stat.average(data).toInt(),
       );
       // this.sessions.add(newSessionData);
       if (this.sessions != null) {
@@ -113,6 +115,7 @@ class UserSessions {
         sessionDate: (new DateTime.now().toString()),
         duration: du,
         uploaded: false,
+        average: Stat.average(relax ?? []).toInt(),
       );
       // this.sessions.add(newSessionData);
       if (this.sessions != null) {

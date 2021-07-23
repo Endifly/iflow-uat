@@ -1,10 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ios_d1/components/customClass/Loader.dart';
 import 'package:ios_d1/components/customClass/SessionData.dart';
 import 'package:ios_d1/components/customClass/UserSessions.dart';
 import 'package:ios_d1/components/customClass/useUserSession.dart';
+import 'package:ios_d1/contexts/LoginType.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
 import 'package:ios_d1/services/SessionService.dart';
 import 'package:ios_d1/views/ProfilePage/SummaryPage/ConsciousSummaryPage.dart';
@@ -37,9 +40,16 @@ class _ProfilePageState extends State<ProfilePage> {
     await sessionServices.initial();
     await userSessions.sync();
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    var loginType = prefs.getString(kPrefs.type);
     setState(() {
-      username = prefs.getString(kPrefs.username);
+      // username = prefs.getString(kPrefs.username);
       avatarURL = prefs.getString(kPrefs.avatarURL);
+      if (loginType == LoginType.facebook)  {
+        username = "${prefs.getString(kPrefs.firstname)} ${prefs.getString(kPrefs.lastname)}";
+      }
+      if (loginType == LoginType.iflow) {
+        username = prefs.getString(kPrefs.username);
+      }
 
     });
   }
@@ -148,14 +158,14 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 ProfileImage(Avatar: getAvatar(),),
                 SizedBox(height: 16,),
-                CTypo(text: "ชื่อ ${username}",variant: "body1",color: "secondary",),
+                CTypo(text: "${username}",variant: "body1",color: "secondary",),
                 SizedBox(height: 32,),
                 Row(
                   children: [
                     Container(
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.only(left: 8),
-                      child: CTypo(text: "ดูข้อมูลย้อนหลัง",variant: "body1",),
+                      child: CTypo(text: tr('app.sessionHistoryTitle'),variant: "body1",),
                     ),
                     Container(
                       child: IconButton(
@@ -164,6 +174,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     )
                   ],
+                ),
+                Center(
+                  child: Loader.CircleLoader(show: userSessions.sessions == null),
                 ),
                 SizedBox(height: 16,),
                 // ResultContainer(onpress: ()=>Navigator.pushNamed(context, '/history'),),

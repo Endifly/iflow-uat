@@ -44,4 +44,18 @@ class ProfileQuery {
     );
   }
 
+  factory ProfileQuery.invalid() {
+    return ProfileQuery(
+        userID: "",
+        userName: "" ,
+        accessToken: "",
+        pictureURL: "",
+        email: "",
+        firstName: "",
+        lastName: "",
+        type: "",
+        role: ""
+    );
+  }
+
 }

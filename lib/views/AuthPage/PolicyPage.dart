@@ -1,11 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ios_d1/components/DTO/iflowRegisDTO.dart';
+import 'package:ios_d1/services/AuthService.dart';
 import '/components/customWidgets/OrangeButton.dart';
 import '/components/customWidgets/OrangeCheckbox.dart';
 import '/components/customWidgets/Typography.dart';
 
 class PolicyPage extends StatefulWidget {
+  final iflowRegisDTO? regisParams;
+
+  PolicyPage({this.regisParams});
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -29,10 +35,18 @@ class _PolicyPageState extends State<PolicyPage> {
 
   void _setup() async {
     String _policy = await loadPolicy();
-    print(_policy);
+    // print(_policy);
     setState(() {
       policy = _policy;
     });
+  }
+
+  void onRegis() async {
+    print(widget.regisParams?.username);
+    if (widget.regisParams != null ) {
+      AuthService.iflowRegis(widget.regisParams!);
+      Navigator.pushNamed(context, '/select-auth');
+    }
   }
 
   @override
@@ -65,7 +79,7 @@ class _PolicyPageState extends State<PolicyPage> {
                 SizedBox(height: 32,),
                 Container(
                   width: MediaQuery.of(context).size.width*0.3,
-                  child: OrangeButton(title: "ถัดไป",),
+                  child: OrangeButton(title: "ถัดไป",onPress: onRegis,),
                 )
               ],
             ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ios_d1/components/customWidgets/Typography.dart';
@@ -72,6 +73,15 @@ class _HomePageState extends State<HomePage> {
                         RelaxButton(),
                         SizedBox(height: 32,),
                         WanderingButton(),
+                        ElevatedButton(
+                            onPressed: ()=>{
+                            if (context.locale.languageCode == 'en') {
+                            context.setLocale(Locale('th'))
+                                } else {
+                            context.setLocale(Locale('en'))
+                            }
+                            },
+                            child: Text(tr('app.changeLang')))
                       ],
                     ),
                   )
@@ -190,7 +200,7 @@ class _WanderingButtonState extends State<WanderingButton> {
               alignment: Alignment.center,
               children: [
                 Text(
-                  "รู้สึกตัว",
+                  tr('app.wandering'),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black38,
@@ -330,7 +340,7 @@ class _RelaxButtonState extends State<RelaxButton> {
             alignment: Alignment.center,
             children: [
               Text(
-                "ผ่อนคลาย",
+                tr('app.relax'),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.black38,

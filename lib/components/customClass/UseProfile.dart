@@ -34,6 +34,12 @@ class UseProfile {
     return val ?? "";
   }
 
+  Future<String> getAccessToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? val = prefs.getString(kPrefs.accessToken);
+    return val ?? "";
+  }
+
   static Future<void> initProfile(ProfileQuery profileQuery) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(kPrefs.username, profileQuery.userName);
@@ -43,7 +49,21 @@ class UseProfile {
     await prefs.setString(kPrefs.lastname, profileQuery.lastName);
     await prefs.setString(kPrefs.avatarURL, profileQuery.pictureURL);
     await prefs.setString(kPrefs.accessToken, profileQuery.accessToken);
+    await prefs.setString(kPrefs.type, profileQuery.type);
     await prefs.setDouble(kPrefs.threshold, 60.0);
-}
+  }
+
+  Future clearProfile() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove(kPrefs.username);
+    await prefs.remove(kPrefs.userID);
+    await prefs.remove(kPrefs.role);
+    await prefs.remove(kPrefs.firstname);
+    await prefs.remove(kPrefs.lastname);
+    await prefs.remove(kPrefs.avatarURL);
+    await prefs.remove(kPrefs.accessToken);
+    await prefs.remove(kPrefs.threshold);
+    await prefs.remove(kPrefs.type);
+  }
 
 }

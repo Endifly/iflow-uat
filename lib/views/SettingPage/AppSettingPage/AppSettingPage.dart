@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -42,15 +43,15 @@ class _AppSettingPageState extends State<AppSettingPage> {
           SizedBox(height: 16,),
           Divider(color: kColors.blue[500],),
           SizedBox(height: 32,),
-          SettingWhiteButton(title: "ตั้งค่าเสียง",icon: FaIcon(FontAwesomeIcons.volumeUp),onPress: ()=>to('/voice')),
+          SettingWhiteButton(title: tr('setting.appSetting.soundSetting.title'),icon: FaIcon(FontAwesomeIcons.volumeUp),onPress: ()=>to('/voice')),
           SizedBox(height: 16,),
           Divider(color: kColors.blue[500],),
           SizedBox(height: 16,),
-          SettingWhiteButton(title: "ตั้งค่าการสั่น",icon: FaIcon(FontAwesomeIcons.volumeUp),onPress: ()=>to('/vibrate')),
+          SettingWhiteButton(title: tr('setting.appSetting.vibrationSetting.title'),icon: FaIcon(FontAwesomeIcons.volumeUp),onPress: ()=>to('/vibrate')),
           SizedBox(height: 16,),
           Divider(color: kColors.blue[500],),
           SizedBox(height: 16,),
-          SettingWhiteButton(title: "กำหนดค่า Threshold",icon: FaIcon(FontAwesomeIcons.chartLine),onPress: ()=>to('/threshold'),),
+          SettingWhiteButton(title: tr('setting.appSetting.thresholdSetting.title'),icon: FaIcon(FontAwesomeIcons.chartLine),onPress: ()=>to('/threshold'),),
           SizedBox(height: 16,),
           Divider(color: kColors.blue[500],),
         ],

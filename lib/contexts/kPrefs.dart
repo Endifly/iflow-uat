@@ -15,6 +15,8 @@ mixin kPrefs implements InheritedWidget {
   static String userID = "userID";
   static String accessToken = "accessToken";
   static String role = "role";
+  static String type = "type";
+  static String email = "email";
 
   static String userSessions = "userSessions";
 
