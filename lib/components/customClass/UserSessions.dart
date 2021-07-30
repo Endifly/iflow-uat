@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserSessions {
   String? userID;
   List<SessionData>? sessions;
+  List<SessionData>? localSession;
 
   UserSessions({this.sessions,this.userID});
 
@@ -82,8 +83,21 @@ class UserSessions {
   Map<String, dynamic> toJson() {
     return {
       "userID": this.userID,
-      "sessions": this.sessions,
+      "sessions": this.localSession,
     };
+  }
+
+  void addLocalSession(SessionData sessionData) {
+    List<SessionData> tmp = [];
+    if (this.sessions != null) {
+      this.sessions!.forEach((s) {
+        if (s.uploaded == false) {
+          tmp.add(s);
+        }
+      });
+    }
+    tmp.add(sessionData);
+    this.localSession = tmp;
   }
 
   void addRelax(List<int>? data, int? th,int du) {
@@ -98,9 +112,10 @@ class UserSessions {
           average: Stat.average(data).toInt(),
       );
       // this.sessions.add(newSessionData);
-      if (this.sessions != null) {
-        this.sessions!.add(newSessionData);
-      }
+      addLocalSession(newSessionData);
+      // if (this.sessions != null) {
+      //   this.sessions!.add(newSessionData);
+      // }
     }
   }
 
@@ -118,9 +133,10 @@ class UserSessions {
         average: Stat.average(relax ?? []).toInt(),
       );
       // this.sessions.add(newSessionData);
-      if (this.sessions != null) {
-        this.sessions!.add(newSessionData);
-      }
+      addLocalSession(newSessionData);
+      // if (this.sessions != null) {
+      //   this.sessions!.add(newSessionData);
+      // }
     // }
   }
 

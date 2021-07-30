@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ios_d1/contexts/kColors.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
 import '/components/customWidgets/Typography.dart' as Typo;
 import '/components/customWidgets/WhiteButton.dart';
@@ -19,8 +20,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class WanderingGraphArguments {
   final List<int>? relaxIndexs;
+  final List<int>? wanderingIndexes;
 
-  WanderingGraphArguments({this.relaxIndexs});
+  WanderingGraphArguments({this.relaxIndexs,this.wanderingIndexes});
 }
 
 class ConsciousGraphPage extends StatefulWidget {
@@ -54,22 +56,22 @@ class _ConsciousGraphPageState extends State<ConsciousGraphPage> {
 
   bool showAvg = false;
 
-  void nextIndex() {
-    setState(() {
-      selectedIndex[0] = selectedIndex[0]+loadCount;
-      selectedIndex[1] = selectedIndex[1]+loadCount;
-    });
-    print(selectedIndex);
-  }
-
-
-  void prevIndex() {
-    setState(() {
-      selectedIndex[0] = max(0,selectedIndex[0]-loadCount);
-      selectedIndex[1] = max(maxDisplay,selectedIndex[1]-loadCount);
-    });
-    print(selectedIndex);
-  }
+  // void nextIndex() {
+  //   setState(() {
+  //     selectedIndex[0] = selectedIndex[0]+loadCount;
+  //     selectedIndex[1] = selectedIndex[1]+loadCount;
+  //   });
+  //   print(selectedIndex);
+  // }
+  //
+  //
+  // void prevIndex() {
+  //   setState(() {
+  //     selectedIndex[0] = max(0,selectedIndex[0]-loadCount);
+  //     selectedIndex[1] = max(maxDisplay,selectedIndex[1]-loadCount);
+  //   });
+  //   print(selectedIndex);
+  // }
 
 
 
@@ -110,120 +112,6 @@ class _ConsciousGraphPageState extends State<ConsciousGraphPage> {
     );
   }
 
-  Widget MindWanderingCard(List<int> indexes) {
-    return Container(
-        margin: EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24.0),
-          // border: Border.all(color: Colors.grey,width: 1,style: BorderStyle.solid),
-          boxShadow: [
-            BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.1),
-                offset: Offset(1, 1),
-                blurRadius: 12.0,
-                spreadRadius: 3.0),
-          ],
-          color: Colors.white,
-        ),
-        padding: EdgeInsets.fromLTRB(16, 24, 16, 24),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Column(
-                  children: [
-                    Typo.CTypo(text: "Mind Wondering Index"),
-                    Typo.CTypo(text: "ดัชนีวัดสภาวะฟุ้งคิด"),
-                  ],
-                )
-              ],
-            ),
-            SizedBox(height: 32,),
-            mindGraph(gradientColorsMindWandering,indexes),
-            SizedBox(height: 16,),
-            Row(
-              children: [
-                PrevIcon(onPress: prevIndex,),
-                Spacer(flex: 1,),
-                NextIcon(onPress: nextIndex,),
-              ],
-            ),
-            Typo.CTypo(text: "สรุปผลดัชนี ....",color: "secondary",),
-            SizedBox(height: 32,),
-            Row(
-              children: [
-                Container(width: 40,height: 2,color:Colors.grey),
-                SizedBox(width: 16,),
-                Typo.CTypo(text: "Threshold : ${threshold}",variant: "subtitle2",),
-                // IconButton(onPressed: ()=>print("hello"), icon: FaIcon(FontAwesomeIcons.minus))
-                Spacer(flex: 1,),
-                MinusIcon(onPress: onZoomOut,),
-                SizedBox(width: 16,),
-                PlusIcon(onPress: onZoomIn,),
-              ],
-            )
-          ],
-        )
-    );
-  }
-
-  Widget MediatationCard(List<int> indexs) {
-    return Container(
-        margin: EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24.0),
-          // border: Border.all(color: Colors.grey,width: 1,style: BorderStyle.solid),
-          boxShadow: [
-            BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.1),
-                offset: Offset(1, 1),
-                blurRadius: 12.0,
-                spreadRadius: 3.0),
-          ],
-          color: Colors.white,
-        ),
-        padding: EdgeInsets.fromLTRB(16, 24, 16, 24),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Column(
-                  children: [
-                    Typo.CTypo(text: "Mediatation Index"),
-                    Typo.CTypo(text: "ดัชนีภาวะรู้สึกตัว"),
-                  ],
-                )
-              ],
-            ),
-            SizedBox(height: 32,),
-            mindGraph(gradientColorsMediatation,indexs),
-            SizedBox(height: 16,),
-            Row(
-              children: [
-                PrevIcon(onPress: prevIndex,),
-                Spacer(flex: 1,),
-                NextIcon(onPress: nextIndex,),
-              ],
-            ),
-            Typo.CTypo(text: "สรุปผลดัชนี ....",color: "secondary",),
-            SizedBox(height: 32,),
-            Row(
-              children: [
-                Container(width: 40,height: 2,color:Colors.grey),
-                SizedBox(width: 16,),
-                Typo.CTypo(text: "Threshold : ${threshold}",variant: "subtitle2",),
-                // IconButton(onPressed: ()=>print("hello"), icon: FaIcon(FontAwesomeIcons.minus))
-                Spacer(flex: 1,),
-                MinusIcon(onPress: onZoomOut,),
-                SizedBox(width: 16,),
-                PlusIcon(onPress: onZoomIn,),
-              ],
-            )
-          ],
-        )
-    );
-  }
-
   @override
   void initState() {
     // TODO: implement initState
@@ -237,6 +125,146 @@ class _ConsciousGraphPageState extends State<ConsciousGraphPage> {
 
     final WanderingGraphArguments args = ModalRoute.of(context)?.settings.arguments as WanderingGraphArguments;
     print("args : ${args.relaxIndexs}");
+
+    void nextIndex() {
+      int sessionLength = args.relaxIndexs!.length-1;
+      setState(() {
+        selectedIndex[0] = min(sessionLength-maxDisplay, selectedIndex[0]+loadCount);
+        selectedIndex[1] = min(sessionLength, selectedIndex[1]+loadCount);
+      });
+      print(selectedIndex);
+    }
+
+
+    void prevIndex() {
+      setState(() {
+        selectedIndex[0] = max(0,selectedIndex[0]-loadCount);
+        selectedIndex[1] = max(maxDisplay,selectedIndex[1]-loadCount);
+      });
+      print(selectedIndex);
+    }
+
+    Widget MindWanderingCard(List<int> indexes) {
+      return Container(
+          margin: EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24.0),
+            // border: Border.all(color: Colors.grey,width: 1,style: BorderStyle.solid),
+            boxShadow: [
+              BoxShadow(
+                  color: Color.fromRGBO(0, 0, 0, 0.1),
+                  offset: Offset(1, 1),
+                  blurRadius: 12.0,
+                  spreadRadius: 3.0),
+            ],
+            color: Colors.white,
+          ),
+          padding: EdgeInsets.fromLTRB(16, 24, 16, 24),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  SizedBox(width: 8,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Typo.CTypo(text: "Mind Wondering Index",textStyle: TextStyle(color: Colors.purpleAccent),),
+                      Typo.CTypo(text: "ดัชนีวัดสภาวะฟุ้งคิด"),
+                    ],
+                  )
+                ],
+              ),
+              SizedBox(height: 32,),
+              mindGraph(gradientColorsMindWandering,indexes),
+              SizedBox(height: 16,),
+              Row(
+                children: [
+                  PrevIcon(onPress: prevIndex,),
+                  Spacer(flex: 1,),
+                  NextIcon(onPress: nextIndex,),
+                ],
+              ),
+              Typo.CTypo(text: "ความรู้สึกตัว: กราฟบ่งบอกถึงระดับความคิดที่เปลี่ยนตามเวลา ค่าดัชนีสูงแสดงถึงการใช้ความคิดมาก เสี่ยงต่อความฟุ้งซ่าน ค่าดัชนี้น้อยแสดงถึงความสงบ",color: "secondary",),
+              SizedBox(height: 32,),
+              Row(
+                children: [
+                  Container(width: 40,height: 2,color:Colors.grey),
+                  SizedBox(width: 16,),
+                  Typo.CTypo(text: "Threshold : ${threshold}",variant: "subtitle2",),
+                  // IconButton(onPressed: ()=>print("hello"), icon: FaIcon(FontAwesomeIcons.minus))
+                  Spacer(flex: 1,),
+                  MinusIcon(onPress: onZoomOut,),
+                  SizedBox(width: 16,),
+                  PlusIcon(onPress: onZoomIn,),
+                ],
+              )
+            ],
+          )
+      );
+    }
+
+    Widget MediatationCard(List<int> indexs) {
+      return Container(
+          margin: EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24.0),
+            // border: Border.all(color: Colors.grey,width: 1,style: BorderStyle.solid),
+            boxShadow: [
+              BoxShadow(
+                  color: Color.fromRGBO(0, 0, 0, 0.1),
+                  offset: Offset(1, 1),
+                  blurRadius: 12.0,
+                  spreadRadius: 3.0),
+            ],
+            color: Colors.white,
+          ),
+          padding: EdgeInsets.fromLTRB(16, 24, 16, 24),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  SizedBox(width: 8,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Typo.CTypo(text: "Mediatation Index",textStyle: TextStyle(color: kColors.orange[500]),),
+                      Typo.CTypo(text: "ดัชนีภาวะผ่อนคลาย"),
+                    ],
+                  )
+                ],
+              ),
+              SizedBox(height: 32,),
+              mindGraph(gradientColorsMediatation,indexs),
+              SizedBox(height: 16,),
+              Row(
+                children: [
+                  PrevIcon(onPress: prevIndex,),
+                  Spacer(flex: 1,),
+                  NextIcon(onPress: nextIndex,),
+                ],
+              ),
+              // SizedBox(height: 24,),
+              Typo.CTypo(
+                text: "สมาธิผ่อนคลาย : กราฟบ่งบอกถึงสภาวะจิตใจที่เปลี่ยนตามเวลา ค่าดัชนีมากแสดงถึงจิตผ่อนคลายมีสมาธิดี ค่าดัชนีน้อยแสดงถึงจิตใจมีความจดจ่อหรือตึง",color: "secondary",
+                textStyle: TextStyle(),
+              ),
+              SizedBox(height: 32,),
+              Row(
+                children: [
+                  Container(width: 40,height: 2,color:Colors.grey),
+                  SizedBox(width: 16,),
+                  Typo.CTypo(text: "Threshold : ${threshold}",variant: "subtitle2",),
+                  // IconButton(onPressed: ()=>print("hello"), icon: FaIcon(FontAwesomeIcons.minus))
+                  Spacer(flex: 1,),
+                  MinusIcon(onPress: onZoomOut,),
+                  SizedBox(width: 16,),
+                  PlusIcon(onPress: onZoomIn,),
+                ],
+              )
+            ],
+          )
+      );
+    }
 
     return Scaffold(
       body: SafeArea(
@@ -269,7 +297,7 @@ class _ConsciousGraphPageState extends State<ConsciousGraphPage> {
                   children: [
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      child: MindWanderingCard([]),
+                      child: MindWanderingCard(args.wanderingIndexes!.sublist(selectedIndex[0],selectedIndex[1]+1)),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
@@ -346,8 +374,8 @@ class _ConsciousGraphPageState extends State<ConsciousGraphPage> {
             //     return '03:00';
             // }
             // return '';
-            if ((startX+value)%10 == 0) {
-              return "${startX+value}.00";
+            if ((startX+value)%5 == 0) {
+              return "${startX+value}";
             }
             return "";
           },

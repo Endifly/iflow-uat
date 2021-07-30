@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ios_d1/components/customWidgets/BatteryIndicator.dart';
 import 'package:ios_d1/views/ProfilePage/SummaryPage/ConsciousSummaryPage.dart';
 import '/components/customWidgets/HeadsetConnector.dart';
 import '/components/customWidgets/OrangeButton.dart';
@@ -28,7 +29,7 @@ class ConsciousPage extends StatefulWidget {
 class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateMixin {
   Color color1 = Colors.lightGreenAccent.withOpacity(0.5);
   Color color2 = Colors.red.withOpacity(0.5);
-  Color colorBase = Colors.yellow.withOpacity(0.5);
+  Color colorBase = Colors.yellowAccent.withOpacity(0.5);
   bool reRender = false;
 
   Animation<double>? circle1animation;
@@ -46,28 +47,52 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
   //mediatation attention
   int currentMediatationValue = 0;
   int currentAttentionValue = 0;
+  int currentWanderingValue = 0;
+  int currentBatteryValue = 80;
 
   List<int> mediatations = [];
   List<int> attentions = [];
   List<int> relaxs = [];
+  List<int> wanders = [];
 
   Timer? updater;
 
+  void onSetColorWandering(int value) {
+    if (value > 50) {
+      print("### case good yellow ");
+      setState(() {
+        color2 = kColors.gold[500]!.withOpacity(0.5);
+      });
+    }
+    else if ( value <= 50 && value > 30 ) {
+      print("### case medium");
+      setState(() {
+        color2: kColors.orange[200]!.withOpacity(0.5);
+      });
+    }
+    else if (value <= 30) {
+      print("### case bad");
+      setState(() {
+        color2 = kColors.coral[400]!.withOpacity(0.5);
+      });
+    }
+  }
+
   void onSetColor(double average) {
     if (average > 50) {
-      print("####### case good yellow ");
+      // print("####### case good yellow ");
       setState(() {
-        color1 = kColors.gold[500]!.withOpacity(0.5);
+        color1 = kColors.yellow[500]!.withOpacity(0.5);
       });
     }
     else if ( average <= 50 && average > 30 ) {
-      print("case medium");
+      // print("case medium");
       setState(() {
         color1: kColors.yellow[300]!.withOpacity(0.5);
       });
     }
     else if (average <= 30) {
-      print("case bad");
+      // print("case bad");
       setState(() {
         color1 = kColors.green[500]!.withOpacity(0.5);
       });
@@ -98,14 +123,21 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
     print("on read eeg");
     var attention = await widget.headsetService!.readAttention();
     var mediatation = await widget.headsetService!.readMeditation();
-    print("attention relax: ${attention}");
-    print("mediatation relax : ${mediatation}");
+    var battery = (await widget.headsetService!.readBattery());
+    var wandering = (await widget.headsetService!.readOutput());
+    // print("attention relax: ${attention}");
+    // print("mediatation relax : ${mediatation}");
+    print("wandering index : ${wandering}");
+    print("battery : ${battery}");
     setState(() {
       currentMediatationValue = mediatation[0];
       currentAttentionValue = attention[0];
+      currentWanderingValue = wandering[0];
+      currentBatteryValue = battery[0];
     });
     mediatations.add(mediatation[0]);
     attentions.add(attention[0]);
+    wanders.add(wandering[0]);
 
     var attentionValue =attention[0];
     var mediatationValue =mediatation[0];
@@ -126,10 +158,13 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
 
     print("### average : ${average}");
     onSetColor(average);
+    print("### wandering : ${wandering[0]}");
+    onSetColorWandering(wandering[0]);
 
   }
 
   void startUpdater() {
+    onUpdateEEG();
     setState(() {
       updater = Timer.periodic(Duration(seconds: 1), (timer) {
         onUpdateEEG();
@@ -138,6 +173,7 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
   }
 
   void stopUpdater() {
+    stopWandering();
     updater!.cancel();
   }
 
@@ -145,6 +181,8 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
     print("attentions : ${attentions}");
     print("mediatations: ${mediatations}");
     print("relaxs: ${relaxs}");
+    print("wanders : ${wanders}");
+    stopWandering();
     updater!.cancel();
     stopUpdater();
     addCircleDistances(0.0);
@@ -256,6 +294,22 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
     return EdgeInsets.fromLTRB(ml, mt, mr, mb);
   }
 
+  void startWandering() {
+    widget.headsetService!.useWandering1Minute();
+  }
+
+  void stopWandering() {
+    widget.headsetService!.useStopWandering();
+  }
+
+  void pauseWandering() {
+    widget.headsetService!.usePauseWandering();
+  }
+
+  void resumeWandering() {
+    widget.headsetService!.useResumeWandering();
+  }
+
   @override
   void initState() {
     circle1Degree = AnimationController(duration: Duration(seconds: 5), vsync: this);
@@ -290,6 +344,7 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
 
     startTimer();
     startUpdater();
+    startWandering();
 
     super.initState();
 
@@ -322,30 +377,34 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
       });
     }
 
+    BoxDecoration background = BoxDecoration(
+      // color: Colors.red,
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          // Color.fromRGBO(255, 254, 228, 0.5),
+          // Color.fromRGBO(245, 219, 169, 1),
+          // Color.fromRGBO(229, 238, 191, 0.5)
+          color1.withAlpha(10),
+          colorBase.withAlpha(50),
+          color2.withAlpha(90),
+        ],
+      ),
+
+    );
+
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       body: Container(
-            decoration: BoxDecoration(
-              // color: Colors.red,
-                gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      // Color.fromRGBO(255, 254, 228, 0.5),
-                      // Color.fromRGBO(245, 219, 169, 1),
-                      // Color.fromRGBO(229, 238, 191, 0.5)
-                      color1,
-                      colorBase,
-                      color2,
-                    ],
-                ),
-
-            ),
+            decoration: background,
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                SizedBox(height: MediaQuery.of(context).padding.top,),
+                BatteryIndicator(batteryHealth: currentBatteryValue),
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.8,
+                  height: MediaQuery.of(context).size.height * 0.7,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     // crossAxisAlignment: CrossAxisAlignment.center,
@@ -353,10 +412,11 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
                       SizedBox(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height*0.45,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          // alignment: Alignment.topLeft,
-                          children: [
+                        child: ClipRect(
+                          child: Stack(
+                            alignment: Alignment.center,
+                            // alignment: Alignment.topLeft,
+                            children: [
                               Circle(
                                 edgeInsets: positionCalculate(distance: _circleDistance*1.5,angle: _circle2Angle),
                                 opacity: 0.3,
@@ -367,12 +427,12 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
                                 color2: color2,
                                 colorBase: colorBase,
                               ),
-                            BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-                              child: Container(
-                                color: Colors.transparent,
+                              BackdropFilter(
+                                filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                                child: Container(
+                                  color: Colors.transparent,
+                                ),
                               ),
-                            ),
                               Circle(
                                 edgeInsets: positionCalculate(distance: 0,angle: 0),
                                 opacity: 0.5,
@@ -380,12 +440,13 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
                                 color2: color2,
                                 colorBase: colorBase,
                               ),
-                            showCheck ? IconButton(
+                              showCheck ? IconButton(
                                 iconSize: 128,
                                 icon : Icon(Icons.check),
                                 onPressed: ()=>{},
-                            ) : Container(),
-                          ],
+                              ) : Container(),
+                            ],
+                          ),
                         ),
                       ),
                       Container(height: 40,),
@@ -473,6 +534,7 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
                             new MaterialPageRoute(
                                 builder: (context) => new ConsciousSummaryPage(
                                   relaxIndexs: relaxs,
+                                  wanderingIndexes: wanders,
                                   isSessionComplete: true,
                                   duration: widget.progress_time,
                                 )),

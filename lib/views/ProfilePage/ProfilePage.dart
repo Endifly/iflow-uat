@@ -30,6 +30,7 @@ class ProfilePage extends StatefulWidget{
 class _ProfilePageState extends State<ProfilePage> {
   String? username = "";
   String? avatarURL = "";
+  bool loading = false;
   SessionServices sessionServices = SessionServices();
 
   // final useUserSession = UseUserSession();
@@ -37,8 +38,14 @@ class _ProfilePageState extends State<ProfilePage> {
 
 
   void _setup() async {
+    setState(() {
+      loading = true;
+    });
     await sessionServices.initial();
     await userSessions.sync();
+    setState(() {
+      loading = false;
+    });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var loginType = prefs.getString(kPrefs.type);
     setState(() {
@@ -106,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     }
 
-    void viewWandering(List<int>? relaxes,int? duraiton) {
+    void viewWandering(List<int>? relaxes,int? duraiton,List<int>? wanders,) {
       Navigator.push(
         context,
         new MaterialPageRoute(
@@ -114,6 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
               relaxIndexs: relaxes,
               isSessionComplete: false,
               duration: duraiton,
+              wanderingIndexes: wanders,
             )),
       );
     }
@@ -121,20 +129,23 @@ class _ProfilePageState extends State<ProfilePage> {
     void viewSession(SessionData e) async {
       var type = e.type;
       List<int> rawRelax = [];
+      List<int>? rawWander = [];
       var duration = 0;
 
       if (e.uploaded) {
         var tmp = await sessionServices.session(e.id!);
         rawRelax = tmp.rawRelax;
         duration = tmp.duration;
+        if (e.type == "wandering") rawWander = tmp.rawWandering;
       } else {
         rawRelax = e.rawRelax;
         duration = e.duration;
+        if (e.type == "wandering") rawWander = e.rawWandering;
       }
 
 
       if (type == "relax") viewRelax(rawRelax,duration);
-      if (type == "wandering") viewWandering(rawRelax,duration);
+      if (type == "wandering") viewWandering(rawRelax,duration,rawWander);
 
     }
 
@@ -148,6 +159,13 @@ class _ProfilePageState extends State<ProfilePage> {
         widgets.add(SizedBox(height: 16,));
       });
       return widgets;
+    }
+
+    Widget blankMessage() {
+      if (loading == true) return Container();
+      if (userSessions.sessions == null) return CTypo(text: tr('app.startSessionForHistory'),variant: "body2",color:"secondary");
+      if (userSessions.sessions!.length == 0) return CTypo(text: tr('app.startSessionForHistory'),variant: "body2",color:"secondary");
+      return Container();
     }
 
     return NavLayout(
@@ -180,25 +198,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 SizedBox(height: 16,),
                 // ResultContainer(onpress: ()=>Navigator.pushNamed(context, '/history'),),
+                Container(
+                  child: blankMessage(),
+                ),
                 Column(
                   children: SessionHistory(userSessions),
                 )
-                // FutureBuilder(
-                //     future: useUserSession.getUserSession(),
-                //     builder: (context,AsyncSnapshot<UserSessions?> snapshot) {
-                //       if (snapshot.hasData) {
-                //         return Column(children: SessionHistory(snapshot.data),);
-                //       }
-                //       return Container(
-                //         child: CTypo(
-                //           text: 'กรุณาเริ่ม session เพื่อบันทึกข้อมูล',
-                //           color: 'secondary',
-                //           variant: 'body2',
-                //           textAlign: TextAlign.start,
-                //         ),
-                //       );
-                //     }
-                // ),
               ],
             ),
           ),

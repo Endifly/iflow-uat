@@ -99,8 +99,10 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
       print("prevUserSessions : ${prevUserSessions.sessions?.length}");
       // await prevUserSessions.save();
       try {
-        sv.uploadOneSession(prevUserSessions.sessions!.last);
+        sv.uploadOneSession(prevUserSessions.localSession!.last);
+        print("### upload success");
       } catch(_) {
+        print("### upload fail");
         await prevUserSessions.save();
       }
     }

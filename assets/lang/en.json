@@ -49,7 +49,11 @@
     "with" : "with",
     "signInWith" : "Sign in with",
     "minute" : "minute",
-    "start" : "start"
+    "start" : "start",
+
+    "caseNoInternet" : "If not internet connection",
+
+    "startSessionForHistory" : "Start session to track your history"
 
   },
   "setting" : {

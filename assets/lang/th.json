@@ -33,7 +33,7 @@
 
     "averageScore" : "คะแนนเฉลี่ย",
     "time" : "เวลา",
-    "result" : "ผลการประเมิณ",
+    "result" : "ผลการประเมิน",
     "session" : "แบบฝึกหัด",
     "graph" : "กราฟ",
     "next" : "ถัดไป",
@@ -49,7 +49,11 @@
     "with" : "ด้วย",
     "signInWith" : "เข้าสู่ระบบด้วย",
     "minute" : "นาที",
-    "start" : "เริ่ม"
+    "start" : "เริ่ม",
+
+    "caseNoInternet" : "กรณีไม่มีสัญญาณอินเตอร์เน็ต",
+
+    "startSessionForHistory" : "กรุณาเริ่มแบบฝึกหัดเพื่อเก็บประวัติ"
   },
   "setting" : {
     "systemSettingTitle" : "ตั้งค่าระบบ",

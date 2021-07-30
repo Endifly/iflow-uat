@@ -26,9 +26,12 @@ class HeadsetCharacteristic {
 
 class HeadsetService {
   BluetoothDevice device ;
+  List<BluetoothCharacteristic> battery = [];
   List<BluetoothCharacteristic> eeg = [];
   List<BluetoothCharacteristic> cmd = [];
 
+  Guid SERVICE_BATTERY = Guid("0000180f-0000-1000-8000-00805f9b34fb");
+  Guid BATTERY = Guid("00002a19-0000-1000-8000-00805f9b34fb");
   Guid SERVICE_EEG = Guid("FDAF0100-5009-4b18-9ff8-1ea4945d84cb");
   Guid SIGNAL_QUALITY = Guid("FDAF0101-5009-4b18-9ff8-1ea4945d84cb");
   Guid EEG_OUTPUT = Guid("FDAF0102-5009-4b18-9ff8-1ea4945d84cb");
@@ -40,7 +43,7 @@ class HeadsetService {
   Guid CMD_TX = Guid("6E400002-B5A3-F393-E0A9-E50E24DCCA9E");
   Guid CMD_RX = Guid("6E400003-B5A3-F393-E0A9-E50E24DCCA9E");
 
-  HeadsetService({required this.cmd,required this.eeg,required this.device});
+  HeadsetService({required this.cmd,required this.eeg,required this.device,required this.battery});
 
   BluetoothCharacteristic? getEegChar(Guid uuid) {
     for (BluetoothCharacteristic c in eeg) {
@@ -84,6 +87,38 @@ class HeadsetService {
     }
   }
 
+  void useWandering1Minute() async {
+    try {
+      writeRx([128,0,60,57,112]);
+    } catch(e) {
+      print("write error");
+    }
+  }
+
+  void useStopWandering() async {
+    try {
+      writeRx([131,225,254]);
+    } catch(e) {
+      print("write error");
+    }
+  }
+
+  void useResumeWandering() async {
+    try {
+      writeRx([130,33,63]);
+    } catch(e) {
+      print("write error");
+    }
+  }
+
+  void usePauseWandering() async {
+    try {
+      writeRx([129,32,127]);
+    } catch(e) {
+      print("write error");
+    }
+  }
+
   void useMindWandering() async {
     try {
       writeRx([74,183,62]);
@@ -101,9 +136,9 @@ class HeadsetService {
 
 
   Future<List<int>> readEEG(Guid uuid) async {
-    print("eegChar : ${getEegChar(uuid)}");
+    // print("eegChar : ${getEegChar(uuid)}");
     var values = readCharacteristic(getEegChar(uuid)!);
-    print("read :${values}");
+    // print("read :${values}");
     return values;
   }
 
@@ -118,8 +153,27 @@ class HeadsetService {
   Future<List<int>> readMeditation() async {
     return readEEG(this.EEG_MEDITATION);
   }
+
+  Future<List<int>> readOutput() async {
+    return readEEG(this.EEG_OUTPUT);
+  }
+
+  Future<List<int>> readBattery() async {
+    var values = readCharacteristic(battery[0]);
+    return values;
+  }
+
+  // Future<List<int>> readBattery() async {
+  //   var values = await readCharacteristic(getTxChar()!);
+  //   return rea(this.EEG_MEDITATION);
+  // }
+  // Future<int> readBattery() async {
+  //   return rea
+  // }
 }
 
+Guid SERVICE_BATTERY = Guid("0000180f-0000-1000-8000-00805f9b34fb");
+Guid BATTERY = Guid("00002a19-0000-1000-8000-00805f9b34fb");
 Guid SERVICE_EEG = Guid("FDAF0100-5009-4b18-9ff8-1ea4945d84cb");
 Guid SIGNAL_QUALITY = Guid("FDAF0101-5009-4b18-9ff8-1ea4945d84cb");
 Guid EEG_OUTPUT = Guid("FDAF0102-5009-4b18-9ff8-1ea4945d84cb");
@@ -394,10 +448,18 @@ class _HeadsetConnectorState extends State<HeadsetConnector> with TickerProvider
     await device.connect();
     print("connected");
     List<BluetoothService> servicesTmp = [];
+    List<BluetoothCharacteristic> batteryChar = [];
     List<BluetoothCharacteristic> eegChars = [];
     List<BluetoothCharacteristic> cmdChars = [];
     List<BluetoothService> _services = await device.discoverServices();
     for (BluetoothService bt in _services) {
+        // print("### service: ${bt.uuid}");
+        if (bt.uuid == SERVICE_BATTERY) {
+          var chars = await getCharacteristic(bt);
+          batteryChar = chars;
+          print("batteryt chars : ${batteryChar}");
+
+        }
         if (bt.uuid == SERVICE_EEG) {
           servicesTmp.add(bt);
           var chars = await getCharacteristic(bt);
@@ -409,7 +471,7 @@ class _HeadsetConnectorState extends State<HeadsetConnector> with TickerProvider
           cmdChars = chars;
         }
     }
-    HeadsetService _headsetService = HeadsetService(eeg: eegChars,cmd: cmdChars,device: selectedDevice!);
+    HeadsetService _headsetService = HeadsetService(eeg: eegChars,cmd: cmdChars,device: selectedDevice!,battery: batteryChar);
     print("found ${servicesTmp.length} services");
     print("headsetSerivce : ${_headsetService}");
     startUpdater();

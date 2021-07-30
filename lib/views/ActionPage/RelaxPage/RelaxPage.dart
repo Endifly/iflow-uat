@@ -5,6 +5,7 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ios_d1/components/customClass/UseProfile.dart';
+import 'package:ios_d1/components/customWidgets/BatteryIndicator.dart';
 import 'package:ios_d1/components/customWidgets/HeadsetRSSI.dart';
 import 'package:ios_d1/views/ProfilePage/SummaryPage/RelaxSummaryPage.dart';
 
@@ -41,6 +42,7 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
   //mediatation attention
   int currentMediatationValue = 0;
   int currentAttentionValue = 0;
+  int currentBattery = 80;
   UseProfile profile = UseProfile();
   double threshold = 60.0;
   int poorQuality = 200;
@@ -111,13 +113,16 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
     print("on read eeg");
     var attention = await widget.headsetService!.readAttention();
     var mediatation = await widget.headsetService!.readMeditation();
+    var battery = await widget.headsetService!.readBattery();
     var pq = await widget.headsetService!.readSignalQuality();
+    print("### battery : ${battery}");
     // print("attention relax: ${attention}");
     // print("mediatation relax : ${mediatation}");
     setState(() {
       currentMediatationValue = mediatation[0];
       currentAttentionValue = attention[0];
       poorQuality = pq[0];
+      currentBattery = battery[0];
     });
     mediatations.add(mediatation[0]);
     attentions.add(attention[0]);
@@ -410,8 +415,10 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
               child: Column(
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  SizedBox(height: MediaQuery.of(context).padding.top),
+                  BatteryIndicator(batteryHealth: currentBattery),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.8,
+                    height: MediaQuery.of(context).size.height * 0.7,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -498,6 +505,7 @@ class _RelaxPageState extends State<RelaxPage> with TickerProviderStateMixin {
                       ],
                     ),
                   ),
+                  SizedBox(height: 32,),
                   AnimatedContainer(
                       height: 64,
                       duration: Duration(milliseconds: 300),

@@ -428,7 +428,7 @@ class _SelectPageState extends State<SelectPage> {
                       Container(
                         margin: EdgeInsets.fromLTRB(16, 0, 0, 0),
                         child: Text(
-                          "* กรณีไม่มีสัญญาณอินเตอร์เน็ต",
+                          "* ${tr('app.caseNoInternet')}",
                           style: TextStyle(color: Colors.black38, fontSize: 12),
                         ),
                       ),

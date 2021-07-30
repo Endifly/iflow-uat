@@ -72,15 +72,15 @@ class _HomePageState extends State<HomePage> {
                   Hero(),
                   SizedBox(height: 16,),
                   Container(
-                    margin: EdgeInsets.fromLTRB(64, 0, 64, 0),
+                    margin: EdgeInsets.fromLTRB(56, 0, 56, 0),
                     child: Column(
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              height: 64,
-                              width: 64,
+                              height: 72,
+                              width: 72,
                               margin: EdgeInsets.all(0.0),
                               decoration: BoxDecoration(
                                 image: getAvatar(this.avatarURL),
@@ -88,6 +88,7 @@ class _HomePageState extends State<HomePage> {
                                 shape: BoxShape.circle,
                               ),
                             ),
+                            SizedBox(width: 8,),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -102,22 +103,13 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SizedBox(width: 16,),
-                            CTypo(text: tr("app.selectSession"),color:"secondary",variant: 'body1',),
+                            CTypo(text: tr("app.selectSession"),color:"secondary",variant: 'body2',),
                           ],
                         ),
                         SizedBox(height: 32,),
                         RelaxButton(),
                         SizedBox(height: 32,),
                         WanderingButton(),
-                        ElevatedButton(
-                            onPressed: ()=>{
-                            if (context.locale.languageCode == 'en') {
-                            context.setLocale(Locale('th'))
-                                } else {
-                            context.setLocale(Locale('en'))
-                            }
-                            },
-                            child: Text(tr('app.changeLang')))
                       ],
                     ),
                   )

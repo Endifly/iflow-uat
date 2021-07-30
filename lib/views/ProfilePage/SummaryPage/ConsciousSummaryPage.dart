@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ios_d1/components/customClass/Stat.dart';
 import 'package:ios_d1/components/customClass/UserSessions.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
 import '/components/customWidgets/GraphButton.dart';
@@ -9,18 +10,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class WanderingSumamryPageArguments {
   final List<int>? relaxIndexs;
+  final List<int>? wanderingIndexes;
   final bool? isSessionComplete;
   final int? duration;
 
-  WanderingSumamryPageArguments({this.relaxIndexs,this.duration,this.isSessionComplete});
+  WanderingSumamryPageArguments({this.relaxIndexs,this.duration,this.isSessionComplete,this.wanderingIndexes});
 }
 
 class ConsciousSummaryPage extends StatefulWidget{
   final List<int>? relaxIndexs;
   final bool? isSessionComplete;
   final int? duration;
+  final List<int>? wanderingIndexes;
 
-  ConsciousSummaryPage({this.relaxIndexs,this.duration,this.isSessionComplete});
+  ConsciousSummaryPage({this.relaxIndexs,this.duration,this.isSessionComplete,this.wanderingIndexes});
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -56,6 +59,7 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
       prevUserSessions.addWandering(
         du: widget.duration!,
         relax: widget.relaxIndexs,
+        wandering: widget.wanderingIndexes,
         th_r: _th,
       );
       print("prevUserSessions : ${prevUserSessions.sessions?.length}");
@@ -88,6 +92,29 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
 
     // final WanderingSumamryPageArguments args = ModalRoute.of(context)?.settings.arguments as WanderingSumamryPageArguments;
     // print("args : ${args.relaxIndexs}");
+
+    Widget getIconResult() {
+      var avr = Stat.average(widget.relaxIndexs!);
+      var avw = Stat.average(widget.wanderingIndexes!);
+
+      if (avr < 45) {
+        if (avw < 40) return Image.asset("assets/images/glum1.png");
+        if (avw < 60) return Image.asset("assets/images/glum1.png");
+        return Image.asset("assets/images/clound1.png");
+      }
+      if (avr < 55) {
+        if (avw < 40) return Image.asset("assets/images/sun2.png");
+        if (avw < 60) return Image.asset("assets/images/sun1.png");
+        return Image.asset("assets/images/clound2.png");
+      }
+      if (avr < 100) {
+        if (avw < 40) return Image.asset("assets/images/sun4.png");
+        if (avw < 60) return Image.asset("assets/images/sun3.png");
+        return Image.asset("assets/images/clound2.png");
+      }
+      return Image.asset("assets/images/logo50.png");
+    }
+
 
     // TODO: implement build
     return Scaffold(
@@ -221,7 +248,7 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
                             children: [
                               Text(tr('app.graph'),style:TextStyle(fontSize: 16)),
                               SizedBox(height: 16,),
-                              GraphButton(onPress: () => Navigator.pushNamed(context, '/conscious-summary-graph',arguments: WanderingGraphArguments(relaxIndexs: widget.relaxIndexs)),),
+                              GraphButton(onPress: () => Navigator.pushNamed(context, '/conscious-summary-graph',arguments: WanderingGraphArguments(relaxIndexs: widget.relaxIndexs,wanderingIndexes: widget.wanderingIndexes)),),
                               // Container(
                               //   // color: Colors.white,
                               //   decoration: BoxDecoration(
@@ -308,8 +335,11 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(tr('app.result'),style:TextStyle(fontSize: 16)),
-                              SizedBox(height: 16,),
-                              Text("Level 2")
+                              // SizedBox(height: 16,),
+                              SizedBox(
+                                height: 128,
+                                child: getIconResult(),
+                              ),
                             ],
                           ),
                         )

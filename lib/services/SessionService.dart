@@ -29,6 +29,7 @@ class SessionServices {
   Future<http.Response> putSession({required SessionData session}) {
     print("verify token : ${kURI.BACKEND}");
     print('auth : ${this.accessToken}');
+    print("will upload : ${session.rawRelax}");
     return http.put(
       Uri.http(kURI.BACKEND, '/session/'),
       headers: <String, String>{
@@ -55,9 +56,9 @@ class SessionServices {
   }
 
   Future uploadOneSession(SessionData session) async{
-    // print("upload session");
+    print("### upload session ...");
     var res = await putSession(session: session);
-    print("put session : ${res.body}");
+    print("### put session : ${res.body}");
     return res.body;
   }
 

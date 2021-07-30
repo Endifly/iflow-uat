@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ios_d1/components/customWidgets/WhiteButton.dart';
 import 'package:ios_d1/views/SettingPage/components/ClearPrefsButton.dart';
 import 'package:ios_d1/views/SettingPage/components/LogoutButton.dart';
 import 'package:ios_d1/views/Template/NavLayout.dart';
@@ -160,6 +161,20 @@ class _SettingPageState extends State<SettingPage> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width*0.7,
                     child: ClearPrefsButton(),
+                  ),
+                  SizedBox(height: 24,),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width*0.7,
+                    child: WhiteButton(
+                      onPress: ()=>{
+                        if (context.locale.languageCode == 'en') {
+                          context.setLocale(Locale('th'))
+                        } else {
+                          context.setLocale(Locale('en'))
+                        }
+                      },
+                      title: tr('app.changeLang'),
+                    ),
                   ),
                   SizedBox(height: 24,),
                   SizedBox(
