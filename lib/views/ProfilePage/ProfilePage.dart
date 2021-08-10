@@ -113,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     }
 
-    void viewWandering(List<int>? relaxes,int? duraiton,List<int>? wanders,) {
+    void viewWandering(List<int>? relaxes,int? duraiton,List<int>? wanders,List<int>? adaptiveth) {
       Navigator.push(
         context,
         new MaterialPageRoute(
@@ -122,6 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
               isSessionComplete: false,
               duration: duraiton,
               wanderingIndexes: wanders,
+              adaptiveTh: adaptiveth,
             )),
       );
     }
@@ -145,7 +146,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
 
       if (type == "relax") viewRelax(rawRelax,duration);
-      if (type == "wandering") viewWandering(rawRelax,duration,rawWander);
+      if (type == "wandering") viewWandering(rawRelax,duration,rawWander,e.adaptiveTh);
 
     }
 

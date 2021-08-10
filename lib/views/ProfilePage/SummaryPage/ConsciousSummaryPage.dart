@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ios_d1/components/customClass/Stat.dart';
 import 'package:ios_d1/components/customClass/UserSessions.dart';
+import 'package:ios_d1/components/customWidgets/SessionPerformanceIcon.dart';
+import 'package:ios_d1/contexts/kColors.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
 import '/components/customWidgets/GraphButton.dart';
 import '/views/ProfilePage/SummaryPage/ConsciousGraph.dart';
@@ -13,8 +15,9 @@ class WanderingSumamryPageArguments {
   final List<int>? wanderingIndexes;
   final bool? isSessionComplete;
   final int? duration;
+  final List<int>? adaptiveTh;
 
-  WanderingSumamryPageArguments({this.relaxIndexs,this.duration,this.isSessionComplete,this.wanderingIndexes});
+  WanderingSumamryPageArguments({this.relaxIndexs,this.duration,this.isSessionComplete,this.wanderingIndexes,this.adaptiveTh});
 }
 
 class ConsciousSummaryPage extends StatefulWidget{
@@ -22,8 +25,9 @@ class ConsciousSummaryPage extends StatefulWidget{
   final bool? isSessionComplete;
   final int? duration;
   final List<int>? wanderingIndexes;
+  final List<int>? adaptiveTh;
 
-  ConsciousSummaryPage({this.relaxIndexs,this.duration,this.isSessionComplete,this.wanderingIndexes});
+  ConsciousSummaryPage({this.relaxIndexs,this.duration,this.isSessionComplete,this.wanderingIndexes,this.adaptiveTh});
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -61,7 +65,9 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
         relax: widget.relaxIndexs,
         wandering: widget.wanderingIndexes,
         th_r: _th,
+        th_w: widget.adaptiveTh,
       );
+      print("adaptiveTh summary : ${widget.adaptiveTh}");
       print("prevUserSessions : ${prevUserSessions.sessions?.length}");
       await prevUserSessions.save();
     }
@@ -92,6 +98,8 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
 
     // final WanderingSumamryPageArguments args = ModalRoute.of(context)?.settings.arguments as WanderingSumamryPageArguments;
     // print("args : ${args.relaxIndexs}");
+
+
 
     Widget getIconResult() {
       var avr = Stat.average(widget.relaxIndexs!);
@@ -139,11 +147,12 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
                                       begin: Alignment.centerLeft,
                                       end: Alignment.centerRight,
                                       colors: [
-                                        Color.fromRGBO(55, 178, 144, 1),
-                                        Color.fromRGBO(250, 250, 182, 1),
-                                        Color.fromRGBO(250, 250, 182, 1),
-                                        Color.fromRGBO(254, 196, 87, 1),
+                                        kColors.pink[500]!,
+                                        Color.fromRGBO(255, 255, 255, 0.5),
+                                        // Color.fromRGBO(255, 255, 255, 0.5),
+                                       kColors.orange[500]!,
                                       ],
+                                      stops: [0.25,0.5,1.0]
                                     ),
                                     shape: BoxShape.circle,
                                   ),
@@ -166,6 +175,7 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
                                         Color.fromRGBO(255, 195, 73, 1)
                                       ],
                                       radius: 1.0,
+                                      stops: [0.3,0.5],
                                     ),
                                     shape: BoxShape.circle,
                                   ),
@@ -242,13 +252,32 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          width: 128,
+                        Container(
+                          width: 140,
+                          height: 140,
+                          padding:EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Color.fromRGBO(255, 221, 150, 1),Colors.white],
+                              // stops: [0.5,1.0],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 12,
+                                spreadRadius: 2,
+                                offset: Offset(0.0,5.0),
+                              )
+                            ],
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                           child: Column(
                             children: [
                               Text(tr('app.graph'),style:TextStyle(fontSize: 16)),
-                              SizedBox(height: 16,),
-                              GraphButton(onPress: () => Navigator.pushNamed(context, '/conscious-summary-graph',arguments: WanderingGraphArguments(relaxIndexs: widget.relaxIndexs,wanderingIndexes: widget.wanderingIndexes)),),
+                              // SizedBox(height: 16,),
+                              GraphButton(onPress: () => Navigator.pushNamed(context, '/conscious-summary-graph',arguments: WanderingGraphArguments(relaxIndexs: widget.relaxIndexs,wanderingIndexes: widget.wanderingIndexes ,adaptiveTh: widget.adaptiveTh)),),
                               // Container(
                               //   // color: Colors.white,
                               //   decoration: BoxDecoration(
@@ -272,7 +301,7 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
                             ],
                           ),
                         ),
-                        SizedBox(width: 32,),
+                        SizedBox(width: 20,),
                         Container(
                           color : Colors.orange,
                           height: 128,
@@ -328,9 +357,28 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
                           height: 128,
                           width: 2,
                         ),
-                        SizedBox(width: 32,),
-                        SizedBox(
-                          width: 128,
+                        SizedBox(width: 20,),
+                        Container(
+                          width: 140,
+                          height: 140,
+                          padding:EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Color.fromRGBO(255, 221, 150, 1),Colors.white],
+                              // stops: [0.5,1.0],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 12,
+                                spreadRadius: 2,
+                                offset: Offset(0.0,5.0),
+                              )
+                            ],
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -338,7 +386,8 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
                               // SizedBox(height: 16,),
                               SizedBox(
                                 height: 128,
-                                child: getIconResult(),
+                                // child: getIconResult(),
+                                child: SessionPerformanceIcon(relax: widget.relaxIndexs,wandering: widget.wanderingIndexes,),
                               ),
                             ],
                           ),

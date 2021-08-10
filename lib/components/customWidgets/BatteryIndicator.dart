@@ -12,12 +12,12 @@ class BatteryIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    FaIcon battery() {
-      if (batteryHealth < 5) return FaIcon(FontAwesomeIcons.batteryEmpty);
-      if (batteryHealth < 25) return FaIcon(FontAwesomeIcons.batteryQuarter);
-      if (batteryHealth < 50) return FaIcon(FontAwesomeIcons.batteryHalf);
-      if (batteryHealth < 75) return FaIcon(FontAwesomeIcons.batteryThreeQuarters);
-      return FaIcon(FontAwesomeIcons.batteryFull);
+    Widget battery() {
+      if (batteryHealth < 5) return Image.asset("assets/icons/battery_0.png");
+      if (batteryHealth < 25) return Image.asset("assets/icons/battery_25.png");
+      if (batteryHealth < 50) return Image.asset("assets/icons/battery_50.png");
+      if (batteryHealth < 75) return Image.asset("assets/icons/battery_75.png");
+      return Image.asset("assets/icons/battery_100.png");
     }
 
     // TODO: implement build
@@ -27,7 +27,6 @@ class BatteryIndicator extends StatelessWidget {
         children: [
           battery(),
           SizedBox(width: 16,),
-          CTypo(text: "${this.batteryHealth}",variant: "subtitle1",),
           Spacer(flex: 1,),
           VolumeButton(),
         ],

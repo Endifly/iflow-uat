@@ -2,7 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/parser.dart';
 import 'package:ios_d1/views/Template/NavLayout.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '/components/ButtonNavigationBar.dart';
 import '/components/customWidgets/HeadsetConnector.dart';
@@ -33,6 +36,22 @@ class _StartConsciousPageState extends State<StartConsciousPage> {
     setState(() {
       current_time_selection = timing[index];
     });
+  }
+
+  static const String assetName = 'assets/icons/SVG/wandering.svg';
+  final Widget wanderingIcon = SvgPicture.asset(
+      'assets/icons/SVG/wandering.svg',
+      semanticsLabel: 'Acme Logo'
+  );
+
+  void svgCheck() {
+    final SvgParser parser = SvgParser();
+    try {
+      parser.parse(assetName, warningsAsErrors: true);
+      print('SVG is supported');
+    } catch (e) {
+      print('SVG contains unsupported features');
+    }
   }
 
   FlutterBlue flutterBlue = FlutterBlue.instance;
@@ -76,6 +95,15 @@ class _StartConsciousPageState extends State<StartConsciousPage> {
       ));
     }
 
+    Widget Wandering() {
+      Widget wander = Image.asset("assets/icons/wandering_full.png");
+      Widget wanderContainer = Container(
+        margin:EdgeInsets.fromLTRB(0, 0, 0, 0),
+        child: wander,
+      );
+      return wanderContainer;
+    }
+
     // TODO: implement build
     return NavLayout(
       useSafeArea: false,
@@ -91,12 +119,7 @@ class _StartConsciousPageState extends State<StartConsciousPage> {
                   padding: EdgeInsets.fromLTRB(16, 64, 16, 0),
                   child: Row(
                     children: [
-                      InkWell(
-                        child: Image.asset("assets/icons/pearl_full.png"),
-                        onTap: ()=>{
-                          Navigator.pushNamed(context, "/demo1")
-                        },
-                      ),
+                      Wandering(),
                       Spacer(flex: 1,),
                       VolumeButton(),
                     ],
@@ -118,7 +141,7 @@ class _StartConsciousPageState extends State<StartConsciousPage> {
                 Container(
                   child: Container(
                     width: MediaQuery.of(context).size.width*0.5,
-                    child: headsetService == null ? WhiteButton(title: tr('app.start'),):OrangeButton(title: tr('app.start'),onPress: toWandering,),
+                    child: headsetService == null ? WhiteButton(title: tr('app.start'),onPress: svgCheck,):OrangeButton(title: tr('app.start'),onPress: toWandering,),
                   ),
                 )
               ],

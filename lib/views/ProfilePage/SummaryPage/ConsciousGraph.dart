@@ -21,8 +21,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class WanderingGraphArguments {
   final List<int>? relaxIndexs;
   final List<int>? wanderingIndexes;
+  final List<int>? adaptiveTh;
 
-  WanderingGraphArguments({this.relaxIndexs,this.wanderingIndexes});
+  WanderingGraphArguments({this.relaxIndexs,this.wanderingIndexes,this.adaptiveTh});
 }
 
 class ConsciousGraphPage extends StatefulWidget {
@@ -124,7 +125,7 @@ class _ConsciousGraphPageState extends State<ConsciousGraphPage> {
     // TODO: implement build
 
     final WanderingGraphArguments args = ModalRoute.of(context)?.settings.arguments as WanderingGraphArguments;
-    print("args : ${args.relaxIndexs}");
+    print("args : ${args.adaptiveTh}");
 
     void nextIndex() {
       int sessionLength = args.relaxIndexs!.length-1;

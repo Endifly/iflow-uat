@@ -6,6 +6,7 @@ class SessionData {
   final String type;
   final List<int> rawRelax;
   final List<int>? rawWandering;
+  final List<int>? adaptiveTh;
   final int threshold;
   final int duration;
   final String sessionDate;
@@ -18,6 +19,7 @@ class SessionData {
     required this.sessionDate,
     required this.duration,
     this.rawWandering,
+    this.adaptiveTh,
     this.id,
     required this.uploaded,
     required this.average,
@@ -67,12 +69,15 @@ class SessionData {
 
     List<int> parsedRelax = [];
     List<int> parsedWandering = [];
+    List<int> parsedAdaptiveTh = [];
 
     var rawRelax =  parsedJson['rawRelax']?.forEach((e) => parsedRelax.add(e));
     // print("rawRelax : ${parsedRelax[2]} ,rawType : ${parsedRelax.runtimeType}, value type : ${parsedRelax[2].runtimeType}");
 
     var rawWandering =  parsedJson['rawWandering']?.forEach((e) => parsedWandering.add(e));
     // print("rawWandering : ${rawWandering[2]} ,rawType : ${rawWandering.runtimeType}, value type : ${rawWandering[2].runtimeType}");
+
+    var rawTh =  parsedJson['adaptiveTh']?.forEach((e) => parsedAdaptiveTh.add(e));
 
     return new SessionData(
         type: parsedJson['type'] ?? "",
@@ -84,6 +89,7 @@ class SessionData {
         id: parsedJson['id']?.toString() ?? "",
         uploaded: parsedJson['uploaded'] ?? false,
         average: parsedJson['average'] ?? 0,
+        adaptiveTh: parsedAdaptiveTh
     );
   }
 
@@ -92,6 +98,7 @@ class SessionData {
       "type": this.type,
       "rawRelax": this.rawRelax,
       "rawWandering": this.rawWandering,
+      "adaptiveTh" : this.adaptiveTh,
       "threshold": this.threshold,
       "sessionDate": this.sessionDate,
       "duration" : this.duration,

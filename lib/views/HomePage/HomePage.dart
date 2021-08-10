@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ios_d1/components/customWidgets/Typography.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
+import 'package:ios_d1/views/HomePage/HomePageCircle.dart';
 import 'package:ios_d1/views/Template/NavLayout.dart';
 import '/components/ButtonNavigationBar.dart';
 import '/components/DecorationConcave.dart';
@@ -37,7 +38,7 @@ class _HomePageState extends State<HomePage> {
     var defaultProfile = DecorationImage(image : AssetImage("assets/images/person_2.png"),);
     if (avatarUrl == null) return defaultProfile;
     if (avatarUrl == "") return defaultProfile;
-    if (avatarUrl!.startsWith('http')) return DecorationImage(image: NetworkImage(avatarUrl,),fit: BoxFit.fill);
+    if (avatarUrl.startsWith('http')) return DecorationImage(image: NetworkImage(avatarUrl,),fit: BoxFit.fill);
     return DecorationImage(image : AssetImage("assets/images/person_2.png"),);
   }
 
@@ -69,7 +70,7 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Hero(),
+                  HomePageCircle(),
                   SizedBox(height: 16,),
                   Container(
                     margin: EdgeInsets.fromLTRB(56, 0, 56, 0),

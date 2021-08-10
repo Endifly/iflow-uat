@@ -11,8 +11,10 @@ import 'package:ios_d1/components/customClass/SessionData.dart';
 import 'package:ios_d1/components/customClass/Stat.dart';
 import 'package:ios_d1/components/customClass/UseProfile.dart';
 import 'package:ios_d1/components/customClass/UserSessions.dart';
+import 'package:ios_d1/components/customWidgets/SessionPerformanceIcon.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
 import 'package:ios_d1/services/SessionService.dart';
+import 'package:ios_d1/views/ProfilePage/SummaryPage/RelaxSummaryCircle.dart';
 import '/components/customWidgets/Typography.dart' as Typo;
 import '/components/customWidgets/WhiteButton.dart';
 import '/components/icons/MinusIcon.dart';
@@ -158,75 +160,7 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
         children: [
           // SizedBox(height: MediaQuery.of(context).size.height*0.1,),
           Center(
-            child: Container(
-              child: Stack(
-                children: [
-                  FractionalTranslation(
-                      translation: Offset(0,-0.5),
-                      child: Transform.scale(
-                        scale: 2,
-                        child: Container(
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.7,
-                          // margin: EdgeInsets.all(16.0),
-                          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color.fromRGBO(0, 0, 0, 0.2),
-                                spreadRadius: 2.0,
-                                blurRadius: 8.0,
-                                offset: Offset(0,0),
-                              )
-                            ],
-                            gradient: RadialGradient(
-                              // center: const Alignment(0.8, 0.6), // near the top right
-                              radius: 1.0,
-                              colors: [
-                                Color.fromRGBO(255, 182, 77, 1), // yellow sun
-                                Color.fromRGBO(255, 228, 128, 1)
-                              ],
-                              stops: [0.15, 0.4],
-                            ),
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                      )
-                  ),
-                  FractionalTranslation(
-                      translation: Offset(0,0.3),
-                      child: Transform.scale(
-                        scale: 0.75,
-                        child: Container(
-                          height: MediaQuery.of(context).size.width * 0.7,
-                          margin: EdgeInsets.all(0.0),
-                          decoration: BoxDecoration(
-                            color : Colors.white,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                      )
-                  ),
-                  FractionalTranslation(
-                      translation: Offset(0,0.3),
-                      child: Transform.scale(
-                        scale: 1.0,
-                        child: FutureBuilder(
-                          future: profile.getAvatarURL(),
-                          builder: (context,AsyncSnapshot<String> snapshot) {
-                            if (snapshot.hasData) {
-                              return ProfileImage(imagePath: snapshot.data!);
-                            }
-                            return Container();
-                          },
-                        ),
-                      )
-                  ),
-                ],
-              ),
-            ),
+            child: RelaxSummaryCircle(),
           ),
           SizedBox(height: 64,),
           Center(
@@ -329,9 +263,28 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
                 height: 128,
                 width: 2,
               ),
-              SizedBox(width: 32,),
-              SizedBox(
-                width: 128,
+              SizedBox(width: 20,),
+              Container(
+                width: 140,
+                height: 140,
+                padding:EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromRGBO(255, 221, 150, 1),Colors.white],
+                    // stops: [0.5,1.0],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 12,
+                      spreadRadius: 2,
+                      offset: Offset(0.0,5.0),
+                    )
+                  ],
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -339,16 +292,16 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
                     // SizedBox(height: 16,),
                     // Text("Level 2")
                     // Image.asset("assets/images/sun1.png")
-                    FutureBuilder(
-                        future: performance(),
-                        builder: (context,AsyncSnapshot<int> snapshot){
-                          if (snapshot.hasData) {
-                            return getPerformance(snapshot.data!);
-                          } else {
-                            return getPerformance(0);
-                          }
-                        })
-                    ,
+                    // FutureBuilder(
+                    //     future: performance(),
+                    //     builder: (context,AsyncSnapshot<int> snapshot){
+                    //       if (snapshot.hasData) {
+                    //         return SessionPerformanceIcon(snapshot.data!);
+                    //       } else {
+                    //         return getPerformance(0);
+                    //       }
+                    //     })
+                    SessionPerformanceIcon(relax: widget.relaxIndexs,),
                   ],
                 ),
               )
@@ -356,6 +309,7 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
           ),
           SizedBox(height: 32,),
           Container(
+              margin: EdgeInsets.fromLTRB(32, 0, 32, 0),
               width: MediaQuery.of(context).size.width*0.6,
               height: 3,
               color : Colors.black12
@@ -364,7 +318,7 @@ class _RelaxSummaryPageState extends State<RelaxSummaryPage> {
             padding: EdgeInsets.fromLTRB(32, 16, 32, 32),
             child: Center(
               child: Text(
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet turpis et mollis consectetur.",
+                "คลายออกจากการจดจ่อ จริงจังเปิดกว้างออกไปมากขึ้น ลดการอยู่กับตัวเองหรือการกดข่มความคิด",
                 textAlign: TextAlign.center,
               ),
             ),

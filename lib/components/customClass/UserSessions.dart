@@ -120,12 +120,13 @@ class UserSessions {
   }
 
   void addWandering(
-      {List<int>? relax, List<int>? wandering, int? th_r, int? th_w, required int du}) {
+      {List<int>? relax, List<int>? wandering, int? th_r, List<int>? th_w, required int du}) {
     // if (relax != null) {
       SessionData newSessionData = SessionData(
         type: 'wandering',
         rawRelax: relax ?? [],
         rawWandering: wandering ?? [],
+        adaptiveTh: th_w ?? [],
         threshold: th_r ?? 60,
         sessionDate: (new DateTime.now().toString()),
         duration: du,

@@ -54,6 +54,7 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
   List<int> attentions = [];
   List<int> relaxs = [];
   List<int> wanders = [];
+  List<int> wanderThs = [];
 
   Timer? updater;
 
@@ -121,12 +122,16 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
 
   void onUpdateEEG() async {
     print("on read eeg");
+    await widget.headsetService!.useWanderingTh();
     var attention = await widget.headsetService!.readAttention();
     var mediatation = await widget.headsetService!.readMeditation();
     var battery = (await widget.headsetService!.readBattery());
     var wandering = (await widget.headsetService!.readOutput());
+
+    var tx = await widget.headsetService!.readTx();
     // print("attention relax: ${attention}");
     // print("mediatation relax : ${mediatation}");
+    print("tx : ${tx}");
     print("wandering index : ${wandering}");
     print("battery : ${battery}");
     setState(() {
@@ -138,6 +143,7 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
     mediatations.add(mediatation[0]);
     attentions.add(attention[0]);
     wanders.add(wandering[0]);
+    wanderThs.add(tx[1]);
 
     var attentionValue =attention[0];
     var mediatationValue =mediatation[0];
@@ -537,6 +543,7 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
                                   wanderingIndexes: wanders,
                                   isSessionComplete: true,
                                   duration: widget.progress_time,
+                                  adaptiveTh: wanderThs,
                                 )),
                           ),
                         },

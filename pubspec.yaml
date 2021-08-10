@@ -41,6 +41,8 @@ dependencies:
 #  firebase_analytics: ^8.1.2
   assets_audio_player: ^1.7.0
   easy_localization: ^3.0.0
+
+  flutter_svg: ^0.22.0
   flutter:
     sdk: flutter
 
