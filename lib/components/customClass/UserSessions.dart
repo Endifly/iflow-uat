@@ -26,7 +26,6 @@ class UserSessions {
       localUserSessions = UserSessions.fromJson(json);
     }
 
-    // print("user session loaded");
    if (localUserSessions?.sessions == null) {
      this.sessions = [];
    } else {
@@ -36,10 +35,12 @@ class UserSessions {
    print("local session : ${localUserSessions?.sessions}");
    // print(onlineUserSessions?.sessions);
 
-   UserSessions onlineUserSessions = await sessionServices.sessions();
-   if (onlineUserSessions.sessions != null) {
-     this.sessions = this.sessions! + onlineUserSessions.sessions!;
-   }
+    // try {
+    //   UserSessions onlineUserSessions = await sessionServices.sessions();
+    //   if (onlineUserSessions.sessions != null) {
+    //     this.sessions = this.sessions! + onlineUserSessions.sessions!;
+    //   }
+    // } catch(_) {}
 
     // onlineUserSessions?.sessions?.forEach((session) {
     //   this.sessions = this.sessions + on

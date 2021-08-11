@@ -7,6 +7,7 @@ import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:ios_d1/Provider/HeadsetProvider.dart';
 import 'package:ios_d1/components/customWidgets/HeadsetConnector.dart';
+import 'package:ios_d1/views/HomePage/HeroDescription.dart';
 import 'package:ios_d1/views/ProfilePage/ProfilePage.dart';
 import 'package:ios_d1/views/ProfilePage/SummaryPage/ConsciousGraph.dart';
 import 'package:ios_d1/views/ProfilePage/SummaryPage/ConsciousSummaryPage.dart';
@@ -146,6 +147,7 @@ class MyApp extends StatelessWidget {
           '/login': (context) => LoginPage(),
           '/signup': (context) => SignUpPage(),
           '/home': (context) => HomePage(),
+          '/home/herodesc' : (context) => HeroDescription(),
           // '/aboutus': (context) => AboutUsPage(),
 
           '/start': (context) => StartPage(),

@@ -1,8 +1,41 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ios_d1/components/customClass/Stat.dart';
 import 'package:ios_d1/contexts/kColors.dart';
 
-class HomePageCircle extends StatelessWidget {
+class HomePageCircle  extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _HomePageCircleState();
+  }
+
+}
+
+class _HomePageCircleState extends State<HomePageCircle> with SingleTickerProviderStateMixin {
+
+  // double? heroOffset;
+  // Animation<double>? heroOffsetAnimation;
+  // AnimationController? heroOffsetController;
+
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 2),
+    vsync: this,
+  );
+  late final Animation<Offset> _offsetAnimation = Tween<Offset>(
+    begin: Offset.zero,
+    end: const Offset(0.0, -1.0),
+  ).animate(CurvedAnimation(
+    parent: _controller,
+    curve: Curves.elasticIn,
+  ));
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -10,6 +43,17 @@ class HomePageCircle extends StatelessWidget {
     Color color2 = Color.fromRGBO(255,114,9, 1); //pink
     Color color3 = Colors.white; //pink
     Color colorBase = Color.fromRGBO(254,244,153, 1);
+
+    void swapHero() {
+      // _controller.forward();
+      _controller.forward().then((x) => {
+        _controller.reverse()
+      });
+    }
+
+    void openDescription() {
+      Navigator.pushNamed(context, '/home/herodesc');
+    }
 
     Widget circle1(context) {
       return AnimatedContainer(
@@ -128,10 +172,27 @@ class HomePageCircle extends StatelessWidget {
         //       ),
         //     )
         // )
+
+        // Center(
+        //   child: FractionalTranslation(
+        //     translation: Offset(0,0),
+        //     child:  Image.asset(
+        //       "assets/images/sun4.png",
+        //       // height: 40,
+        //     ),
+        //   )
+        // )
+
         Center(
-          child: Image.asset(
-            "assets/images/sun4.png",
-            // height: 40,
+          child: SlideTransition(
+            position: _offsetAnimation,
+            child: InkWell(
+              onTap: ()=>{openDescription()},
+              child: Hero(
+                tag : 'dash',
+                child: Image.asset("assets/images/sun4.png"),
+              ),
+            ),
           ),
         )
       ],
