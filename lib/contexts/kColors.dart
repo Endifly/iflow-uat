@@ -50,7 +50,7 @@ mixin kColors implements InheritedWidget {
     200:Color.fromRGBO(245, 222, 223, 1),
     300:Color.fromRGBO(244, 210, 226, 1),
     400:Color.fromRGBO(241, 196, 218, 1),
-    500:Color.fromRGBO(240, 184, 210, 1),
+    500:Color.fromRGBO(255,163,221, 1),
   };
 
   static Map<int,Color> green={

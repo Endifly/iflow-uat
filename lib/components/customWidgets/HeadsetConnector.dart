@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:ios_d1/Provider/HeadsetProvider.dart';
 import 'package:ios_d1/components/customClass/AnimationQueue.dart';
+import 'package:ios_d1/components/customWidgets/ArcLoader/ArcLoader.dart';
+
 import 'package:provider/provider.dart';
 
 // class MyCharacteristic {
@@ -219,7 +221,7 @@ const HEADSET_READY_STATE = 7;
 
 class _HeadsetConnectorState extends State<HeadsetConnector> with TickerProviderStateMixin {
   int connectionState = HEADSET_DEFAULT_STATE; //default , finding, found device, too many devices ,not found, wait for equip, tuning, ready
-  var loadingValue = null;
+  // var loadingValue = null;
   bool firstTuning = true;
 
   FlutterBlue flutterBlue = FlutterBlue.instance;
@@ -233,83 +235,26 @@ class _HeadsetConnectorState extends State<HeadsetConnector> with TickerProvider
 
   var isCalibrated = false;
 
-  Animation<double>? progressAnimation;
-  AnimationController? progressController;
-  int progressAnimationSpeed = 1;
-  var queue = AnimationQueue(from: 0.0, to: 0.0);
+  // Animation<double>? progressAnimation;
+  // AnimationController? progressController;
+  // int progressAnimationSpeed = 1;
+  // var queue = AnimationQueue(from: 0.0, to: 0.0);
+
+  ArcLoaderController arcLoaderController = new ArcLoaderController();
 
   void onLoadSuccess() {
     print("load success");
     updater!.cancel();
     timeout!.cancel();
-    // stopUpdater();
 
     setState(() {
       connectionState = HEADSET_READY_STATE;
-      loadingValue = 100.0;
+      arcLoaderController.addProgress!(1.0);
     });
   }
-
-  void addProgress(double val) {
-    queue.add(val);
-    // print("circle distance ${rotateAngle}");
-    progressController = AnimationController(duration: Duration(seconds: progressAnimationSpeed), vsync: this);
-    progressAnimation = Tween(begin: queue.from,end:queue.to).animate(
-      new CurvedAnimation(parent: progressController!, curve: Curves.easeInOut)
-    );
-    progressAnimation!.addListener(() {
-      setState(() {
-        loadingValue = progressAnimation!.value;
-      });
-    });
-    progressController!.forward();
-  }
-
-  // void checkSignalQuality(int signalQuality) {
-  //   if (signalQuality == 0) {
-  //     if (!isCalibrated) {
-  //       print("### use calibrate");
-  //       headsetService.useCalibration();
-  //       setState(() {
-  //         isCalibrated = true;
-  //       });
-  //     }
-  //     setState(() {
-  //       connectionState = HEADSET_TUNING_STATE;
-  //     });
-  //     print("##timeout : ${timeout}");
-  //     if (timeout == null) {
-  //       print("## start timeout");
-  //       timeout = Timer(Duration(seconds: 10),() {
-  //         print("### timeout");
-  //         setState(() {
-  //           connectionState = HEADSET_READY_STATE;
-  //         });
-  //         updater.cancel();
-  //         timeout.cancel();
-  //         onLoadSuccess();
-  //         widget.onConnected(headsetService);
-  //         return;
-  //       });
-  //     }
-  //   } else {
-  //     timeout.cancel();
-  //     timeout = null;
-  //     setState(() {
-  //       connectionState = HEADSET_WAIT_FOR_EQUIP_STATE;
-  //     });
-  //   }
-  // }
 
   void checkSignalQuality(int signalQuality) {
     if (signalQuality == 0) {
-      // if (!isCalibrated) {
-      //   print("### use calibrate");
-      //   headsetService.useCalibration();
-      //   setState(() {
-      //     isCalibrated = true;
-      //   });
-      // }
       setState(() {
         connectionState = HEADSET_TUNING_STATE;
       });
@@ -322,28 +267,7 @@ class _HeadsetConnectorState extends State<HeadsetConnector> with TickerProvider
   }
 
   void setLoadingValue(double value) {
-    print("loadingValue : ${value}");
-    setState(() {
-      loadingValue = value;
-    });
-  }
-
-  // void setCallibrationState(int callibration) {
-  //   // var callibration = callibrations[1];
-  //   if (callibration >= 4) {
-  //     setState(() {
-  //       connectionState = HEADSET_READY_STATE;
-  //     });
-  //   }
-  //   var loadingVal = min(((100/5)*(callibration+1))/100, 1.0);
-  //   // setLoadingValue(loadingVal);
-  //   addProgress(loadingVal);
-  // }
-
-  void setLoadingSpeed(int second) {
-    setState(() {
-      progressAnimationSpeed = second;
-    });
+    arcLoaderController.addProgress!(value);
   }
 
   void checkCalibration() async {
@@ -359,28 +283,32 @@ class _HeadsetConnectorState extends State<HeadsetConnector> with TickerProvider
     // setLoadingValue(loadingVal);
     switch(callibration) {
       case 0 :
-        setLoadingSpeed(2);
-        addProgress(0.2);
+        arcLoaderController.setProgressSpeed!(2000);
+        arcLoaderController.addProgress!(0.2);
         break;
       case 1 :
-        setLoadingSpeed(5);
-        addProgress(0.65);
+        arcLoaderController.setProgressSpeed!(5000);
+        arcLoaderController.addProgress!(0.45);
+        // addProgress(0.65);
         break;
       case 2 :
-        setLoadingSpeed(1);
-        addProgress(0.85);
+        arcLoaderController.setProgressSpeed!(1000);
+        arcLoaderController.addProgress!(0.85);
+        // addProgress(0.85);
         break;
       case 3 :
-        setLoadingSpeed(1);
-        addProgress(0.95);
+        arcLoaderController.addProgress!(0.95);
+        arcLoaderController.setProgressSpeed!(1000);
+        // addProgress(0.95);
         break;
       case 4 :
-        setLoadingSpeed(1);
-        addProgress(1.0);
+        arcLoaderController.setProgressSpeed!(1000);
+        arcLoaderController.addProgress!(1.0);
+        // addProgress(1.0);
         break;
       default :
-        setLoadingSpeed(1);
-        addProgress(1.0);
+        arcLoaderController.setProgressSpeed!(1000);
+        arcLoaderController.addProgress!(1.0);
         break;
     }
     // addProgress(loadingVal);
@@ -518,7 +446,11 @@ class _HeadsetConnectorState extends State<HeadsetConnector> with TickerProvider
     print("### start scan");
     setState(() {
       connectionState = HEADSET_FINDING_STATE;
-      loadingValue = null;
+      try {
+        arcLoaderController.addProgress!(null);
+      } catch(_) {
+
+      }
     });
     await flutterBlue.startScan(timeout: Duration(seconds: 2));
     List<BluetoothDevice> devicesTmp = [];
@@ -545,7 +477,7 @@ class _HeadsetConnectorState extends State<HeadsetConnector> with TickerProvider
         }
       } else {
         connectionState = HEADSET_DEVICE_NOT_FOUND_STATE;
-        loadingValue=0.0;
+        arcLoaderController.addProgress!(0.0);
       }
     });
   }
@@ -619,14 +551,6 @@ class _HeadsetConnectorState extends State<HeadsetConnector> with TickerProvider
       headsetProvider.setHeadsetService(headsetService!);
     }
 
-    // if (headsetProvider.headsetService != null) {
-    //   var hs = headsetProvider.headsetService;
-    //   setState(() {
-    //     connectionState = HEADSET_CACHE_CHECKING;
-    //   });
-    //   if (hs != null) onCacheHeadset(hs);
-    // }
-
 
     return InkWell(
       onTap: startScan,
@@ -661,7 +585,7 @@ class _HeadsetConnectorState extends State<HeadsetConnector> with TickerProvider
                   ]),
             ),
             Container(
-              height: MediaQuery.of(context).size.width * 0.6,
+              height: MediaQuery.of(context).size.width * 0.6 - 4,
               margin: EdgeInsets.all(48.0),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -677,7 +601,7 @@ class _HeadsetConnectorState extends State<HeadsetConnector> with TickerProvider
               ),
             ),
             Container(
-              height: MediaQuery.of(context).size.width * 0.6 - 24,
+              height: MediaQuery.of(context).size.width * 0.6 - 20,
               margin: EdgeInsets.all(48.0),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -699,14 +623,24 @@ class _HeadsetConnectorState extends State<HeadsetConnector> with TickerProvider
                 // Text("อุปกรณ์", style: TextStyle(fontSize: 18,color: Colors.grey),),
               ],
             ),
+            // SizedBox(
+            //   height: MediaQuery.of(context).size.width * 0.6 - 10,
+            //   width: MediaQuery.of(context).size.width * 0.6 - 10,
+            //   child: CircularProgressIndicator(
+            //     color: Color.fromRGBO(255, 204, 79, 0.8),
+            //     strokeWidth: 12,
+            //     value: loadingValue,
+            //     // semanticsValue: "asd",
+            //   ),
+            // ),
             SizedBox(
-              height: MediaQuery.of(context).size.width * 0.6 - 10,
-              width: MediaQuery.of(context).size.width * 0.6 - 10,
-              child: CircularProgressIndicator(
-                color: Color.fromRGBO(255, 204, 79, 0.8),
+              height: MediaQuery.of(context).size.width * 0.6,
+              width: MediaQuery.of(context).size.width * 0.6,
+              child: ArcLoader(
                 strokeWidth: 12,
-                value: loadingValue,
-                // semanticsValue: "asd",
+                // value: 0.4,
+                // value: null,
+                controller: arcLoaderController,
               ),
             ),
           ],

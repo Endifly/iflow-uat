@@ -1,3 +1,3 @@
 class kURI {
-  static String BACKEND = "fat-octopus-58.loca.lt";
+  static String BACKEND = "blue-swan-34.loca.lt";
 }

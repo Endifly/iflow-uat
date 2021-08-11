@@ -267,74 +267,77 @@ class RelaxButton extends StatefulWidget {
 class _RelaxButtonState extends State<RelaxButton> {
   bool isPress = false;
 
-  final CONCAVE_SHADOW = ConcaveDecoration(shape:
-  RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-      depression: 3);
 
-  Decoration NORMAL_BUTTON = BoxDecoration(
-      borderRadius: BorderRadius.circular(40.0),
-      gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [
-            Color.fromRGBO(250, 250, 240, 1),
-            Color.fromRGBO(246, 245, 211, 1),
-            Color.fromRGBO(252, 223, 117, 1),
-            Color.fromRGBO(255, 219, 100, 1),
-          ]),
-      boxShadow: [
-        BoxShadow(
-            color: Color.fromRGBO(0, 0, 0, 0.3),
-            offset: Offset(6, 2),
-            blurRadius: 6.0,
-            spreadRadius: 1.0),
-        BoxShadow(
-            color: Color.fromRGBO(255, 255, 255, 0.9),
-            offset: Offset(-4, -4),
-            blurRadius: 6.0,
-            spreadRadius: 4.0)
-      ]
-  );
-
-  BoxDecoration BORDER_COLOR = BoxDecoration(
-      borderRadius: BorderRadius.circular(40.0),
-      gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            kColors.gold[500]!,
-            kColors.gold[300]!,
-          ]),
-      boxShadow: [
-        BoxShadow(
-            color: Color.fromRGBO(0, 0, 0, 0.3),
-            offset: Offset(6, 2),
-            blurRadius: 6.0,
-            spreadRadius: 1.0),
-        BoxShadow(
-            color: Color.fromRGBO(255, 255, 255, 0.9),
-            offset: Offset(-4, -4),
-            blurRadius: 6.0,
-            spreadRadius: 4.0)
-      ]
-  );
-
-  BoxDecoration BACKGROUND_COLOR = BoxDecoration(
-    borderRadius: BorderRadius.circular(40.0),
-    gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          Color.fromRGBO(250, 250, 240, 1),
-          Color.fromRGBO(246, 245, 211, 1),
-          Color.fromRGBO(252, 223, 117, 1),
-          Color.fromRGBO(255, 219, 100, 1),
-        ],
-    ),
-  );
 
   @override
   Widget build(BuildContext context) {
+
+    final CONCAVE_SHADOW = ConcaveDecoration(shape:
+    RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+        depression: 3);
+
+    Decoration NORMAL_BUTTON = BoxDecoration(
+        borderRadius: BorderRadius.circular(40.0),
+        gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            stops: [0.15,0.35,0.6,1.0],
+            colors: [
+              Color.fromRGBO(252, 223, 117, 1).withOpacity(0.5),
+              Color.fromRGBO(250, 250, 240, 1),
+              Color.fromRGBO(252, 223, 117, 1),
+              Color.fromRGBO(255, 219, 100, 1),
+            ]),
+        boxShadow: [
+          BoxShadow(
+              color: Color.fromRGBO(0, 0, 0, 0.3),
+              offset: Offset(6, 2),
+              blurRadius: 6.0,
+              spreadRadius: 1.0),
+          BoxShadow(
+              color: Color.fromRGBO(255, 255, 255, 0.9),
+              offset: Offset(-4, -4),
+              blurRadius: 6.0,
+              spreadRadius: 4.0)
+        ]
+    );
+
+    BoxDecoration BORDER_COLOR = BoxDecoration(
+        borderRadius: BorderRadius.circular(40.0),
+        gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              kColors.gold[500]!,
+              kColors.gold[300]!,
+            ]),
+        boxShadow: [
+          BoxShadow(
+              color: Color.fromRGBO(0, 0, 0, 0.3),
+              offset: Offset(6, 2),
+              blurRadius: 6.0,
+              spreadRadius: 1.0),
+          BoxShadow(
+              color: Color.fromRGBO(255, 255, 255, 0.9),
+              offset: Offset(-4, -4),
+              blurRadius: 6.0,
+              spreadRadius: 4.0)
+        ]
+    );
+
+    BoxDecoration BACKGROUND_COLOR = BoxDecoration(
+      borderRadius: BorderRadius.circular(40.0),
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Color.fromRGBO(252, 223, 117, 1),
+          Color.fromRGBO(250, 250, 240, 1),
+          Color.fromRGBO(252, 223, 117, 1),
+          Color.fromRGBO(255, 219, 100, 1),
+        ],
+      ),
+    );
 
     void toRelax() {
       Navigator.pushNamed(context, "/start");

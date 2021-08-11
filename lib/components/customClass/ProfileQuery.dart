@@ -31,16 +31,22 @@ class ProfileQuery {
   });
 
   factory ProfileQuery.fromJson(Map<String, dynamic> json) {
+    var general = json['general']!;
+    var profile = json['profile']!;
+
+    print("### general : ${general['userID']}");
+    print("### profile : ${profile}");
+
     return ProfileQuery(
-      userID: "${json['userID']}",
-      userName: json['userName'] ,
-      accessToken: json['accessToken'],
-      pictureURL: json['pictureURL'],
-      email: json['email'],
-      firstName: json['firstName'],
-      lastName: json['lastName'],
-      type: json['type'],
-      role: json['role']
+      userID: "${general['userID'] ?? ""}",
+      userName: general['userName'] ?? "",
+      accessToken: general['accessToken'] ?? "",
+      pictureURL: "",
+      email: profile['email'] ?? "",
+      firstName: profile['firstName'] ?? "",
+      lastName: profile['lastName'] ?? "",
+      type: general['accountType'] ?? "", //user, admin
+      role: general['userType']  ?? "", //premium,freemium
     );
   }
 

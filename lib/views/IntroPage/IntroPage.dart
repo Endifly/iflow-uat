@@ -25,14 +25,8 @@ class _IntroPageState extends State<IntroPage>{
   UseProfile profile = UseProfile();
   AuthService authService = AuthService();
 
-  void router() async {
-    var userID = await profile.getUserID();
-    if (userID == "") {
-      Navigator.pushNamedAndRemoveUntil(context, "/introduce", (route) => false);
-    }
-    else {
-      Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
-    }
+  void toHome() {
+    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
   }
 
   void authGuard() async {
@@ -42,19 +36,17 @@ class _IntroPageState extends State<IntroPage>{
     else Navigator.pushNamedAndRemoveUntil(context, "/introduce", (route) => false);
   }
 
+  void timeOut() async {
+    print("timeout");
+    Future.delayed(Duration(seconds: 3),toHome);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     authGuard();
-    // Timer(Duration(seconds: 3), () {
-    //   // 5s over, navigate to a new page
-    //   setState(() {
-    //     rendered = true;
-    //   });
-    //   // Navigator.pushNamed(context, "/introduce");
-    //   router();
-    // });
+    timeOut();
   }
 
   @override
@@ -80,15 +72,12 @@ class _IntroPageState extends State<IntroPage>{
     }
 
     Widget MenualNext() {
-      if (false) {
-        return Container(
-          margin: EdgeInsets.fromLTRB(0, 24, 0, 0),
-          child: InkWell(
-            child: OrangeButton(title: "ถัดไป",onPress: ()=>Navigator.pushNamed(context, "/introduce"),),
-          ),
-        );
-      }
-      return Container();
+      return Container(
+        child: ElevatedButton(
+          onPressed: ()=>toHome(),
+          child: Text("by pass"),
+        ),
+      );
     }
 
 
@@ -100,6 +89,7 @@ class _IntroPageState extends State<IntroPage>{
             children: [
               Image.asset("assets/images/main_logo.png"),
               Loader.circleLoader,
+              MenualNext(),
             ],
           ),
         ),
