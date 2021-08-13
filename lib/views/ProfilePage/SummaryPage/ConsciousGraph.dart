@@ -102,17 +102,6 @@ class _ConsciousGraphPageState extends State<ConsciousGraphPage> {
     });
   }
 
-  Widget mindGraph(colors,List<int> indexes) {
-    return AspectRatio(
-      aspectRatio: 1.70,
-      child: Container(
-        child: LineChart(
-          mainData(threshold,colors,indexes,selectedIndex[0],selectedIndex[1],maxDisplay),
-        ),
-      ),
-    );
-  }
-
   @override
   void initState() {
     // TODO: implement initState
@@ -125,7 +114,18 @@ class _ConsciousGraphPageState extends State<ConsciousGraphPage> {
     // TODO: implement build
 
     final WanderingGraphArguments args = ModalRoute.of(context)?.settings.arguments as WanderingGraphArguments;
-    print("args : ${args.adaptiveTh}");
+    print("args adaptive: ${args.adaptiveTh}");
+
+    Widget mindGraph(colors,List<int> indexes) {
+      return AspectRatio(
+        aspectRatio: 1.70,
+        child: Container(
+          child: LineChart(
+            mainData(threshold,colors,indexes,selectedIndex[0],selectedIndex[1],maxDisplay,args.adaptiveTh?.sublist(selectedIndex[0],selectedIndex[1]+1) ),
+          ),
+        ),
+      );
+    }
 
     void nextIndex() {
       int sessionLength = args.relaxIndexs!.length-1;
@@ -319,7 +319,7 @@ class _ConsciousGraphPageState extends State<ConsciousGraphPage> {
     );
   }
 
-  LineChartData mainData(threslod,gradientColors,List<int> indexes,int startX,int endX,int maxDisplay) {
+  LineChartData mainData(threslod,gradientColors,List<int> indexes,int startX,int endX,int maxDisplay,List<int>? adaptiveTh) {
 
     List<FlSpot> makeData(List<int> values) {
       List<FlSpot> result = [];
@@ -340,6 +340,7 @@ class _ConsciousGraphPageState extends State<ConsciousGraphPage> {
             ),
           ]
       ),
+
       gridData: FlGridData(
         verticalInterval: 3,
         horizontalInterval: 25,
@@ -358,6 +359,7 @@ class _ConsciousGraphPageState extends State<ConsciousGraphPage> {
           );
         },
       ),
+
       titlesData: FlTitlesData(
         show: true,
         bottomTitles: SideTitles(
@@ -404,23 +406,15 @@ class _ConsciousGraphPageState extends State<ConsciousGraphPage> {
           margin: 12,
         ),
       ),
+
       borderData:
       FlBorderData(show: false, border: Border.all(color: const Color(0xff37434d), width: 1)),
       minX: 0,
       maxX: maxDisplay.toDouble(),
       minY: 0,
-      maxY: 100,
+      maxY: 130,
       lineBarsData: [
         LineChartBarData(
-          // spots: [
-          //   FlSpot(0, 20),
-          //   FlSpot(2.6, 10),
-          //   FlSpot(4.9, 60),
-          //   FlSpot(6.8, 20),
-          //   FlSpot(8, 80),
-          //   FlSpot(9.5, 90),
-          //   FlSpot(11, 0),
-          // ],
           spots: makeData(indexes),
           isCurved: false,
           colors: gradientColors,
@@ -432,6 +426,17 @@ class _ConsciousGraphPageState extends State<ConsciousGraphPage> {
           belowBarData: BarAreaData(
             show: true,
             colors: gradientColors,
+          ),
+        ),
+
+        LineChartBarData(
+          spots: makeData(adaptiveTh ?? []),
+          isCurved: true,
+          colors: [Colors.orange],
+          barWidth: 2,
+          isStrokeCapRound: true,
+          dotData: FlDotData(
+            show: false,
           ),
         ),
       ],

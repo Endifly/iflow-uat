@@ -25,6 +25,7 @@ import 'package:ios_d1/views/SettingPage/SendCommentPage/SendCommentPage.dart';
 import 'package:ios_d1/views/SettingPage/SettingPage.dart';
 import 'package:ios_d1/views/StartPage/StartConscious.dart';
 import 'package:ios_d1/views/StartPage/StartPage.dart';
+import 'package:ios_d1/views/SummaryViews/ResultDesctiptionTablePage.dart';
 import '/Provider/ProfileProvider.dart';
 import '/contexts/Constant.dart';
 // import 'package:iflow/views/AboutUsPage/AboutUsPage.dart';
@@ -160,6 +161,7 @@ class MyApp extends StatelessWidget {
           '/relax-summary': (context) => RelaxSummaryPage(),
           '/conscious-summary': (context) => ConsciousSummaryPage(),
           '/conscious-summary-graph': (context) => ConsciousGraphPage(),
+          '/summary/description' : (context) => ResultDescriptionTablePage(),
 
           '/policy': (context) => PolicyPage(),
           '/mobile-no': (context) => MobileNoPage(),

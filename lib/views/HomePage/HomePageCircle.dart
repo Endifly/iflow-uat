@@ -17,9 +17,11 @@ class _HomePageCircleState extends State<HomePageCircle> with SingleTickerProvid
   // double? heroOffset;
   // Animation<double>? heroOffsetAnimation;
   // AnimationController? heroOffsetController;
+  CircleColor colorName = CircleColor.sun4;
+  String assetPath = "assets/images/sun4.png";
 
   late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 2),
+    duration: const Duration(milliseconds: 1500),
     vsync: this,
   );
   late final Animation<Offset> _offsetAnimation = Tween<Offset>(
@@ -30,6 +32,39 @@ class _HomePageCircleState extends State<HomePageCircle> with SingleTickerProvid
     curve: Curves.elasticIn,
   ));
 
+  void changeBg() {
+    print("Change bg : ${colorName}");
+    if (this.colorName == CircleColor.sun4) setState(() {
+      this.colorName = CircleColor.cloud3;
+    });
+    else if (this.colorName == CircleColor.cloud3) setState(() {
+      this.colorName = CircleColor.sun4;
+    });
+  }
+
+  void swapAsset() {
+    setState(() {
+      this.assetPath = "assets/images/sun1.png";
+    });
+  }
+
+  void swapHero() {
+    // _controller.forward();
+    _controller.forward().then((x) => {
+      changeBg(),
+      swapAsset(),
+      _controller.reverse()
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    this.swapHero();
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -39,17 +74,12 @@ class _HomePageCircleState extends State<HomePageCircle> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
 
-    Color color1 = Color.fromRGBO(255, 163, 221, 1); //orange
-    Color color2 = Color.fromRGBO(255,114,9, 1); //pink
-    Color color3 = Colors.white; //pink
-    Color colorBase = Color.fromRGBO(254,244,153, 1);
-
-    void swapHero() {
-      // _controller.forward();
-      _controller.forward().then((x) => {
-        _controller.reverse()
-      });
-    }
+    HomePageCircleColorSet CS = HomePageCircleColorSet();
+    //
+    // Color color1 = Color.fromRGBO(255, 163, 221, 1); //orange
+    // Color color2 = Color.fromRGBO(255,114,9, 1); //pink
+    // Color color3 = Colors.white; //pink
+    // Color colorBase = Color.fromRGBO(254,244,153, 1);
 
     void openDescription() {
       Navigator.pushNamed(context, '/home/herodesc');
@@ -64,8 +94,8 @@ class _HomePageCircleState extends State<HomePageCircle> with SingleTickerProvid
             center: const Alignment(-0.25, -0.25), // near the top right
             radius: 1.5,
             colors: [
-              color1.withOpacity(1), // yellow sun
-              colorBase.withOpacity(0), // blue sky
+              CS.colorSet(colorName).color1.withOpacity(1), // yellow sun
+              CS.colorSet(colorName).colorBase.withOpacity(0), // blue sky
             ],
             stops: [0.1, 0.5],
           ),
@@ -84,8 +114,8 @@ class _HomePageCircleState extends State<HomePageCircle> with SingleTickerProvid
             center: const Alignment(0.5, 0.5), // near the top right
             radius: 1.5,
             colors: [
-              color2.withOpacity(0.7).withOpacity(0.5), // yellow sun
-              colorBase.withOpacity(0), // blue sky
+              CS.colorSet(colorName).color2.withOpacity(0.7).withOpacity(0.5), // yellow sun
+              CS.colorSet(colorName).colorBase.withOpacity(0), // blue sky
             ],
             stops: [0.15, 0.4],
           ),
@@ -104,8 +134,8 @@ class _HomePageCircleState extends State<HomePageCircle> with SingleTickerProvid
             center: const Alignment(0.15, -0.25), // near the top right
             radius: 0.6,
             colors: [
-              color3.withOpacity(1), // yellow sun
-              colorBase.withOpacity(0), // blue sky
+              CS.colorSet(colorName).color3.withOpacity(1), // yellow sun
+              CS.colorSet(colorName).colorBase.withOpacity(0), // blue sky
             ],
             stops: [0.1, 0.5],
           ),
@@ -120,7 +150,7 @@ class _HomePageCircleState extends State<HomePageCircle> with SingleTickerProvid
         // margin: EdgeInsets.all(16.0),
         // margin: EdgeInsets.fromLTRB(40, 0, 0, 0),
         decoration: BoxDecoration(
-          color: colorBase.withOpacity(1),
+          color: CS.colorSet(colorName).colorBase.withOpacity(1),
           shape: BoxShape.circle,
         ),
         duration: Duration(milliseconds: 500),
@@ -164,39 +194,64 @@ class _HomePageCircleState extends State<HomePageCircle> with SingleTickerProvid
               ),
             )
         ),
-        // Container(
-        //     child: Center(
-        //       child: Image.asset(
-        //         "assets/images/sun4.png",
-        //         // height: 40,
-        //       ),
-        //     )
-        // )
-
-        // Center(
-        //   child: FractionalTranslation(
-        //     translation: Offset(0,0),
-        //     child:  Image.asset(
-        //       "assets/images/sun4.png",
-        //       // height: 40,
-        //     ),
-        //   )
-        // )
 
         Center(
           child: SlideTransition(
             position: _offsetAnimation,
             child: InkWell(
-              onTap: ()=>{openDescription()},
+              onTap : ()=>{openDescription()},
               child: Hero(
                 tag : 'dash',
-                child: Image.asset("assets/images/sun4.png"),
+                child: Image.asset(assetPath),
               ),
             ),
           ),
         )
       ],
     );
+  }
+}
+
+// class CircleColorName {
+//   static const String cloud3 = "cloud3";
+//   static const String sun4 = "sun4";
+// }
+enum CircleColor {
+  sun4,
+  cloud3
+}
+
+class _ColorSet {
+  Color color1;
+  Color color2;
+  Color color3;
+  Color colorBase;
+
+  _ColorSet({required this.colorBase,required this.color1,required this.color2,required this.color3});
+}
+
+class HomePageCircleColorSet {
+
+  HomePageCircleColorSet();
+
+  _ColorSet cloud3 = _ColorSet(
+      colorBase: Color.fromRGBO(254,244,153, 1),
+      color1: Color.fromRGBO(255,199,111, 1),
+      color2: Color.fromRGBO(153,211,185, 1),
+      color3: Color.fromRGBO(244,163,68,1)
+  );
+
+  _ColorSet sun4 = _ColorSet(
+      colorBase: Color.fromRGBO(254,244,153, 1),
+      color1: Color.fromRGBO(255, 163, 221, 1),
+      color2: Color.fromRGBO(255,114,9, 1),
+      color3: Colors.white
+  );
+
+  _ColorSet colorSet(CircleColor name) {
+    if (name == CircleColor.sun4) return this.sun4;
+    if (name == CircleColor.cloud3) return this.cloud3;
+    return this.sun4;
   }
 
 }

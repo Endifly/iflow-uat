@@ -358,38 +358,41 @@ class _ConsciousSummaryPageState extends State<ConsciousSummaryPage> {
                           width: 2,
                         ),
                         SizedBox(width: 20,),
-                        Container(
-                          width: 140,
-                          height: 140,
-                          padding:EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Color.fromRGBO(255, 221, 150, 1),Colors.white],
-                              // stops: [0.5,1.0],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
-                                blurRadius: 12,
-                                spreadRadius: 2,
-                                offset: Offset(0.0,5.0),
-                              )
-                            ],
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(tr('app.result'),style:TextStyle(fontSize: 16)),
-                              // SizedBox(height: 16,),
-                              SizedBox(
-                                height: 128,
-                                // child: getIconResult(),
-                                child: SessionPerformanceIcon(relax: widget.relaxIndexs,wandering: widget.wanderingIndexes,),
+                        InkWell(
+                          onTap : () => Navigator.pushNamed(context, '/summary/description'),
+                          child: Container(
+                            width: 140,
+                            height: 140,
+                            padding:EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [Color.fromRGBO(255, 221, 150, 1),Colors.white],
+                                // stops: [0.5,1.0],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
                               ),
-                            ],
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius: 12,
+                                  spreadRadius: 2,
+                                  offset: Offset(0.0,5.0),
+                                )
+                              ],
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(tr('app.result'),style:TextStyle(fontSize: 16)),
+                                // SizedBox(height: 16,),
+                                SizedBox(
+                                  height: 128,
+                                  // child: getIconResult(),
+                                  child: SessionPerformanceIcon(relax: widget.relaxIndexs,wandering: widget.wanderingIndexes,),
+                                ),
+                              ],
+                            ),
                           ),
                         )
                       ],

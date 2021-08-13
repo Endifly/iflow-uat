@@ -97,7 +97,7 @@ class HeadsetService {
     }
   }
 
-  void useWandering1Minute() async {
+  Future useWandering1Minute() async {
     try {
       writeRx([128,0,60,57,112]);
     } catch(e) {

@@ -28,7 +28,7 @@ class HeroDescriptionState extends State<HeroDescription> {
               child: CTypo(text: "คำอธิบาย"),
             ),
             InkWell(
-              onTap: onBack,
+              onTap: ()=>onBack(),
               child: Hero(
                   tag: 'dash',
                   child: Image.asset("assets/images/sun4.png")

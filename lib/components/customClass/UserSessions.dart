@@ -5,6 +5,7 @@ import 'package:ios_d1/components/customClass/Stat.dart';
 import 'package:ios_d1/contexts/kPrefs.dart';
 import 'package:ios_d1/services/SessionService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class UserSessions {
   String? userID;
@@ -102,6 +103,7 @@ class UserSessions {
   }
 
   void addRelax(List<int>? data, int? th,int du) {
+    var uuid = new Uuid();
     if (data != null) {
       SessionData newSessionData = SessionData(
           type: 'relax',
@@ -111,6 +113,7 @@ class UserSessions {
           duration: du,
           uploaded: false,
           average: Stat.average(data).toInt(),
+          id: uuid.v4(),
       );
       // this.sessions.add(newSessionData);
       addLocalSession(newSessionData);
@@ -123,6 +126,7 @@ class UserSessions {
   void addWandering(
       {List<int>? relax, List<int>? wandering, int? th_r, List<int>? th_w, required int du}) {
     // if (relax != null) {
+      var uuid = new Uuid();
       SessionData newSessionData = SessionData(
         type: 'wandering',
         rawRelax: relax ?? [],
@@ -133,6 +137,7 @@ class UserSessions {
         duration: du,
         uploaded: false,
         average: Stat.average(relax ?? []).toInt(),
+        id: uuid.v4(),
       );
       // this.sessions.add(newSessionData);
       addLocalSession(newSessionData);

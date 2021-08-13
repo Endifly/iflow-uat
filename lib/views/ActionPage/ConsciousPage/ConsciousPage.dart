@@ -143,7 +143,15 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
     mediatations.add(mediatation[0]);
     attentions.add(attention[0]);
     wanders.add(wandering[0]);
-    wanderThs.add(tx[1]);
+    if (tx[0] == 70) {
+      wanderThs.add(tx[1]);
+    } else {
+      if (wanderThs.length >= 1) {
+        wanderThs.add(wanderThs[wanderThs.length-1]);
+      } else {
+        wanderThs.add(0);
+      }
+    }
 
     var attentionValue =attention[0];
     var mediatationValue =mediatation[0];
@@ -300,8 +308,8 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
     return EdgeInsets.fromLTRB(ml, mt, mr, mb);
   }
 
-  void startWandering() {
-    widget.headsetService!.useWandering1Minute();
+  void startWandering() async{
+    await widget.headsetService!.useWandering1Minute();
   }
 
   void stopWandering() {
@@ -350,7 +358,7 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
 
     startTimer();
     startUpdater();
-    startWandering();
+    // startWandering();
 
     super.initState();
 
@@ -426,9 +434,6 @@ class _ConsciousPageState extends State<ConsciousPage> with TickerProviderStateM
                               Circle(
                                 edgeInsets: positionCalculate(distance: _circleDistance*1.5,angle: _circle2Angle),
                                 opacity: 0.3,
-                                // color1: Color.fromRGBO(255, 136, 48, 1),
-                                // color2: Color.fromRGBO(255, 135, 208, 1),
-                                // colorBase: Color.fromRGBO(255, 234, 114, 1),
                                 color1: color1,
                                 color2: color2,
                                 colorBase: colorBase,

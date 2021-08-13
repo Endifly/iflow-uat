@@ -62,8 +62,10 @@ class _StartConsciousPageState extends State<StartConsciousPage> {
     });
   }
 
-  void onConnected(HeadsetService _headsetService) {
+  void onConnected(HeadsetService _headsetService) async {
     print("got headset @ wandering : ${_headsetService}");
+    await _headsetService.useWandering1Minute();
+    await _headsetService.useWanderingTh();
     onLoadSuccess();
     setState(() {
       headsetService = _headsetService;

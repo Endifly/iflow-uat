@@ -20,6 +20,8 @@ mixin kPrefs implements InheritedWidget {
 
   static String userSessions = "userSessions";
 
+  static String latestHomepageHeroID = "latestHomepageHeroID";
+
   @override
   bool updateShouldNotify(kPrefs oldWidget) => false;
 }
